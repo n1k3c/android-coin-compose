@@ -1,4 +1,4 @@
-package com.nikec.coincompose.ui.theme
+package com.nikec.coincompose.ui.common.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

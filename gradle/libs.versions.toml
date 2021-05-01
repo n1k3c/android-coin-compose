@@ -8,6 +8,7 @@ androidx-test-junit = "1.1.2"
 androidx-test-espresso = "3.3.0"
 androidx-lifecycle-viewmodel-ktx = "2.3.0"
 androidx-lifecycle-viewmodel-compose = "1.0.0-alpha04"
+androidx-hilt-compose = "1.0.0-alpha01"
 material = "1.3.0"
 hilt = "2.35"
 coroutines = "1.4.3"
@@ -37,6 +38,7 @@ androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", versi
 androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose"}
 
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+androidx-hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidx-hilt-compose" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"}
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt"}

@@ -1,4 +1,4 @@
-package com.nikec.coincompose.ui.theme
+package com.nikec.coincompose.ui.common.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

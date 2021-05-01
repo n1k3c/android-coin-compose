@@ -134,7 +134,9 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.compose)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
