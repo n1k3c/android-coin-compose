@@ -8,6 +8,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import androidx.navigation.compose.*
+import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.navigation.CoinsDirections
 import com.nikec.coincompose.navigation.NavigationManager
 import com.nikec.coincompose.ui.coin.CoinScreen
@@ -29,6 +30,7 @@ class MainActivity : ComponentActivity() {
             CoinComposeTheme() {
                 val navController = rememberNavController()
                 navigationManager.commands.collectAsState().value.also { command ->
+                    i { command.destination.toString()}
                     if (command.destination.isNotEmpty()) {
                         navController.navigate(command.destination)
                     }
