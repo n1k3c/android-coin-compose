@@ -18,8 +18,8 @@ fun CoinsScreen(
 
     val context = LocalContext.current
 
-    val eventsFlowLifecycleAware = remember(viewModel.eventsFlow, lifecycleOwner) {
-        viewModel.eventsFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+    val eventsFlowLifecycleAware = remember(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
     }
 
     LaunchedEffect(eventsFlowLifecycleAware) {

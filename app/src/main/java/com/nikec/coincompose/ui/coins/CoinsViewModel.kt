@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.navigation.CoinsDirections
 import com.nikec.coincompose.navigation.NavigationManager
+import com.nikec.coincompose.ui.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -16,15 +17,9 @@ import javax.inject.Inject
 class CoinsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager
-) : ViewModel() {
+) : BaseViewModel<CoinsEvent, CoinsState, CoinsSideEffect>(CoinsState.Idle) {
 
-    private val _uiState = MutableStateFlow<CoinsState>(CoinsState.Idle)
-    val uiState: StateFlow<CoinsState> = _uiState
-
-    private val eventChannel = Channel<CoinsSideEffect>(Channel.CONFLATED)
-    val eventsFlow: Flow<CoinsSideEffect> = eventChannel.receiveAsFlow()
-
-    fun processEvent(event: CoinsEvent) {
+    override fun processEvent(event: CoinsEvent) {
         i { "proces event -> " + event.toString() }
         when (event) {
             CoinsEvent.OnCoinClicked -> onCoinClicked()
@@ -48,13 +43,13 @@ class CoinsViewModel @Inject constructor(
 
     private fun onShowToastClicked() {
         viewModelScope.launch {
-            eventChannel.send(CoinsSideEffect.ShowToast)
+            sideEffectChannel.send(CoinsSideEffect.ShowToast)
         }
     }
 
     private fun onShowToastClicked2() {
         viewModelScope.launch {
-            eventChannel.send(CoinsSideEffect.ShowToast)
+            sideEffectChannel.send(CoinsSideEffect.ShowToast)
         }
     }
 }
