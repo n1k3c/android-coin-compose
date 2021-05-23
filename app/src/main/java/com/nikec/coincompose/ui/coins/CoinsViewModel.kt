@@ -3,16 +3,12 @@ package com.nikec.coincompose.ui.coins
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.navigation.CoinsDirections
 import com.nikec.coincompose.navigation.NavigationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,18 +18,18 @@ class CoinsViewModel @Inject constructor(
     private val navigationManager: NavigationManager
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<CoinsState>(CoinsState(isIdle = true))
+    private val _uiState = MutableStateFlow<CoinsState>(CoinsState.Idle)
     val uiState: StateFlow<CoinsState> = _uiState
 
-    private val eventChannel = Channel<Event>(Channel.BUFFERED)
-    val eventsFlow: Flow<Event> = eventChannel.receiveAsFlow()
+    private val eventChannel = Channel<CoinsSideEffect>(Channel.CONFLATED)
+    val eventsFlow: Flow<CoinsSideEffect> = eventChannel.receiveAsFlow()
 
     fun processEvent(event: CoinsEvent) {
         i { "proces event -> " + event.toString() }
         when (event) {
             CoinsEvent.OnCoinClicked -> onCoinClicked()
             CoinsEvent.OnShowContentClicked -> onShowContentClicked()
-            CoinsEvent.OnShowContentClicked2 -> onShowContentClicked2()
+            CoinsEvent.OnShowContentClicked2 -> onShowToastClicked2()
             CoinsEvent.OnShowToastClicked -> onShowToastClicked()
         }
     }
@@ -43,35 +39,39 @@ class CoinsViewModel @Inject constructor(
     }
 
     private fun onShowContentClicked() {
-        _uiState.value = CoinsState(coinContent = listOf<String>("1", "2", "3"))
+        _uiState.value = CoinsState.CoinsContent(listOf<String>("1", "2", "3"))
     }
 
     private fun onShowContentClicked2() {
-        _uiState.value = CoinsState(coinContent = listOf<String>("3", "5", "6"))
+        _uiState.value = CoinsState.CoinsContent(listOf<String>("3", "5", "6"))
     }
 
     private fun onShowToastClicked() {
         viewModelScope.launch {
-            eventChannel.send(Event.ShowToast)
+            eventChannel.send(CoinsSideEffect.ShowToast)
+        }
+    }
+
+    private fun onShowToastClicked2() {
+        viewModelScope.launch {
+            eventChannel.send(CoinsSideEffect.ShowToast)
         }
     }
 }
 
+sealed class CoinsState {
+    object Idle : CoinsState()
+    object Loading : CoinsState()
+    data class CoinsContent(val coinList: List<String>) : CoinsState()
+}
 
-data class CoinsState(
-    val isIdle: Boolean = false,
-    val isLoading: Boolean = false,
-    val coinContent: List<String> = emptyList(),
-)
+sealed class CoinsSideEffect {
+    object ShowToast : CoinsSideEffect()
+}
 
-//sealed class CoinsState {
-//    object Idle : CoinsState()
-//    object Loading : CoinsState()
-//    data class CoinsContent(val coinList: List<String>) : CoinsState()
-//    data class Error(val error: Throwable) : CoinsState()
-//    object ShowToast : CoinsState()
-//}
-
-sealed class Event {
-    object ShowToast : Event()
+sealed class CoinsEvent {
+    object OnCoinClicked : CoinsEvent()
+    object OnShowContentClicked : CoinsEvent()
+    object OnShowContentClicked2 : CoinsEvent()
+    object OnShowToastClicked : CoinsEvent()
 }

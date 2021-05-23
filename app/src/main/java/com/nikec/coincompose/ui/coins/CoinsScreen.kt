@@ -1,13 +1,12 @@
 package com.nikec.coincompose.ui.coins
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
+import android.widget.Toast
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
+import kotlinx.coroutines.flow.collect
 
 @Composable
 fun CoinsScreen(
@@ -17,22 +16,28 @@ fun CoinsScreen(
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val context = LocalContext.current
+
     val eventsFlowLifecycleAware = remember(viewModel.eventsFlow, lifecycleOwner) {
         viewModel.eventsFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
     }
 
-    val event by eventsFlowLifecycleAware.collectAsState(null)
+    LaunchedEffect(eventsFlowLifecycleAware) {
+        eventsFlowLifecycleAware.collect {
+            when (it) {
+                CoinsSideEffect.ShowToast -> {
+                    Toast.makeText(
+                        context,
+                        "Some message",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
 
     CoinsUI(
         state,
         viewModel::processEvent,
-        event
     )
-}
-
-sealed class CoinsEvent {
-    object OnCoinClicked : CoinsEvent()
-    object OnShowContentClicked : CoinsEvent()
-    object OnShowContentClicked2 : CoinsEvent()
-    object OnShowToastClicked : CoinsEvent()
 }
