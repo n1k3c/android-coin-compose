@@ -15,6 +15,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.compose.*
 import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.navigation.CoinsDirections
+import com.nikec.coincompose.navigation.DESTINATION_BACK
 import com.nikec.coincompose.navigation.NavigationManager
 import com.nikec.coincompose.ui.coin.CoinScreen
 import com.nikec.coincompose.ui.coins.CoinsScreen
@@ -35,22 +36,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             CoinComposeTheme() {
                 val navController = rememberNavController()
-                navigationManager.commands.collectAsState().value.also { command ->
-                    if (command.destination.isNotEmpty()) {
-                        navController.navigate(command.destination)
+
+                val lifecycleOwner = LocalLifecycleOwner.current
+                val eventsFlowLifecycleAware =
+                    remember(navigationManager.commandFlow, lifecycleOwner) {
+                        navigationManager.commandFlow.flowWithLifecycle(
+                            lifecycleOwner.lifecycle,
+                            Lifecycle.State.STARTED
+                        )
+                    }
+
+                LaunchedEffect(eventsFlowLifecycleAware) {
+                    eventsFlowLifecycleAware.collect {
+                        if (it.destination == DESTINATION_BACK) {
+                            navController.navigateUp()
+                            return@collect
+                        }
+
+                        if (it.destination.isNotEmpty()) {
+                            navController.navigate(it.destination)
+                        }
                     }
                 }
-//                val lifecycleOwner = LocalLifecycleOwner.current
-//                val eventsFlowLifecycleAware = remember(navigationManager.commands, lifecycleOwner) {
-//                    navigationManager.commands.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-//                }
-//                LaunchedEffect(navigationManager.commands) {
-//                    navigationManager.commands.collect {
-//                        if (it.destination.isNotEmpty()) {
-//                            navController.navigate(it.destination)
-//                        }
-//                    }
-//                }
 
                 NavHost(navController, startDestination = CoinsDirections.root.destination) {
                     navigation(
@@ -65,14 +72,14 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(CoinsDirections.coin.destination) {
-                            CoinScreen()
+                            CoinScreen(
+                                navController.hiltNavGraphViewModel(
+                                    route = CoinsDirections.coin.destination
+                                )
+                            )
                         }
                     }
                 }
-
-//                Surface(color = MaterialTheme.colors.background) {
-//                    CoinsScreen()
-//                }
             }
         }
     }

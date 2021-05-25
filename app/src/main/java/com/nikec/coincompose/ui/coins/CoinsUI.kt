@@ -12,7 +12,7 @@ import com.github.ajalt.timberkt.d
 @Composable
 fun CoinsUI(
     viewState: CoinsState,
-    event: (event: CoinsEvent) -> Unit,
+    event: (CoinsEvent) -> Unit,
 ) {
     Scaffold(content = {
         Column() {

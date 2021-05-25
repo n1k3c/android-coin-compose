@@ -1,6 +1,7 @@
 package com.nikec.coincompose.ui.coins
 
 import android.widget.Toast
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
