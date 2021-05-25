@@ -1,10 +1,9 @@
 package com.nikec.coincompose.ui.coins
 
-sealed class CoinsState {
-    object Idle : CoinsState()
-    object Loading : CoinsState()
-    data class CoinsContent(val coinList: List<String>) : CoinsState()
-}
+data class CoinsState(
+    val isLoading: Boolean = false,
+    val coinList: List<String>? = null
+)
 
 sealed class CoinsSideEffect {
     object ShowToast : CoinsSideEffect()

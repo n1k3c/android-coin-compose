@@ -1,19 +1,28 @@
 package com.nikec.coincompose.ui.common
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<Event, State, SideEffects>(defaultState: State) : ViewModel() {
 
-    protected val mutableUiState = MutableStateFlow<State>(defaultState)
-    val uiState: StateFlow<State> = mutableUiState
+    private val mutableUiState = MutableStateFlow<State>(defaultState)
+    val uiState = mutableUiState.asStateFlow()
 
-    protected val sideEffectChannel = Channel<SideEffects>(Channel.CONFLATED)
-    val sideEffect: Flow<SideEffects> = sideEffectChannel.receiveAsFlow()
+    private val sideEffectChannel = Channel<SideEffects>(Channel.CONFLATED)
+    val sideEffect = sideEffectChannel.receiveAsFlow()
 
     abstract fun processEvent(event: Event)
+
+    protected fun setState(reduce: State.() -> State) {
+        val newState = mutableUiState.value.reduce()
+        mutableUiState.value = newState
+    }
+
+    protected fun setSideEffect(builder: () -> SideEffects) {
+        val effectValue = builder()
+        viewModelScope.launch { sideEffectChannel.send(effectValue) }
+    }
 }

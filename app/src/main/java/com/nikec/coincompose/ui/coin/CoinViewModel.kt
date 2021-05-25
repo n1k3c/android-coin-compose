@@ -11,16 +11,25 @@ import javax.inject.Inject
 class CoinViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager
-) : BaseViewModel<CoinEvent, CoinState, CoinSideEffect>(CoinState.Idle) {
+) : BaseViewModel<CoinEvent, CoinState, CoinSideEffect>(CoinState()) {
 
     override fun processEvent(event: CoinEvent) {
-        i { "process event -> $event" }
         when (event) {
             CoinEvent.OnBackClicked -> navigateBack()
+            CoinEvent.ShowInfoDialog -> showInfoDialog()
+            CoinEvent.HideInfoDialog -> hideInfoDialog()
         }
     }
 
     private fun navigateBack() {
         navigationManager.navigateBack()
+    }
+
+    private fun showInfoDialog() {
+        setState { copy(showInfoDialog = true) }
+    }
+
+    private fun hideInfoDialog() {
+        setState { copy(showInfoDialog = false) }
     }
 }

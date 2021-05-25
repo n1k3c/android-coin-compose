@@ -38,10 +38,12 @@ fun CoinsUI(
                 Text("Show toast")
             }
 
-            when (viewState) {
-                is CoinsState.CoinsContent -> Text(viewState.coinList.toString())
-                CoinsState.Idle -> Text("Idle...")
-                CoinsState.Loading -> Text("Loading...")
+            if (viewState.isLoading) {
+                Text("Loading...")
+            }
+
+            if (viewState.coinList != null) {
+                Text(viewState.coinList.toString())
             }
         }
     })

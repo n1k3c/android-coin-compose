@@ -14,10 +14,9 @@ import javax.inject.Inject
 class CoinsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager
-) : BaseViewModel<CoinsEvent, CoinsState, CoinsSideEffect>(CoinsState.Idle) {
+) : BaseViewModel<CoinsEvent, CoinsState, CoinsSideEffect>(CoinsState(isLoading = true)) {
 
     override fun processEvent(event: CoinsEvent) {
-        i { "process event -> $event" }
         when (event) {
             CoinsEvent.OnCoinClicked -> onCoinClicked()
             CoinsEvent.OnShowContentClicked -> onShowContentClicked()
@@ -31,22 +30,18 @@ class CoinsViewModel @Inject constructor(
     }
 
     private fun onShowContentClicked() {
-        mutableUiState.value = CoinsState.CoinsContent(listOf<String>("1", "2", "3"))
+        setState { copy(isLoading = false, coinList = listOf("1", "2", "3")) }
     }
 
     private fun onShowContentClicked2() {
-        mutableUiState.value = CoinsState.CoinsContent(listOf<String>("3", "5", "6"))
+        setState { copy(coinList = listOf("3", "5", "6")) }
     }
 
     private fun onShowToastClicked() {
-        viewModelScope.launch {
-            sideEffectChannel.send(CoinsSideEffect.ShowToast)
-        }
+        setSideEffect { CoinsSideEffect.ShowToast }
     }
 
     private fun onShowToastClicked2() {
-        viewModelScope.launch {
-            sideEffectChannel.send(CoinsSideEffect.ShowToast)
-        }
+        setSideEffect { CoinsSideEffect.ShowToast }
     }
 }
