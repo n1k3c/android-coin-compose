@@ -10,9 +10,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.compose.*
+import androidx.navigation.navigation
 import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.navigation.CoinsDirections
 import com.nikec.coincompose.navigation.DESTINATION_BACK
@@ -65,18 +67,10 @@ class MainActivity : ComponentActivity() {
                         route = CoinsDirections.root.destination
                     ) {
                         composable(CoinsDirections.coins.destination) {
-                            CoinsScreen(
-                                navController.hiltNavGraphViewModel(
-                                    route = CoinsDirections.coins.destination
-                                )
-                            )
+                            CoinsScreen(viewModel = hiltViewModel())
                         }
                         composable(CoinsDirections.coin.destination) {
-                            CoinScreen(
-                                navController.hiltNavGraphViewModel(
-                                    route = CoinsDirections.coin.destination
-                                )
-                            )
+                            CoinScreen(viewModel = hiltViewModel())
                         }
                     }
                 }
