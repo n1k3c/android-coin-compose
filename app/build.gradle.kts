@@ -124,39 +124,22 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.compose.ui.ui)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.bundles.androidx)
+
+    implementation(libs.bundles.compose)
 
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.compose)
 
+    implementation(libs.androidx.hilt.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.kotlin.coroutines.core)
-    implementation(libs.kotlin.coroutines.android)
-    implementation(libs.kotlin.coroutines.test)
+    implementation(libs.bundles.kotlin.coroutines)
 
-    implementation(libs.okhttp.okhttp)
-    implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.retrofit.retrofit)
-    implementation(libs.retrofit.moshi)
-
+    implementation(libs.bundles.retrofit)
 
     implementation(libs.timberkt)
 
-    testImplementation(libs.mockk)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.androidx.test.espresso)
-    androidTestImplementation(libs.androidx.compose.ui.test)
+    testImplementation(libs.bundles.test.implementation)
+    androidTestImplementation(libs.bundles.android.test.implementation)
 }
