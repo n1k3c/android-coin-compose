@@ -1,12 +1,9 @@
 package com.nikec.coincompose.ui.coins
 
 import android.widget.Toast
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
+import com.nikec.coincompose.utils.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.collect
 
 @Composable
@@ -15,16 +12,12 @@ fun CoinsScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
 
-    val lifecycleOwner = LocalLifecycleOwner.current
-
     val context = LocalContext.current
 
-    val eventsFlowLifecycleAware = remember(viewModel.sideEffect, lifecycleOwner) {
-        viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-    }
+    val sideEffects = rememberFlowWithLifecycle(viewModel.sideEffect)
 
-    LaunchedEffect(eventsFlowLifecycleAware) {
-        eventsFlowLifecycleAware.collect {
+    LaunchedEffect(sideEffects) {
+        sideEffects.collect {
             when (it) {
                 CoinsSideEffect.ShowToast -> {
                     Toast.makeText(
