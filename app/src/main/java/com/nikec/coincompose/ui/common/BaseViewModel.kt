@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<Event, State, SideEffects>(defaultState: State) : ViewModel() {
 
-    private val mutableUiState = MutableStateFlow<State>(defaultState)
+    private val mutableUiState = MutableStateFlow(defaultState)
     val uiState = mutableUiState.asStateFlow()
 
     private val sideEffectChannel = Channel<SideEffects>(Channel.CONFLATED)
