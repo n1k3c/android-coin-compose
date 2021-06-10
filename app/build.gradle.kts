@@ -68,7 +68,7 @@ android {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                "\"https://service.com/api/\""
+                "\"https://api.coingecko.com/\""
             )
             dimension = "version"
         }
@@ -77,7 +77,7 @@ android {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                "\"https://service.com/api/\""
+                "\"https://api.coingecko.com/\""
             )
             dimension = "version"
         }
@@ -85,7 +85,7 @@ android {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                "\"https://service.com/api/\""
+                "\"https://api.coingecko.com/\""
             )
             dimension = "version"
         }
@@ -125,9 +125,7 @@ android {
 
 dependencies {
     implementation(libs.bundles.androidx)
-
     implementation(libs.bundles.compose)
-
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.hilt.compose)

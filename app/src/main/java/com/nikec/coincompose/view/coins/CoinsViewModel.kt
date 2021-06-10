@@ -2,8 +2,11 @@ package com.nikec.coincompose.view.coins
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.github.ajalt.timberkt.d
+import com.github.ajalt.timberkt.e
 import com.nikec.coincompose.core.navigation.CoinsDirections
 import com.nikec.coincompose.core.navigation.NavigationManager
+import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.domain.coins.GetCoinsUseCase
 import com.nikec.coincompose.view.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +22,12 @@ class CoinsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getCoinsUseCase.execute()
+            when (val result = getCoinsUseCase.invoke(Unit)) {
+                is Result.Success -> d { result.payload.toString() }
+                is Result.HttpError -> e { "HttpError = " + result.exception }
+                Result.NetworkError -> e { "NetworkError" }
+                is Result.UnknownError -> e { "UnknownError = " + result.throwable }
+            }
         }
     }
 

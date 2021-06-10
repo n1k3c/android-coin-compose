@@ -1,18 +1,15 @@
 package com.nikec.coincompose.domain.coins
 
 import com.nikec.coincompose.core.utils.CoroutineContextProvider
+import com.nikec.coincompose.data.model.CoinShort
 import com.nikec.coincompose.data.repository.CoinsRepository
-import kotlinx.coroutines.withContext
+import com.nikec.coincompose.domain.SuspendUseCase
 import javax.inject.Inject
 
 class GetCoinsUseCase @Inject constructor(
-    private val coroutineContextProvider: CoroutineContextProvider,
+    coroutineContextProvider: CoroutineContextProvider,
     private val coinsRepository: CoinsRepository
-) {
+): SuspendUseCase<Unit, List<CoinShort>>(coroutineContextProvider.io) {
 
-    suspend fun execute() {
-        return withContext(coroutineContextProvider.io) {
-            coinsRepository.fetchCoins()
-        }
-    }
+    override suspend fun execute(parameters: Unit) = coinsRepository.fetchCoins()
 }
