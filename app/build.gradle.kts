@@ -127,6 +127,7 @@ dependencies {
     implementation(libs.bundles.androidx)
     implementation(libs.bundles.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.paging.compose)
 
     implementation(libs.androidx.hilt.compose)
     implementation(libs.hilt.android)
