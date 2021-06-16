@@ -11,7 +11,7 @@ object CoinsDirections {
         override val destination = "root"
     }
 
-    val coins = object : NavigationCommand {
+    val coinsList = object : NavigationCommand {
 
         override val arguments = emptyList<NamedNavArgument>()
 
@@ -22,6 +22,14 @@ object CoinsDirections {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destination = "coin"
+        override val destination = "coin/{coinId}"
+    }
+
+    fun coin(coinId: String): NavigationCommand {
+        return object : NavigationCommand {
+            override val arguments = emptyList<NamedNavArgument>()
+
+            override val destination = "coin/$coinId"
+        }
     }
 }

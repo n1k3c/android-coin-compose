@@ -1,8 +1,9 @@
 package com.nikec.coincompose.view.coin
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import com.github.ajalt.timberkt.Timber.d
 import com.nikec.coincompose.core.navigation.NavigationManager
-import com.nikec.coincompose.view.common.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -10,25 +11,15 @@ import javax.inject.Inject
 class CoinViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager
-) : BaseViewModel<CoinEvent, CoinState, CoinSideEffect>(CoinState()) {
+) : ViewModel() {
 
-    override fun processEvent(event: CoinEvent) {
-        when (event) {
-            CoinEvent.OnBackClicked -> navigateBack()
-            CoinEvent.ShowInfoDialog -> showInfoDialog()
-            CoinEvent.HideInfoDialog -> hideInfoDialog()
-        }
+    private val earthquakeId = savedStateHandle.get<String>("coinId")
+
+    init {
+        d { "coinId = " + earthquakeId.toString() }
     }
 
-    private fun navigateBack() {
+    fun onBackClicked() {
         navigationManager.navigateBack()
-    }
-
-    private fun showInfoDialog() {
-        setState { copy(showInfoDialog = true) }
-    }
-
-    private fun hideInfoDialog() {
-        setState { copy(showInfoDialog = false) }
     }
 }

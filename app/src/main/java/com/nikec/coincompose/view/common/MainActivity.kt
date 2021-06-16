@@ -58,10 +58,10 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(navController, startDestination = CoinsDirections.root.destination) {
                     navigation(
-                        startDestination = CoinsDirections.coins.destination,
+                        startDestination = CoinsDirections.coinsList.destination,
                         route = CoinsDirections.root.destination
                     ) {
-                        composable(CoinsDirections.coins.destination) {
+                        composable(CoinsDirections.coinsList.destination) {
                             CoinsScreen(viewModel = hiltViewModel())
                         }
                         composable(CoinsDirections.coin.destination) {
