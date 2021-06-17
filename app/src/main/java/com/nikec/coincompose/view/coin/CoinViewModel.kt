@@ -3,6 +3,7 @@ package com.nikec.coincompose.view.coin
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.github.ajalt.timberkt.Timber.d
+import com.nikec.coincompose.core.navigation.CoinsDirections
 import com.nikec.coincompose.core.navigation.NavigationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -13,10 +14,10 @@ class CoinViewModel @Inject constructor(
     private val navigationManager: NavigationManager
 ) : ViewModel() {
 
-    private val earthquakeId = savedStateHandle.get<String>("coinId")
+    private val coinId = savedStateHandle.get<String>(CoinsDirections.COIN_ID)
 
     init {
-        d { "coinId = " + earthquakeId.toString() }
+        d { "coinId = " + coinId.toString() }
     }
 
     fun onBackClicked() {

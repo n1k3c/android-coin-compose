@@ -4,11 +4,15 @@ import androidx.navigation.compose.NamedNavArgument
 
 object CoinsDirections {
 
+    const val COIN_ID = "coinId"
+
     val root = object : NavigationCommand {
 
         override val arguments = emptyList<NamedNavArgument>()
 
         override val destination = "root"
+
+        override val route = destination
     }
 
     val coinsList = object : NavigationCommand {
@@ -16,20 +20,18 @@ object CoinsDirections {
         override val arguments = emptyList<NamedNavArgument>()
 
         override val destination = "coins"
+
+        override val route = destination
     }
 
-    val coin = object : NavigationCommand {
-
-        override val arguments = emptyList<NamedNavArgument>()
-
-        override val destination = "coin/{coinId}"
-    }
-
-    fun coin(coinId: String): NavigationCommand {
+    fun coin(coinId: String? = null): NavigationCommand {
         return object : NavigationCommand {
+
             override val arguments = emptyList<NamedNavArgument>()
 
             override val destination = "coin/$coinId"
+
+            override val route = "coin/{$COIN_ID}"
         }
     }
 }
