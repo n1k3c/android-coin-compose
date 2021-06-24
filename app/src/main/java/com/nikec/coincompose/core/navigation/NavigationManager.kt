@@ -21,6 +21,8 @@ class NavigationManager {
             override val arguments = emptyList<NamedNavArgument>()
 
             override val destination = DESTINATION_BACK
+
+            override val route = ""
         })
     }
 }

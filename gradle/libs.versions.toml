@@ -16,6 +16,7 @@ hilt = "2.37"
 coroutines = "1.4.3"
 navigation = "2.4.0-alpha03"
 paging = "1.0.0-alpha10"
+room = "2.3.0"
 okhttp = "4.9.1"
 retrofit = "2.9.0"
 timberkt = "1.5.1"
@@ -41,6 +42,10 @@ androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
 
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+
 androidx-hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidx-hilt-compose" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
@@ -58,6 +63,7 @@ timberkt = { module = "com.github.ajalt:timberkt", version.ref = "timberkt" }
 
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 junit = { module = "junit:junit", version.ref = "junit" }
+androidx-test-room = { module = "androidx.room:room-testing", version.ref = "room" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-junit" }
 androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
 androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
@@ -67,5 +73,5 @@ androidx = ["androidx-core", "androidx-appcompat", "androidx-lifecycle-runtime",
 compose = ["androidx-compose-ui-ui", "androidx-compose-material", "androidx-compose-ui-tooling", "androidx-activity-compose", "androidx-lifecycle-viewmodel-compose"]
 kotlin-coroutines = ["kotlin-coroutines-android", "kotlin-coroutines-core", "kotlin-coroutines-test"]
 retrofit = ["retrofit-retrofit", "retrofit-moshi", "okhttp-logging-interceptor", "okhttp-okhttp"]
-test-implementation = ["mockk", "junit"]
+test-implementation = ["mockk", "junit", "androidx-test-room"]
 android-test-implementation = ["androidx-test-junit", "androidx-test-espresso", "androidx-compose-ui-test"]

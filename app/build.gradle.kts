@@ -137,6 +137,11 @@ dependencies {
 
     implementation(libs.bundles.retrofit)
 
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    annotationProcessor(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
+
     implementation(libs.timberkt)
 
     testImplementation(libs.bundles.test.implementation)
