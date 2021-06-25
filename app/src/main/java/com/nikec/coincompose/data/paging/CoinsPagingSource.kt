@@ -2,30 +2,30 @@ package com.nikec.coincompose.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.e
+import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
 import com.nikec.coincompose.data.api.ApiService
-import com.nikec.coincompose.data.model.CoinShort
+import com.nikec.coincompose.data.model.Coin
 
-class CoinsPagingSource(private val apiService: ApiService) : PagingSource<Int, CoinShort>() {
+class CoinsPagingSource(private val apiService: ApiService) : PagingSource<Int, Coin>() {
 
-    override fun getRefreshKey(state: PagingState<Int, CoinShort>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Coin>): Int? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CoinShort> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Coin> {
         val key = params.key ?: 1
         return when (val result = safeApiCall { apiService.fetchCoins(page = key) }) {
             is Result.Success -> {
                 val nextKey = key + 1
 
                  if(result.payload.isEmpty()) {
-                     d { "Done" }
+                     i { "Last page loaded" }
                      LoadResult.Page(result.payload, null, null)
                  } else {
-                     d { "Page is loading... " + nextKey }
+                     i { "Page number $nextKey is loading..." }
                      LoadResult.Page(result.payload, null, nextKey)
                  }
             }

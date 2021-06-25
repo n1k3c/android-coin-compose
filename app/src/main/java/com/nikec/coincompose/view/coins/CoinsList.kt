@@ -13,10 +13,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
-import com.nikec.coincompose.data.model.CoinShort
+import com.nikec.coincompose.data.model.Coin
 
 @Composable
-fun CoinsList(coinsList: LazyPagingItems<CoinShort>, onCoinClicked: (CoinShort) -> Unit) {
+fun CoinsList(coinsList: LazyPagingItems<Coin>, onCoinClicked: (Coin) -> Unit) {
     LazyColumn {
         items(coinsList) {
             if (it != null) {
