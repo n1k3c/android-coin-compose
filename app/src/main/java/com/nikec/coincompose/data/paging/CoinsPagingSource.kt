@@ -2,14 +2,19 @@ package com.nikec.coincompose.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import androidx.room.withTransaction
 import com.github.ajalt.timberkt.e
 import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
 import com.nikec.coincompose.data.api.ApiService
+import com.nikec.coincompose.data.db.CoinsDatabase
 import com.nikec.coincompose.data.model.Coin
 
-class CoinsPagingSource(private val apiService: ApiService) : PagingSource<Int, Coin>() {
+class CoinsPagingSource(
+    private val db: CoinsDatabase,
+    private val apiService: ApiService
+) : PagingSource<Int, Coin>() {
 
     override fun getRefreshKey(state: PagingState<Int, Coin>): Int? {
         TODO("Not yet implemented")
@@ -21,13 +26,13 @@ class CoinsPagingSource(private val apiService: ApiService) : PagingSource<Int, 
             is Result.Success -> {
                 val nextKey = key + 1
 
-                 if(result.payload.isEmpty()) {
-                     i { "Last page loaded" }
-                     LoadResult.Page(result.payload, null, null)
-                 } else {
-                     i { "Page number $nextKey is loading..." }
-                     LoadResult.Page(result.payload, null, nextKey)
-                 }
+                if (result.payload.isEmpty()) {
+                    i { "Last page loaded" }
+                    LoadResult.Page(result.payload, null, null)
+                } else {
+                    i { "Page number $nextKey is loading..." }
+                    LoadResult.Page(result.payload, null, nextKey)
+                }
             }
             is Result.HttpError -> {
                 e { "Http error -> " + result.exception.toString() }

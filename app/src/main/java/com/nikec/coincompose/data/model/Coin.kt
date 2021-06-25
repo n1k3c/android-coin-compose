@@ -1,18 +1,23 @@
 package com.nikec.coincompose.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.nikec.coincompose.data.db.CoinsDatabase
 import com.squareup.moshi.Json
 
+@Entity(tableName = CoinsDatabase.COINS_TABLE)
 data class Coin(
+    @PrimaryKey
+    val id: String,
     val ath: Double,
     @Json(name = "ath_date")
-    val athDate: String,
+    val athDate: String?,
     val atl: Double,
     @Json(name = "atl_date")
-    val atlDate: String,
+    val atlDate: String?,
     val current_price: Double,
     @Json(name = "high_24")
     val high24h: Double?,
-    val id: String,
     val image: String,
     @Json(name = "low_24")
     val low24h: Double?,
