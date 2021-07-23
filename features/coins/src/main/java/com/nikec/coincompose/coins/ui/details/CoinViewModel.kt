@@ -3,8 +3,8 @@ package com.nikec.coincompose.coins.ui.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.github.ajalt.timberkt.Timber.d
-import com.nikec.coincompose.coins.CoinsDirections
 import com.nikec.coincompose.core.navigation.NavigationManager
+import com.nikec.coincompose.core.navigation.directions.CoinsDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -11,11 +11,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.compose.*
 import androidx.navigation.navigation
-import com.nikec.coincompose.coins.CoinsDirections
-import com.nikec.coincompose.core.navigation.DESTINATION_BACK
-import com.nikec.coincompose.core.navigation.NavigationManager
 import com.nikec.coincompose.coins.ui.details.CoinScreen
 import com.nikec.coincompose.coins.ui.list.CoinsScreen
+import com.nikec.coincompose.core.navigation.DESTINATION_BACK
+import com.nikec.coincompose.core.navigation.NavigationManager
+import com.nikec.coincompose.core.navigation.directions.CoinsDirections
 import com.nikec.coincompose.theme.CoinComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect

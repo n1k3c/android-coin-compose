@@ -4,11 +4,11 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.github.ajalt.timberkt.e
 import com.github.ajalt.timberkt.i
-import com.nikec.coincompose.core.utils.Result
-import com.nikec.coincompose.core.utils.safeApiCall
 import com.nikec.coincompose.coins.data.api.ApiService
 import com.nikec.coincompose.core.db.CoinsDatabase
 import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.utils.Result
+import com.nikec.coincompose.core.utils.safeApiCall
 
 class CoinsPagingSource(
     private val db: CoinsDatabase,

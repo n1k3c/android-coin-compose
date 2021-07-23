@@ -1,9 +1,9 @@
 package com.nikec.coincompose.core.utils
 
 import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
 import retrofit2.HttpException
 import java.io.IOException
+import kotlin.coroutines.CoroutineContext
 
 abstract class SuspendUseCase<in P, R>(private val coroutineDispatcher: CoroutineContext) {
 

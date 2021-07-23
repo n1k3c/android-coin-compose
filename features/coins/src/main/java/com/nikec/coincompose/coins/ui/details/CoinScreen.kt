@@ -1,7 +1,7 @@
 package com.nikec.coincompose.coins.ui.details
 
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import com.nikec.coincompose.coins.R
 
