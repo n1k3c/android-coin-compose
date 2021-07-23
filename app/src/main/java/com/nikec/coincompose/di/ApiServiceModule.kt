@@ -1,4 +1,4 @@
-package com.nikec.coincompose.core.di
+package com.nikec.coincompose.di
 
 import com.nikec.coincompose.BuildConfig
 import com.nikec.coincompose.coins.data.api.ApiService

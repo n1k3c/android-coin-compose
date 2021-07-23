@@ -1,4 +1,4 @@
-package com.nikec.coincompose.core.di
+package com.nikec.coincompose.di
 
 import com.nikec.coincompose.core.navigation.NavigationManager
 import dagger.Module
