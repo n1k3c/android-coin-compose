@@ -17,7 +17,7 @@ import javax.inject.Inject
 class CoinsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager,
-    private val getCoinsUseCase: GetCoinsUseCase
+    getCoinsUseCase: GetCoinsUseCase
 ) : ViewModel() {
 
     val paginatedCoins: Flow<PagingData<Coin>> =
