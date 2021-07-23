@@ -1,4 +1,4 @@
-package com.nikec.coincompose.domain
+package com.nikec.coincompose.core.domain
 
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
