@@ -96,7 +96,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
     }
     buildFeatures {
         compose = true
@@ -121,9 +120,15 @@ android {
         resources.excludes.add("META-INF/AL2.0")
         resources.excludes.add("META-INF/LGPL2.1")
     }
+    hilt {
+        enableExperimentalClasspathAggregation = true
+    }
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":features:coins"))
+
     implementation(libs.bundles.androidx)
     implementation(libs.bundles.compose)
     implementation(libs.androidx.navigation.compose)

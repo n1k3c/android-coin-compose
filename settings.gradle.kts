@@ -9,3 +9,5 @@ rootProject.name = "Coin Compose"
 include(":app")
 
 enableFeaturePreview("VERSION_CATALOGS")
+include(":features:coins")
+include(":core")
