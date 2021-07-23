@@ -1,4 +1,4 @@
-package com.nikec.coincompose.view.coin
+package com.nikec.coincompose.coin.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

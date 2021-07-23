@@ -1,4 +1,4 @@
-package com.nikec.coincompose.view.common
+package com.nikec.coincompose.core
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,9 +14,9 @@ import androidx.navigation.navigation
 import com.nikec.coincompose.core.navigation.CoinsDirections
 import com.nikec.coincompose.core.navigation.DESTINATION_BACK
 import com.nikec.coincompose.core.navigation.NavigationManager
-import com.nikec.coincompose.view.coin.CoinScreen
-import com.nikec.coincompose.view.coins.CoinsScreen
-import com.nikec.coincompose.view.common.theme.CoinComposeTheme
+import com.nikec.coincompose.coin.ui.CoinScreen
+import com.nikec.coincompose.coins.ui.CoinsScreen
+import com.nikec.coincompose.core.theme.CoinComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject

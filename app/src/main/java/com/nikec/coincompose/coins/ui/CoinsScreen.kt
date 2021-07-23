@@ -1,4 +1,4 @@
-package com.nikec.coincompose.view.coins
+package com.nikec.coincompose.coins.ui
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable

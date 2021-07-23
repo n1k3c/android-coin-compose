@@ -1,4 +1,4 @@
-package com.nikec.coincompose.view.coins
+package com.nikec.coincompose.coins.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

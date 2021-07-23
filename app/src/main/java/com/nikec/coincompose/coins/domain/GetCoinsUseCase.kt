@@ -1,9 +1,9 @@
-package com.nikec.coincompose.domain.coins
+package com.nikec.coincompose.coins.domain
 
 import androidx.paging.PagingData
 import com.nikec.coincompose.data.model.Coin
 import com.nikec.coincompose.data.repository.CoinsRepository
-import com.nikec.coincompose.domain.BaseUseCase
+import com.nikec.coincompose.core.domain.BaseUseCase
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

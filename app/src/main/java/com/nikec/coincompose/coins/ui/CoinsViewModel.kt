@@ -1,4 +1,4 @@
-package com.nikec.coincompose.view.coins
+package com.nikec.coincompose.coins.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import androidx.paging.cachedIn
 import com.nikec.coincompose.core.navigation.CoinsDirections
 import com.nikec.coincompose.core.navigation.NavigationManager
 import com.nikec.coincompose.data.model.Coin
-import com.nikec.coincompose.domain.coins.GetCoinsUseCase
+import com.nikec.coincompose.coins.domain.GetCoinsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class CoinsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager,
-    private val getCoinsUseCase: GetCoinsUseCase,
+    private val getCoinsUseCase: GetCoinsUseCase
 ) : ViewModel() {
 
     val paginatedCoins: Flow<PagingData<Coin>> =
