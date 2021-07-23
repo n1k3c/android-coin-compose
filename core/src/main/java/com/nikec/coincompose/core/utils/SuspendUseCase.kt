@@ -1,8 +1,7 @@
-package com.nikec.coincompose.core.domain
+package com.nikec.coincompose.core.utils
 
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
-import com.nikec.coincompose.core.utils.Result
 import retrofit2.HttpException
 import java.io.IOException
 

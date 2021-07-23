@@ -1,8 +1,8 @@
-package com.nikec.coincompose.core.data.model
+package com.nikec.coincompose.core.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.nikec.coincompose.core.data.db.CoinsDatabase
+import com.nikec.coincompose.core.db.CoinsDatabase
 
 @Entity(tableName = CoinsDatabase.COINS_REMOTE_KEYS_TABLE)
 data class CoinRemoteKeys(

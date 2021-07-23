@@ -8,7 +8,7 @@ import androidx.paging.cachedIn
 import com.nikec.coincompose.coins.CoinsDirections
 import com.nikec.coincompose.core.navigation.NavigationManager
 import com.nikec.coincompose.coins.domain.GetCoinsUseCase
-import com.nikec.coincompose.core.data.model.Coin
+import com.nikec.coincompose.core.model.Coin
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

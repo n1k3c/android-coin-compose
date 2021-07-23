@@ -1,10 +1,10 @@
-package com.nikec.coincompose.core.data.db
+package com.nikec.coincompose.core.db
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.nikec.coincompose.core.data.model.CoinRemoteKeys
+import com.nikec.coincompose.core.model.CoinRemoteKeys
 
 @Dao
 interface CoinsRemoteKeysDao {

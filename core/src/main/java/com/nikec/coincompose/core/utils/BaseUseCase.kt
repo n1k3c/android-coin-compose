@@ -1,4 +1,4 @@
-package com.nikec.coincompose.core.domain
+package com.nikec.coincompose.core.utils
 
 abstract class BaseUseCase<in P, R> {
 

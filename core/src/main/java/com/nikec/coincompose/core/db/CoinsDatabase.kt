@@ -1,9 +1,9 @@
-package com.nikec.coincompose.core.data.db
+package com.nikec.coincompose.core.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.nikec.coincompose.core.data.model.Coin
-import com.nikec.coincompose.core.data.model.CoinRemoteKeys
+import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.model.CoinRemoteKeys
 
 const val DATABASE_NAME = "coins.db"
 

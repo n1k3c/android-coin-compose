@@ -1,6 +1,6 @@
 package com.nikec.coincompose.coins.data.api
 
-import com.nikec.coincompose.core.data.model.Coin
+import com.nikec.coincompose.core.model.Coin
 import retrofit2.http.GET
 import retrofit2.http.Query
 

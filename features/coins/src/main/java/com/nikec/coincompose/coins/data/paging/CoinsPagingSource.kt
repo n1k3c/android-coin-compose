@@ -7,8 +7,8 @@ import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
 import com.nikec.coincompose.coins.data.api.ApiService
-import com.nikec.coincompose.core.data.db.CoinsDatabase
-import com.nikec.coincompose.core.data.model.Coin
+import com.nikec.coincompose.core.db.CoinsDatabase
+import com.nikec.coincompose.core.model.Coin
 
 class CoinsPagingSource(
     private val db: CoinsDatabase,

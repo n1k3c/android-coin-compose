@@ -2,10 +2,10 @@ package com.nikec.coincompose.di
 
 import android.content.Context
 import androidx.room.Room
-import com.nikec.coincompose.core.data.db.CoinsDao
-import com.nikec.coincompose.core.data.db.CoinsDatabase
-import com.nikec.coincompose.core.data.db.CoinsRemoteKeysDao
-import com.nikec.coincompose.core.data.db.DATABASE_NAME
+import com.nikec.coincompose.core.db.CoinsDao
+import com.nikec.coincompose.core.db.CoinsDatabase
+import com.nikec.coincompose.core.db.CoinsRemoteKeysDao
+import com.nikec.coincompose.core.db.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
