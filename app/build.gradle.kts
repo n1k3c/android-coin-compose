@@ -29,14 +29,14 @@ if (secretsPropertiesFile.exists()) {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = BuildConfig.compileSdk
 
     defaultConfig {
-        applicationId = "com.nikec.coincompose"
-        minSdk = 23
-        targetSdk = 30
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = App.packageName
+        minSdk = BuildConfig.minSdk
+        targetSdk = BuildConfig.targetSdk
+        versionCode = BuildConfig.versionCode
+        versionName = BuildConfig.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -61,7 +61,7 @@ android {
             keyPassword = "${secretProperties["signing_key_password"]}"
         }
     }
-    flavorDimensions("version")
+    flavorDimensions.add("version")
     productFlavors {
         create("development") {
             versionNameSuffix = "-development"
@@ -91,11 +91,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = BuildConfig.javaVersion
+        targetCompatibility = BuildConfig.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = BuildConfig.jvmTarget
     }
     buildFeatures {
         compose = true

@@ -4,15 +4,16 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        val libs = project.extensions.getByType<VersionCatalogsExtension>()
-            .named("libs") as org.gradle.accessors.dm.LibrariesForLibs
-
-        classpath(libs.android.gradle.plugin)
-        classpath(libs.kotlin.gradle.plugin)
-        classpath(libs.hilt.gradle.plugin)
+        classpath(GradlePluginDependency.androidPlugin)
+        classpath(GradlePluginDependency.kotlinPlugin)
+        classpath(GradlePluginDependency.hiltPlugin)
     }
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+tasks.register("getVersion") {
+    println("v${BuildConfig.versionName}(${BuildConfig.versionCode})")
 }
