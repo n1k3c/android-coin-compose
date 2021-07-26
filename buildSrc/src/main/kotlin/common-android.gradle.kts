@@ -28,7 +28,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta09"
+        kotlinCompilerExtensionVersion = Versions.compose
     }
     kapt {
         correctErrorTypes = true

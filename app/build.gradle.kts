@@ -1,3 +1,9 @@
+import Dependencies.androidTestImplementationDependencies
+import Dependencies.androidxDependencies
+import Dependencies.composeDependencies
+import Dependencies.coroutinesDependencies
+import Dependencies.retrofitDependencies
+import Dependencies.testImplementationDependencies
 import java.io.FileInputStream
 import java.util.*
 
@@ -101,7 +107,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = Versions.compose
     }
     kapt {
         correctErrorTypes = true
@@ -129,25 +135,24 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":features:coins"))
 
-    implementation(libs.bundles.androidx)
-    implementation(libs.bundles.compose)
-    implementation(libs.androidx.navigation.compose)
+    androidxDependencies()
+    composeDependencies()
+    implementation(Dependencies.composeNavigation)
 
-    implementation(libs.androidx.hilt.compose)
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    implementation(Dependencies.hiltCompose)
+    implementation(Dependencies.hiltAndroid)
+    kapt(Dependencies.hiltCompiler)
 
-    implementation(libs.bundles.kotlin.coroutines)
+    coroutinesDependencies()
+    retrofitDependencies()
 
-    implementation(libs.bundles.retrofit)
+    implementation(Dependencies.roomRuntime)
+    implementation(Dependencies.roomKtx)
+    annotationProcessor(Dependencies.roomCompiler)
+    kapt(Dependencies.roomCompiler)
 
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    annotationProcessor(libs.androidx.room.compiler)
-    kapt(libs.androidx.room.compiler)
+    implementation(Dependencies.timberkt)
 
-    implementation(libs.timberkt)
-
-    testImplementation(libs.bundles.test.implementation)
-    androidTestImplementation(libs.bundles.android.test.implementation)
+    testImplementationDependencies()
+    androidTestImplementationDependencies()
 }
