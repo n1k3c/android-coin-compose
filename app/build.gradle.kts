@@ -9,9 +9,9 @@ import java.util.*
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     id("dagger.hilt.android.plugin")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
 }
 
 val secretsPropertiesFile = rootProject.file("secrets.properties")

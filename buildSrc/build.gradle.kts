@@ -9,9 +9,9 @@ repositories {
 }
 
 dependencies {
-    implementation(GradlePluginDependency.kotlinPlugin)
-    implementation(GradlePluginDependency.androidPlugin)
-    implementation(GradlePluginDependency.hiltPlugin)
+    implementation(Dependencies.kotlinGradlePlugin)
+    implementation(Dependencies.androidGradlePlugin)
+    implementation(Dependencies.hiltGradlePlugin)
     implementation(kotlin("script-runtime"))
 }
 
