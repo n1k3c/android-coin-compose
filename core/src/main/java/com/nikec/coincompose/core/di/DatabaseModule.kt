@@ -1,4 +1,4 @@
-package com.nikec.coincompose.di
+package com.nikec.coincompose.core.di
 
 import android.content.Context
 import androidx.room.Room

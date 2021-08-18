@@ -71,28 +71,13 @@ android {
     productFlavors {
         create("development") {
             versionNameSuffix = "-development"
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                "\"https://api.coingecko.com/\""
-            )
             dimension = "version"
         }
         create("staging") {
             versionNameSuffix = "-staging"
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                "\"https://api.coingecko.com/\""
-            )
             dimension = "version"
         }
         create("production") {
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                "\"https://api.coingecko.com/\""
-            )
             dimension = "version"
         }
     }

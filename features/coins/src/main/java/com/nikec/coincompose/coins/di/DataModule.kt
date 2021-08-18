@@ -1,4 +1,4 @@
-package com.nikec.coincompose.di
+package com.nikec.coincompose.coins.di
 
 import com.nikec.coincompose.coins.data.repository.CoinsRepository
 import com.nikec.coincompose.coins.data.repository.CoinsRepositoryImpl

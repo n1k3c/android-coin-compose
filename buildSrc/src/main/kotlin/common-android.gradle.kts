@@ -39,4 +39,31 @@ android {
             isIncludeAndroidResources = true
         }
     }
+    flavorDimensions.add("version")
+    productFlavors {
+        create("development") {
+            buildConfigField(
+                "String",
+                "COINS_BASE_URL",
+                "\"https://api.coingecko.com/\""
+            )
+            dimension = "version"
+        }
+        create("staging") {
+            buildConfigField(
+                "String",
+                "COINS_BASE_URL",
+                "\"https://api.coingecko.com/\""
+            )
+            dimension = "version"
+        }
+        create("production") {
+            buildConfigField(
+                "String",
+                "COINS_BASE_URL",
+                "\"https://api.coingecko.com/\""
+            )
+            dimension = "version"
+        }
+    }
 }

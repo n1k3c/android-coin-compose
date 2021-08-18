@@ -3,7 +3,7 @@ package com.nikec.coincompose.coins.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.nikec.coincompose.coins.data.api.ApiService
+import com.nikec.coincompose.coins.data.api.CoinsService
 import com.nikec.coincompose.coins.data.paging.CoinsPagingSource
 import com.nikec.coincompose.core.db.CoinsDatabase
 import com.nikec.coincompose.core.model.Coin
@@ -19,13 +19,13 @@ interface CoinsRepository {
 
 class CoinsRepositoryImpl @Inject constructor(
     private val db: CoinsDatabase,
-    private val apiService: ApiService
+    private val coinsService: CoinsService
 ) : CoinsRepository {
 
     override fun fetchCoins() = Pager(
         PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = INITIAL_LOAD_SIZE),
         pagingSourceFactory = {
-            CoinsPagingSource(db, apiService)
+            CoinsPagingSource(db, coinsService)
         }
     ).flow
 }

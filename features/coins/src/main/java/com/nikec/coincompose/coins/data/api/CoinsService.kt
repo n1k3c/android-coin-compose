@@ -4,7 +4,7 @@ import com.nikec.coincompose.core.model.Coin
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ApiService {
+interface CoinsService {
 
     @GET("api/v3/coins/markets")
     suspend fun fetchCoins(
