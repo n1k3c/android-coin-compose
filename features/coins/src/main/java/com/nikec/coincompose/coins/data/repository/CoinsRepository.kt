@@ -6,13 +6,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.nikec.coincompose.coins.data.api.CoinsService
 import com.nikec.coincompose.coins.data.paging.CoinsPageKeyedRemoteMediator
-import com.nikec.coincompose.core.db.CoinsDao
 import com.nikec.coincompose.core.db.CoinsDatabase
-import com.nikec.coincompose.core.db.CoinsRemoteKeysDao
 import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.utils.CoroutineContextProvider
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+private const val MAX_PAGES = 10
 private const val PAGE_SIZE = 20
 private const val INITIAL_LOAD_SIZE = 20
 
@@ -22,9 +22,8 @@ interface CoinsRepository {
 
 class CoinsRepositoryImpl @Inject constructor(
     private val db: CoinsDatabase,
-    private val coinsDao: CoinsDao,
-    private val coinsRemoteKeysDao: CoinsRemoteKeysDao,
-    private val coinsService: CoinsService
+    private val coinsService: CoinsService,
+    private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
 ) : CoinsRepository {
 
     @ExperimentalPagingApi
@@ -32,11 +31,11 @@ class CoinsRepositoryImpl @Inject constructor(
         config = PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = INITIAL_LOAD_SIZE),
         remoteMediator = CoinsPageKeyedRemoteMediator(
             db,
-            coinsDao,
-            coinsRemoteKeysDao,
-            coinsService
+            coinsService,
+            coroutineContextProvider,
+            MAX_PAGES
         )
     ) {
-        coinsDao.observeCoinsPaginated()
+        db.coinsDao().observeCoinsPaginated()
     }.flow
 }

@@ -7,23 +7,21 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.github.ajalt.timberkt.Timber.e
 import com.nikec.coincompose.coins.data.api.CoinsService
-import com.nikec.coincompose.core.db.CoinsDao
 import com.nikec.coincompose.core.db.CoinsDatabase
-import com.nikec.coincompose.core.db.CoinsRemoteKeysDao
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.model.CoinRemoteKeys
+import com.nikec.coincompose.core.utils.CoroutineContextProvider
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.InvalidObjectException
 
 @ExperimentalPagingApi
 class CoinsPageKeyedRemoteMediator(
     private val db: CoinsDatabase,
-    private val coinsDao: CoinsDao,
-    private val coinsRemoteKeysDao: CoinsRemoteKeysDao,
-    private val coinsService: CoinsService
+    private val coinsService: CoinsService,
+    private val coroutineContextProvider: CoroutineContextProvider,
+    private val maxPages: Int
 ) : RemoteMediator<Int, Coin>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Coin>): MediatorResult {
@@ -42,14 +40,15 @@ class CoinsPageKeyedRemoteMediator(
             }
         }
 
-        return when (val result = safeApiCall { coinsService.fetchCoins(page = page) }) {
+        return when (val result =
+            withContext(coroutineContextProvider.io) { safeApiCall { coinsService.fetchCoins(page = page) } }) {
             is Result.Success -> {
-                val endOfPaginationReached = page > 10
+                val endOfPaginationReached = page > maxPages
 
                 db.withTransaction {
                     if (loadType == LoadType.REFRESH) {
-                        coinsRemoteKeysDao.deleteAll()
-                        coinsDao.deleteAll()
+                        db.coinsRemoteKeysDao().deleteAll()
+                        db.coinsDao().deleteAll()
                     }
 
                     val prevKey = if (page == 1) null else page - 1
@@ -58,8 +57,8 @@ class CoinsPageKeyedRemoteMediator(
                         CoinRemoteKeys(coinId = it.id, prevKey = prevKey, nextKey = nextKey)
                     }
 
-                    coinsRemoteKeysDao.insertAll(keys)
-                    coinsDao.insertAll(result.payload)
+                    db.coinsRemoteKeysDao().insertAll(keys)
+                    db.coinsDao().insertAll(result.payload)
                 }
                 MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
             }
@@ -84,8 +83,8 @@ class CoinsPageKeyedRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { coin ->
                 // Get the remote keys of the last item retrieved
-                withContext(Dispatchers.IO) {
-                    coinsRemoteKeysDao.getRemoteKeysByCoinId(coin.id)
+                withContext(coroutineContextProvider.io) {
+                    db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coin.id)
                 }
             }
     }
@@ -96,8 +95,8 @@ class CoinsPageKeyedRemoteMediator(
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { coin ->
                 // Get the remote keys of the first items retrieved
-                withContext(Dispatchers.IO) {
-                    coinsRemoteKeysDao.getRemoteKeysByCoinId(coin.id)
+                withContext(coroutineContextProvider.io) {
+                    db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coin.id)
                 }
             }
     }
@@ -109,8 +108,8 @@ class CoinsPageKeyedRemoteMediator(
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { coinId ->
-                withContext(Dispatchers.IO) {
-                    coinsRemoteKeysDao.getRemoteKeysByCoinId(coinId)
+                withContext(coroutineContextProvider.io) {
+                    db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coinId)
                 }
             }
         }
