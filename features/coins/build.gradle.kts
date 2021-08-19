@@ -24,6 +24,8 @@ dependencies {
     coroutinesDependencies()
     retrofitDependencies()
 
+    implementation(Dependencies.roomKtx)
+
     implementation(Dependencies.timberkt)
 
     testImplementationDependencies()

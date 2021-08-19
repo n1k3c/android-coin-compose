@@ -22,7 +22,7 @@ dependencies {
     coroutinesDependencies()
     retrofitDependencies()
 
-    implementation(Dependencies.roomRuntime)
+    api(Dependencies.roomRuntime)
     implementation(Dependencies.roomKtx)
     annotationProcessor(Dependencies.roomCompiler)
     kapt(Dependencies.roomCompiler)
