@@ -118,6 +118,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":core-ui"))
     implementation(project(":features:coins"))
 
     androidxDependencies()

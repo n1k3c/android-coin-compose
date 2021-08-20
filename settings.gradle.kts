@@ -6,8 +6,8 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Coin Compose"
-include(":app")
 
-enableFeaturePreview("VERSION_CATALOGS")
+include(":app")
 include(":features:coins")
 include(":core")
+include(":core-ui")

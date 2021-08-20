@@ -6,6 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.github.ajalt.timberkt.Timber.e
+import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.coins.data.api.CoinsService
 import com.nikec.coincompose.core.db.CoinsDatabase
 import com.nikec.coincompose.core.model.Coin
@@ -43,7 +44,8 @@ class CoinsPageKeyedRemoteMediator(
         return when (val result =
             withContext(coroutineContextProvider.io) { safeApiCall { coinsService.fetchCoins(page = page) } }) {
             is Result.Success -> {
-                val endOfPaginationReached = page > maxPages
+                i { "Page -> " + page }
+                val endOfPaginationReached = page == maxPages
 
                 db.withTransaction {
                     if (loadType == LoadType.REFRESH) {

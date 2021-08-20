@@ -1,4 +1,4 @@
-package com.nikec.coincompose
+package com.nikec.coincompose.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
