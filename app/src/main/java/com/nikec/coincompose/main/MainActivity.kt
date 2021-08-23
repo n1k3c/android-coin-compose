@@ -3,6 +3,7 @@ package com.nikec.coincompose.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -16,17 +17,20 @@ import com.nikec.coincompose.coins.ui.list.CoinsScreen
 import com.nikec.coincompose.core.navigation.DESTINATION_BACK
 import com.nikec.coincompose.core.navigation.NavigationManager
 import com.nikec.coincompose.core.navigation.directions.CoinsDirections
-import com.nikec.coincompose.theme.CoinComposeTheme
+import com.nikec.core.ui.theme.CoinComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var navigationManager: NavigationManager
 
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
