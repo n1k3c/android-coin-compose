@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nikec.core.ui.R
 import com.nikec.core.ui.theme.Green
@@ -19,8 +20,7 @@ import connectivityState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 
-@ExperimentalAnimationApi
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalAnimationApi::class, ExperimentalCoroutinesApi::class)
 @Composable
 fun ConnectivityStatus() {
     val connection by connectivityState()
@@ -49,7 +49,8 @@ fun ConnectivityStatus() {
 @Composable
 fun ConnectivityStatusBox(isConnected: Boolean) {
     val backgroundColor by animateColorAsState(if (isConnected) Green else Red)
-    val message = if (isConnected) "Back Online!" else "No Internet Connection!"
+    val message =
+        if (isConnected) stringResource(R.string.back_online) else stringResource(R.string.no_internet_connection)
     val iconResource = if (isConnected) {
         R.drawable.ic_connectivity_available
     } else {

@@ -19,11 +19,9 @@ import com.nikec.coincompose.core.navigation.NavigationManager
 import com.nikec.coincompose.core.navigation.directions.CoinsDirections
 import com.nikec.core.ui.theme.CoinComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
