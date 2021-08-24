@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="coin">Coin</string>
+    <string name="price">Price</string>
+    <string name="one_hour">1h</string>
+    <string name="twenty_four_hours">24h</string>
+    <string name="seven_days">7d</string>
+    <string name="thirty_days">30d</string>
+    <string name="market_cap">Market Cap</string>
+</resources>

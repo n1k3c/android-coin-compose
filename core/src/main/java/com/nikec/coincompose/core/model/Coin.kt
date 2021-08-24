@@ -4,7 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.nikec.coincompose.core.db.CoinsDatabase
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 @Entity(tableName = CoinsDatabase.COINS_TABLE)
 data class Coin(
     @PrimaryKey
@@ -15,7 +17,8 @@ data class Coin(
     val atl: Double,
     @Json(name = "atl_date")
     val atlDate: String?,
-    val current_price: Double,
+    @Json(name = "current_price")
+    val currentPrice: Double,
     @Json(name = "high_24")
     val high24h: Double?,
     val image: String,
@@ -24,9 +27,13 @@ data class Coin(
     @Json(name = "market_cap")
     val marketCap: Long,
     val name: String,
-    @Json(name = "price_change_24h")
-    val priceChange24h: Double?,
-    @Json(name = "price_change_percentage_24h")
+    @Json(name = "price_change_percentage_1h_in_currency")
+    val priceChangePercentage1h: Double?,
+    @Json(name = "price_change_percentage_24h_in_currency")
     val priceChangePercentage24h: Double?,
+    @Json(name = "price_change_percentage_7d_in_currency")
+    val priceChangePercentage7d: Double?,
+    @Json(name = "price_change_percentage_30d_in_currency")
+    val priceChangePercentage30d: Double?,
     val symbol: String,
 )

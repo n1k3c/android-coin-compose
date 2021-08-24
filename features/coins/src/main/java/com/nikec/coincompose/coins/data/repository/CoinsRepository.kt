@@ -12,9 +12,9 @@ import com.nikec.coincompose.core.utils.CoroutineContextProvider
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-private const val MAX_PAGES = 10
-private const val PAGE_SIZE = 20
-private const val INITIAL_LOAD_SIZE = 20
+private const val MAX_PAGES = 1
+private const val PAGE_SIZE = 100
+private const val INITIAL_LOAD_SIZE = PAGE_SIZE
 
 interface CoinsRepository {
     fun fetchCoins(): Flow<PagingData<Coin>>

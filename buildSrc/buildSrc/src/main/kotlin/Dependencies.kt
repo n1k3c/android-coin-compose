@@ -45,6 +45,8 @@ object Dependencies {
     private const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
     private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     private const val retrofitMoshi = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
+    private const val moshi = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
+    private const val moshiCodegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
 
     const val timberkt = "com.github.ajalt:timberkt:${Versions.timberkt}"
 
@@ -83,6 +85,8 @@ object Dependencies {
         "implementation"(retrofitMoshi)
         "implementation"(okhttp)
         "implementation"(okhttpLoggingInterceptor)
+        "implementation"(moshi)
+        "kapt"(moshiCodegen)
     }
 
     fun DependencyHandlerScope.testImplementationDependencies() {

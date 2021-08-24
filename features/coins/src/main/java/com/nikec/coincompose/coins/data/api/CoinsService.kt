@@ -13,5 +13,6 @@ interface CoinsService {
         @Query("per_page") perPage: Int = 10,
         @Query("page") page: Int = 1,
         @Query("sparkline") sparkline: Boolean = false,
+        @Query("price_change_percentage") priceChangePercentage: String = "1h,24h,7d,30d",
     ): List<Coin>
 }

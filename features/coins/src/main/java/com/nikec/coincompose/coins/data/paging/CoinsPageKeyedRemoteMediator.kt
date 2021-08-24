@@ -42,7 +42,14 @@ class CoinsPageKeyedRemoteMediator(
         }
 
         return when (val result =
-            withContext(coroutineContextProvider.io) { safeApiCall { coinsService.fetchCoins(page = page) } }) {
+            withContext(coroutineContextProvider.io) {
+                safeApiCall {
+                    coinsService.fetchCoins(
+                        page = page,
+                        perPage = state.config.pageSize
+                    )
+                }
+            }) {
             is Result.Success -> {
                 i { "Page -> " + page }
                 val endOfPaginationReached = page == maxPages
@@ -82,25 +89,17 @@ class CoinsPageKeyedRemoteMediator(
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Coin>): CoinRemoteKeys? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { coin ->
-                // Get the remote keys of the last item retrieved
-                withContext(coroutineContextProvider.io) {
-                    db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coin.id)
-                }
-            }
+        return state.lastItemOrNull()?.let { coin ->
+            db.withTransaction { db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coin.id) }
+        }
     }
 
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Coin>): CoinRemoteKeys? {
         // Get the first page that was retrieved, that contained items.
         // From that first page, get the first item
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { coin ->
-                // Get the remote keys of the first items retrieved
-                withContext(coroutineContextProvider.io) {
-                    db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coin.id)
-                }
-            }
+        return state.firstItemOrNull()?.let { coin ->
+            db.withTransaction { db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coin.id) }
+        }
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
@@ -109,10 +108,8 @@ class CoinsPageKeyedRemoteMediator(
         // The paging library is trying to load data after the anchor position
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { coinId ->
-                withContext(coroutineContextProvider.io) {
-                    db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coinId)
-                }
+            state.closestItemToPosition(position)?.id?.let { id ->
+                db.withTransaction { db.coinsRemoteKeysDao().getRemoteKeysByCoinId(id) }
             }
         }
     }
