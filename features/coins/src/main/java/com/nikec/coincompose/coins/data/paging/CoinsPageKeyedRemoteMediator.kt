@@ -17,7 +17,8 @@ import com.nikec.coincompose.core.utils.safeApiCall
 import kotlinx.coroutines.withContext
 import java.io.InvalidObjectException
 
-@ExperimentalPagingApi
+
+@OptIn(ExperimentalPagingApi::class)
 class CoinsPageKeyedRemoteMediator(
     private val db: CoinsDatabase,
     private val coinsService: CoinsService,

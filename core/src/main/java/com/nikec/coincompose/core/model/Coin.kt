@@ -35,5 +35,7 @@ data class Coin(
     val priceChangePercentage7d: Double?,
     @Json(name = "price_change_percentage_30d_in_currency")
     val priceChangePercentage30d: Double?,
+    @Json(name = "price_change_percentage_1y_in_currency")
+    val priceChangePercentage1y: Double?,
     val symbol: String,
 )

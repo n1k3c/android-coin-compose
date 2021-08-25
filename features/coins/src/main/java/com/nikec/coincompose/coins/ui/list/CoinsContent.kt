@@ -53,6 +53,7 @@ private fun CoinsList(coinsList: LazyPagingItems<Coin>, onCoinClicked: (Coin) ->
                     PercentageChangeCellHeader(text = stringResource(R.string.twenty_four_hours))
                     PercentageChangeCellHeader(text = stringResource(R.string.seven_days))
                     PercentageChangeCellHeader(text = stringResource(R.string.thirty_days))
+                    PercentageChangeCellHeader(text = stringResource(R.string.one_year))
                     Text(
                         text = stringResource(R.string.market_cap),
                         modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp)
@@ -72,7 +73,7 @@ private fun CoinsList(coinsList: LazyPagingItems<Coin>, onCoinClicked: (Coin) ->
 private enum class CellWidthDimensions(val dp: Dp) {
     NAME(80.dp),
     PRICE(100.dp),
-    PERCENTAGE_CHANGE(80.dp),
+    PERCENTAGE_CHANGE(100.dp),
     MARKET_CAP(165.dp)
 }
 
@@ -93,6 +94,7 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 PercentageChangeCell(price = coin.priceChangePercentage24h)
                 PercentageChangeCell(price = coin.priceChangePercentage7d)
                 PercentageChangeCell(price = coin.priceChangePercentage30d)
+                PercentageChangeCell(price = coin.priceChangePercentage1y)
                 Text(
                     text = "$" + NumberFormat.getInstance(Locale.getDefault())
                         .format(coin.marketCap),

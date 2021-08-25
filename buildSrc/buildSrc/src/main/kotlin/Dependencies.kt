@@ -9,7 +9,8 @@ object Dependencies {
         "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
 
     private const val androidxCore = "androidx.core:core-ktx:${Versions.androidxCore}"
-    private const val androidxAppcompat = "androidx.appcompat:appcompat:${Versions.androidxAppcompat}"
+    private const val androidxAppcompat =
+        "androidx.appcompat:appcompat:${Versions.androidxAppcompat}"
     private const val androidxLifecycleRuntime =
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.androidxLifecycleRuntime}"
     private const val material = "com.google.android.material:material:${Versions.material}"
@@ -49,6 +50,12 @@ object Dependencies {
     private const val moshiCodegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
 
     const val timberkt = "com.github.ajalt:timberkt:${Versions.timberkt}"
+    const val coil = "io.coil-kt:coil-compose:${Versions.coil}"
+
+    const val accompanistSwipeToRefresh =
+        "com.google.accompanist:accompanist-swiperefresh:${Versions.accompanist}"
+    const val accompanistPlaceholder =
+        "com.google.accompanist:accompanist-placeholder-material:${Versions.accompanist}"
 
     private const val mockk = "io.mockk:mockk:${Versions.mockk}"
     private const val junit = "junit:junit:${Versions.junit}"

@@ -26,7 +26,7 @@ class CoinsRepositoryImpl @Inject constructor(
     private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
 ) : CoinsRepository {
 
-    @ExperimentalPagingApi
+    @OptIn(ExperimentalPagingApi::class)
     override fun fetchCoins() = Pager(
         config = PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = INITIAL_LOAD_SIZE, enablePlaceholders = true),
         remoteMediator = CoinsPageKeyedRemoteMediator(
