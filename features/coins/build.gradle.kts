@@ -30,7 +30,6 @@ dependencies {
     implementation(Dependencies.timberkt)
     implementation(Dependencies.coil)
     implementation(Dependencies.accompanistSwipeToRefresh)
-    implementation(Dependencies.accompanistPlaceholder)
 
     testImplementationDependencies()
     androidTestImplementationDependencies()

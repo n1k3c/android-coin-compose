@@ -54,8 +54,6 @@ object Dependencies {
 
     const val accompanistSwipeToRefresh =
         "com.google.accompanist:accompanist-swiperefresh:${Versions.accompanist}"
-    const val accompanistPlaceholder =
-        "com.google.accompanist:accompanist-placeholder-material:${Versions.accompanist}"
 
     private const val mockk = "io.mockk:mockk:${Versions.mockk}"
     private const val junit = "junit:junit:${Versions.junit}"
