@@ -12,9 +12,9 @@ import com.nikec.coincompose.core.utils.CoroutineContextProvider
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-private const val MAX_PAGES = 1
-private const val PAGE_SIZE = 100
-private const val INITIAL_LOAD_SIZE = PAGE_SIZE
+private const val MAX_PAGES = 5
+private const val PAGE_SIZE = 50
+private const val INITIAL_LOAD_SIZE = 100
 
 interface CoinsRepository {
     fun fetchCoins(): Flow<PagingData<Coin>>
@@ -28,7 +28,7 @@ class CoinsRepositoryImpl @Inject constructor(
 
     @ExperimentalPagingApi
     override fun fetchCoins() = Pager(
-        config = PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = INITIAL_LOAD_SIZE),
+        config = PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = INITIAL_LOAD_SIZE, enablePlaceholders = true),
         remoteMediator = CoinsPageKeyedRemoteMediator(
             db,
             coinsService,
