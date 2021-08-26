@@ -1,12 +1,19 @@
 package com.nikec.coincompose.coins.ui.list
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +37,7 @@ import com.nikec.core.ui.theme.Green
 import com.nikec.core.ui.theme.Red
 import com.nikec.core.ui.theme.coinHeaderBackground
 import com.nikec.core.ui.theme.coinHeaderText
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.*
 
@@ -45,17 +53,42 @@ fun CoinsContent(
     coinsList: LazyPagingItems<Coin>,
     onCoinClicked: (Coin) -> Unit
 ) {
+    val scrollState = rememberScrollState()
+    val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+
     Column(modifier = Modifier.fillMaxSize()) {
         ConnectivityStatus()
         Spacer(modifier = Modifier.height(2.dp))
-        CoinsList(coinsList = coinsList, onCoinClicked = onCoinClicked)
+        Box {
+            CoinsList(
+                coinsList = coinsList,
+                onCoinClicked = onCoinClicked,
+                scrollState = scrollState,
+                listState = listState
+            )
+            ScrollToTopButton(
+                listState = listState,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+            ) {
+                scope.launch {
+                    listState.scrollToItem(0)
+                }
+            }
+        }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun CoinsList(coinsList: LazyPagingItems<Coin>, onCoinClicked: (Coin) -> Unit) {
-    val scrollState = rememberScrollState()
+private fun CoinsList(
+    coinsList: LazyPagingItems<Coin>,
+    onCoinClicked: (Coin) -> Unit,
+    scrollState: ScrollState,
+    listState: LazyListState
+) {
     SwipeRefresh(
         state = rememberSwipeRefreshState(coinsList.loadState.refresh is LoadState.Loading),
         onRefresh = { coinsList.refresh() },
@@ -66,7 +99,10 @@ private fun CoinsList(coinsList: LazyPagingItems<Coin>, onCoinClicked: (Coin) ->
                 contentColor = MaterialTheme.colors.secondary,
             )
         }) {
-        LazyColumn {
+        LazyColumn(
+            state = listState,
+            contentPadding = PaddingValues(bottom = 80.dp)
+        ) {
             stickyHeader {
                 CoinHeader(scrollState)
             }
@@ -215,4 +251,28 @@ private fun DividerHeader() {
             .width(1.dp)
             .fillMaxHeight()
     )
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+private fun ScrollToTopButton(
+    modifier: Modifier = Modifier,
+    listState: LazyListState,
+    onClick: () -> Unit
+) {
+    val visibility = listState.firstVisibleItemIndex > 0
+
+    AnimatedVisibility(
+        visible = visibility,
+        enter = fadeIn(),
+        exit = fadeOut(),
+        modifier = modifier
+    ) {
+        FloatingActionButton(
+            backgroundColor = MaterialTheme.colors.primary,
+            contentColor = MaterialTheme.colors.secondary,
+            onClick = { onClick.invoke() }) {
+            Icon(Icons.Default.KeyboardArrowUp, contentDescription = null)
+        }
+    }
 }
