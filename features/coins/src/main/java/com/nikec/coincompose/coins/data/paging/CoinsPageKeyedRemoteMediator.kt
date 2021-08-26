@@ -6,7 +6,6 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.github.ajalt.timberkt.Timber.e
-import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.coins.data.api.CoinsService
 import com.nikec.coincompose.core.db.CoinsDatabase
 import com.nikec.coincompose.core.model.Coin
@@ -16,7 +15,6 @@ import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
 import kotlinx.coroutines.withContext
 import java.io.InvalidObjectException
-
 
 @OptIn(ExperimentalPagingApi::class)
 class CoinsPageKeyedRemoteMediator(
@@ -62,8 +60,11 @@ class CoinsPageKeyedRemoteMediator(
 
                     val prevKey = if (page == 1) null else page - 1
                     val nextKey = if (endOfPaginationReached) null else page + 1
-                    val keys = result.payload.map {
-                        CoinRemoteKeys(coinId = it.id, prevKey = prevKey, nextKey = nextKey)
+
+                    val keys = withContext(coroutineContextProvider.io) {
+                        result.payload.map {
+                            CoinRemoteKeys(coinId = it.id, prevKey = prevKey, nextKey = nextKey)
+                        }
                     }
 
                     db.coinsRemoteKeysDao().insertAll(keys)
@@ -87,26 +88,18 @@ class CoinsPageKeyedRemoteMediator(
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Coin>): CoinRemoteKeys? {
-        // Get the last page that was retrieved, that contained items.
-        // From that last page, get the last item
-        return state.lastItemOrNull()?.let { coin ->
-            db.withTransaction { db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coin.id) }
-        }
-    }
-
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Coin>): CoinRemoteKeys? {
-        // Get the first page that was retrieved, that contained items.
-        // From that first page, get the first item
-        return state.firstItemOrNull()?.let { coin ->
-            db.withTransaction { db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coin.id) }
+        return if (state.isEmpty()) {
+            db.withTransaction { db.coinsRemoteKeysDao().getAll().lastOrNull() }
+        } else {
+            state.lastItemOrNull()?.let { coin ->
+                db.withTransaction { db.coinsRemoteKeysDao().getRemoteKeysByCoinId(coin.id) }
+            }
         }
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
         state: PagingState<Int, Coin>
     ): CoinRemoteKeys? {
-        // The paging library is trying to load data after the anchor position
-        // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
                 db.withTransaction { db.coinsRemoteKeysDao().getRemoteKeysByCoinId(id) }

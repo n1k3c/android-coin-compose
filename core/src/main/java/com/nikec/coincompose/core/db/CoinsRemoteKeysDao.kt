@@ -10,10 +10,13 @@ import com.nikec.coincompose.core.model.CoinRemoteKeys
 interface CoinsRemoteKeysDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(remoteKey: List<CoinRemoteKeys>)
+    suspend fun insertAll(remoteKey: List<CoinRemoteKeys>)
 
     @Query("SELECT * FROM ${CoinsDatabase.COINS_REMOTE_KEYS_TABLE} WHERE coinId = :coinId")
-    fun getRemoteKeysByCoinId(coinId: String): CoinRemoteKeys?
+    suspend fun getRemoteKeysByCoinId(coinId: String): CoinRemoteKeys?
+
+    @Query("SELECT * FROM ${CoinsDatabase.COINS_REMOTE_KEYS_TABLE}")
+    suspend fun getAll(): List<CoinRemoteKeys>
 
     @Query("DELETE FROM ${CoinsDatabase.COINS_REMOTE_KEYS_TABLE}")
     fun deleteAll()
