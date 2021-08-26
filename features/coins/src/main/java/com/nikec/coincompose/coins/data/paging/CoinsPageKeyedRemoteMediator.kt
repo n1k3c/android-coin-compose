@@ -52,7 +52,6 @@ class CoinsPageKeyedRemoteMediator(
                 }
             }) {
             is Result.Success -> {
-                i { "Page -> " + page }
                 val endOfPaginationReached = page == maxPages
 
                 db.withTransaction {

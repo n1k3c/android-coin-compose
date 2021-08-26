@@ -3,11 +3,13 @@ package com.nikec.coincompose.coins.ui.list
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -26,6 +28,8 @@ import com.nikec.coincompose.core.utils.round
 import com.nikec.core.ui.atoms.ConnectivityStatus
 import com.nikec.core.ui.theme.Green
 import com.nikec.core.ui.theme.Red
+import com.nikec.core.ui.theme.coinHeaderBackground
+import com.nikec.core.ui.theme.coinHeaderText
 import java.text.NumberFormat
 import java.util.*
 
@@ -33,7 +37,7 @@ private enum class CellWidthDimensions(val dp: Dp) {
     NAME(65.dp),
     PRICE(100.dp),
     PERCENTAGE_CHANGE(100.dp),
-    MARKET_CAP(165.dp)
+    MARKET_CAP(175.dp)
 }
 
 @Composable
@@ -64,50 +68,71 @@ private fun CoinsList(coinsList: LazyPagingItems<Coin>, onCoinClicked: (Coin) ->
         }) {
         LazyColumn {
             stickyHeader {
-                Row {
-                    Text(
-                        text = stringResource(R.string.coin),
-                        modifier = Modifier.width(CellWidthDimensions.NAME.dp),
-                        textAlign = TextAlign.Center
-                    )
-                    Row(
-                        modifier = Modifier.horizontalScroll(scrollState)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.price),
-                            modifier = Modifier.width(CellWidthDimensions.PRICE.dp),
-                            textAlign = TextAlign.Center
-                        )
-                        PercentageChangeCellHeader(text = stringResource(R.string.one_hour))
-                        PercentageChangeCellHeader(text = stringResource(R.string.twenty_four_hours))
-                        PercentageChangeCellHeader(text = stringResource(R.string.seven_days))
-                        PercentageChangeCellHeader(text = stringResource(R.string.thirty_days))
-                        PercentageChangeCellHeader(text = stringResource(R.string.one_year))
-                        Text(
-                            text = stringResource(R.string.market_cap),
-                            modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(6.dp))
+                CoinHeader(scrollState)
             }
             items(coinsList) {
                 if (it != null) {
                     CoinItem(it, onCoinClicked, scrollState)
+                    Divider(color = MaterialTheme.colors.coinHeaderBackground)
                 }
             }
         }
     }
 }
 
+@Composable
+private fun CoinHeader(scrollState: ScrollState) {
+    Row(
+        modifier = Modifier
+            .background(MaterialTheme.colors.coinHeaderBackground)
+            .height(24.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.coin),
+            color = MaterialTheme.colors.coinHeaderText,
+            modifier = Modifier.width(CellWidthDimensions.NAME.dp),
+            textAlign = TextAlign.Center
+        )
+        DividerHeader()
+        Row(
+            modifier = Modifier.horizontalScroll(scrollState)
+        ) {
+            Text(
+                text = stringResource(R.string.price),
+                modifier = Modifier.width(CellWidthDimensions.PRICE.dp),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.coinHeaderText,
+            )
+            DividerHeader()
+            PercentageChangeCellHeader(text = stringResource(R.string.one_hour))
+            DividerHeader()
+            PercentageChangeCellHeader(text = stringResource(R.string.twenty_four_hours))
+            DividerHeader()
+            PercentageChangeCellHeader(text = stringResource(R.string.seven_days))
+            DividerHeader()
+            PercentageChangeCellHeader(text = stringResource(R.string.thirty_days))
+            DividerHeader()
+            PercentageChangeCellHeader(text = stringResource(R.string.one_year))
+            DividerHeader()
+            Text(
+                text = stringResource(R.string.market_cap),
+                modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+    Spacer(modifier = Modifier.height(6.dp))
+}
+
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: ScrollState) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .clickable { onCoinClicked(coin) }
-        .padding(top = 8.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onCoinClicked(coin) }
+            .padding(top = 10.dp, bottom = 10.dp)
+    ) {
         Row(modifier = Modifier.height(40.dp)) {
             Column(
                 modifier = Modifier.width(CellWidthDimensions.NAME.dp),
@@ -117,7 +142,9 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 Image(
                     painter = rememberImagePainter(coin.image),
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(bottom = 4.dp)
                 )
                 Text(text = coin.symbol.uppercase())
             }
@@ -142,7 +169,8 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                     text = "$" + NumberFormat.getInstance(Locale.getDefault())
                         .format(coin.marketCap),
                     modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.coinHeaderText,
                 )
             }
         }
@@ -154,7 +182,8 @@ private fun PercentageChangeCellHeader(text: String) {
     Text(
         text = text,
         modifier = Modifier.width(CellWidthDimensions.PERCENTAGE_CHANGE.dp),
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
+        color = MaterialTheme.colors.coinHeaderText,
     )
 }
 
@@ -175,5 +204,15 @@ private fun PercentageChangeCell(price: Double?) {
         modifier = modifier,
         color = color,
         textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+private fun DividerHeader() {
+    Divider(
+        modifier = Modifier
+            .background(Color.White)
+            .width(1.dp)
+            .fillMaxHeight()
     )
 }
