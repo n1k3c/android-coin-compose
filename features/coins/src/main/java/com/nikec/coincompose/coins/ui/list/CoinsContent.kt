@@ -3,6 +3,7 @@ package com.nikec.coincompose.coins.ui.list
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,6 +18,7 @@ import androidx.paging.compose.items
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.core.model.Coin
@@ -41,7 +43,7 @@ fun CoinsContent(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         ConnectivityStatus()
-        Spacer(modifier = Modifier.height(3.dp))
+        Spacer(modifier = Modifier.height(2.dp))
         CoinsList(coinsList = coinsList, onCoinClicked = onCoinClicked)
     }
 }
@@ -52,7 +54,14 @@ private fun CoinsList(coinsList: LazyPagingItems<Coin>, onCoinClicked: (Coin) ->
     val scrollState = rememberScrollState()
     SwipeRefresh(
         state = rememberSwipeRefreshState(coinsList.loadState.refresh is LoadState.Loading),
-        onRefresh = { coinsList.refresh() }) {
+        onRefresh = { coinsList.refresh() },
+        indicator = { state, trigger ->
+            SwipeRefreshIndicator(
+                state = state,
+                refreshTriggerDistance = trigger,
+                contentColor = MaterialTheme.colors.secondary,
+            )
+        }) {
         LazyColumn {
             stickyHeader {
                 Row {
