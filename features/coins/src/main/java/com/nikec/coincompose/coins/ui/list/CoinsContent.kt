@@ -8,12 +8,10 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,9 +35,9 @@ import com.nikec.core.ui.theme.Green
 import com.nikec.core.ui.theme.Red
 import com.nikec.core.ui.theme.coinHeaderBackground
 import com.nikec.core.ui.theme.coinHeaderText
-import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.*
+import kotlin.reflect.KFunction0
 
 private enum class CellWidthDimensions(val dp: Dp) {
     NAME(65.dp),
@@ -51,13 +49,11 @@ private enum class CellWidthDimensions(val dp: Dp) {
 @Composable
 fun CoinsContent(
     coinsList: LazyPagingItems<Coin>,
-    onCoinClicked: (Coin) -> Unit
-) {
-    val scrollState = rememberScrollState()
-    val listState = rememberLazyListState()
-    val scope = rememberCoroutineScope()
-
-    Column(modifier = Modifier.fillMaxSize()) {
+    onCoinClicked: (Coin) -> Unit,
+    onScrollToTopClicked: KFunction0<Unit>,
+    scrollState: ScrollState,
+    listState: LazyListState
+) { Column(modifier = Modifier.fillMaxSize()) {
         ConnectivityStatus()
         Spacer(modifier = Modifier.height(2.dp))
         Box {
@@ -68,15 +64,12 @@ fun CoinsContent(
                 listState = listState
             )
             ScrollToTopButton(
-                listState = listState,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-            ) {
-                scope.launch {
-                    listState.scrollToItem(0)
-                }
-            }
+                    .padding(16.dp),
+                listState = listState,
+                onClick = { onScrollToTopClicked() }
+            )
         }
     }
 }
