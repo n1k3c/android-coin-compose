@@ -37,7 +37,6 @@ import com.nikec.core.ui.theme.coinHeaderBackground
 import com.nikec.core.ui.theme.coinHeaderText
 import java.text.NumberFormat
 import java.util.*
-import kotlin.reflect.KFunction0
 
 private enum class CellWidthDimensions(val dp: Dp) {
     NAME(65.dp),
@@ -50,27 +49,21 @@ private enum class CellWidthDimensions(val dp: Dp) {
 fun CoinsContent(
     coinsList: LazyPagingItems<Coin>,
     onCoinClicked: (Coin) -> Unit,
-    onScrollToTopClicked: KFunction0<Unit>,
+    onScrollToTopClicked: () -> Unit,
     scrollState: ScrollState,
     listState: LazyListState
-) { Column(modifier = Modifier.fillMaxSize()) {
+) {
+    Column(modifier = Modifier.fillMaxSize()) {
         ConnectivityStatus()
         Spacer(modifier = Modifier.height(2.dp))
-        Box {
-            CoinsList(
-                coinsList = coinsList,
-                onCoinClicked = onCoinClicked,
-                scrollState = scrollState,
-                listState = listState
-            )
-            ScrollToTopButton(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp),
-                listState = listState,
-                onClick = { onScrollToTopClicked() }
-            )
-        }
+        CoinHeader(scrollState)
+        CoinsList(
+            coinsList = coinsList,
+            onCoinClicked = onCoinClicked,
+            scrollState = scrollState,
+            listState = listState,
+            onScrollToTopClicked = onScrollToTopClicked
+        )
     }
 }
 
@@ -80,32 +73,39 @@ private fun CoinsList(
     coinsList: LazyPagingItems<Coin>,
     onCoinClicked: (Coin) -> Unit,
     scrollState: ScrollState,
-    listState: LazyListState
+    listState: LazyListState,
+    onScrollToTopClicked: () -> Unit
 ) {
-    SwipeRefresh(
-        state = rememberSwipeRefreshState(coinsList.loadState.refresh is LoadState.Loading),
-        onRefresh = { coinsList.refresh() },
-        indicator = { state, trigger ->
-            SwipeRefreshIndicator(
-                state = state,
-                refreshTriggerDistance = trigger,
-                contentColor = MaterialTheme.colors.secondary,
-            )
-        }) {
-        LazyColumn(
-            state = listState,
-            contentPadding = PaddingValues(bottom = 80.dp)
-        ) {
-            stickyHeader {
-                CoinHeader(scrollState)
-            }
-            items(coinsList) {
-                if (it != null) {
-                    CoinItem(it, onCoinClicked, scrollState)
-                    Divider(color = MaterialTheme.colors.coinHeaderBackground)
+    Box {
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(coinsList.loadState.refresh is LoadState.Loading),
+            onRefresh = { coinsList.refresh() },
+            indicator = { state, trigger ->
+                SwipeRefreshIndicator(
+                    state = state,
+                    refreshTriggerDistance = trigger,
+                    contentColor = MaterialTheme.colors.secondary,
+                )
+            }) {
+            LazyColumn(
+                state = listState,
+                contentPadding = PaddingValues(bottom = 80.dp)
+            ) {
+                items(coinsList) {
+                    if (it != null) {
+                        CoinItem(it, onCoinClicked, scrollState)
+                        Divider(color = MaterialTheme.colors.coinHeaderBackground)
+                    }
                 }
             }
         }
+        ScrollToTopButton(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp),
+            listState = listState,
+            onClick = { onScrollToTopClicked() }
+        )
     }
 }
 
@@ -150,7 +150,6 @@ private fun CoinHeader(scrollState: ScrollState) {
             )
         }
     }
-    Spacer(modifier = Modifier.height(6.dp))
 }
 
 @OptIn(ExperimentalCoilApi::class)
