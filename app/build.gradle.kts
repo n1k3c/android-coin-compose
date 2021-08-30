@@ -133,6 +133,7 @@ dependencies {
     retrofitDependencies()
 
     implementation(Dependencies.timberkt)
+    implementation(Dependencies.splashscreen)
 
     testImplementationDependencies()
     androidTestImplementationDependencies()

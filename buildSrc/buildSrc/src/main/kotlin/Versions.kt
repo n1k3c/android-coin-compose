@@ -9,8 +9,8 @@ object App {
 
 object BuildConfig {
     const val minSdk = 23
-    const val compileSdk = 30
-    const val targetSdk = 30
+    const val compileSdk = 31
+    const val targetSdk = 31
     val javaVersion = JavaVersion.VERSION_1_8
     const val jvmTarget = "1.8"
 
@@ -43,6 +43,8 @@ object Versions {
     const val timberkt = "1.5.1"
     const val coil = "1.3.2"
     const val accompanist = "0.17.0"
+    const val splashscreen = "1.0.0-alpha01"
+
     const val mockk = "1.10.6"
     const val junit = "4.13"
     const val robolectric = "4.4"
