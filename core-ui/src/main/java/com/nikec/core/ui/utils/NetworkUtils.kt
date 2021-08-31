@@ -8,23 +8,18 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.nikec.coincompose.core.model.ConnectionState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 
-sealed class ConnectionState {
-    object Available : ConnectionState()
-    object Unavailable : ConnectionState()
-}
-
 @ExperimentalCoroutinesApi
 fun Context.observeConnectivityAsFlow() = callbackFlow {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    val callback = NetworkCallback { connectionState -> trySend(connectionState) }
+    val callback = networkCallback { connectionState -> trySend(connectionState) }
 
     val networkRequest = NetworkRequest.Builder()
         .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
@@ -32,13 +27,10 @@ fun Context.observeConnectivityAsFlow() = callbackFlow {
 
     connectivityManager.registerNetworkCallback(networkRequest, callback)
 
-    // Set current state
     val currentState = getCurrentConnectivityState(connectivityManager)
     trySend(currentState)
 
-    // Remove callback when not used
     awaitClose {
-        // Remove listeners
         connectivityManager.unregisterNetworkCallback(callback)
     }
 }
@@ -54,7 +46,6 @@ val Context.currentConnectivityState: ConnectionState
     }
 
 private fun getCurrentConnectivityState(connectivityManager: ConnectivityManager): ConnectionState {
-    // Retrieve current status of connectivity
     val connected = connectivityManager.allNetworks.any { network ->
         connectivityManager.getNetworkCapabilities(network)
             ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
@@ -64,8 +55,7 @@ private fun getCurrentConnectivityState(connectivityManager: ConnectivityManager
     return if (connected) ConnectionState.Available else ConnectionState.Unavailable
 }
 
-@Suppress("FunctionName")
-fun NetworkCallback(callback: (ConnectionState) -> Unit): ConnectivityManager.NetworkCallback {
+fun networkCallback(callback: (ConnectionState) -> Unit): ConnectivityManager.NetworkCallback {
     return object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
             callback(ConnectionState.Available)

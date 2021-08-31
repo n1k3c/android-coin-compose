@@ -6,6 +6,8 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":core"))
+
     androidxDependencies()
     composeDependencies()
     implementation(Dependencies.composeNavigation)

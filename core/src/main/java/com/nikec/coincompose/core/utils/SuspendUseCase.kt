@@ -16,7 +16,7 @@ abstract class SuspendUseCase<in P, R>(private val coroutineDispatcher: Coroutin
             }
         } catch (e: Exception) {
             when (e) {
-                is IOException -> Result.NetworkError
+                is IOException -> Result.NetworkError(NoInternetThrowable)
                 is HttpException -> {
                     Result.HttpError(e)
                 }

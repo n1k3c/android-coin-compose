@@ -31,6 +31,7 @@ import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.utils.round
 import com.nikec.core.ui.atoms.ConnectivityStatus
+import com.nikec.core.ui.atoms.ErrorStatus
 import com.nikec.core.ui.theme.Green
 import com.nikec.core.ui.theme.Red
 import com.nikec.core.ui.theme.coinHeaderBackground
@@ -51,35 +52,40 @@ fun CoinsContent(
     onCoinClicked: (Coin) -> Unit,
     onScrollToTopClicked: () -> Unit,
     scrollState: ScrollState,
-    listState: LazyListState
+    listState: LazyListState,
+    onRefresh: () -> Unit,
+    onRetryClicked: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         ConnectivityStatus()
         Spacer(modifier = Modifier.height(2.dp))
-        CoinHeader(scrollState)
+        CoinHeader(scrollState = scrollState)
         CoinsList(
             coinsList = coinsList,
             onCoinClicked = onCoinClicked,
             scrollState = scrollState,
             listState = listState,
-            onScrollToTopClicked = onScrollToTopClicked
+            onScrollToTopClicked = onScrollToTopClicked,
+            onRefresh = onRefresh,
+            onRetryClicked = onRetryClicked
         )
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CoinsList(
     coinsList: LazyPagingItems<Coin>,
     onCoinClicked: (Coin) -> Unit,
     scrollState: ScrollState,
     listState: LazyListState,
-    onScrollToTopClicked: () -> Unit
+    onScrollToTopClicked: () -> Unit,
+    onRefresh: () -> Unit,
+    onRetryClicked: () -> Unit
 ) {
     Box {
         SwipeRefresh(
-            state = rememberSwipeRefreshState(coinsList.loadState.refresh is LoadState.Loading),
-            onRefresh = { coinsList.refresh() },
+            state = rememberSwipeRefreshState(isRefreshing = coinsList.loadState.refresh is LoadState.Loading),
+            onRefresh = { onRefresh() },
             indicator = { state, trigger ->
                 SwipeRefreshIndicator(
                     state = state,
@@ -93,12 +99,44 @@ private fun CoinsList(
             ) {
                 items(coinsList) {
                     if (it != null) {
-                        CoinItem(it, onCoinClicked, scrollState)
+                        CoinItem(
+                            coin = it,
+                            onCoinClicked = onCoinClicked,
+                            scrollState = scrollState
+                        )
                         Divider(color = MaterialTheme.colors.coinHeaderBackground)
+                    }
+                }
+
+                coinsList.apply {
+                    if (loadState.append is LoadState.Loading) {
+                        item {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentWidth(Alignment.CenterHorizontally)
+                                    .padding(top = 12.dp),
+                                color = MaterialTheme.colors.secondary
+                            )
+                        }
+                    }
+                    if (loadState.append is LoadState.Error) {
+                        item {
+                            ErrorStatus(throwable = (loadState.append as LoadState.Error).error) {
+                                onRetryClicked()
+                            }
+                        }
                     }
                 }
             }
         }
+
+        if (coinsList.loadState.refresh is LoadState.Error && coinsList.snapshot().isEmpty()) {
+            ErrorStatus(throwable = (coinsList.loadState.refresh as LoadState.Error).error) {
+                onRetryClicked()
+            }
+        }
+
         ScrollToTopButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -264,7 +302,7 @@ private fun ScrollToTopButton(
             backgroundColor = MaterialTheme.colors.primary,
             contentColor = MaterialTheme.colors.secondary,
             onClick = { onClick.invoke() }) {
-            Icon(Icons.Default.KeyboardArrowUp, contentDescription = null)
+            Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = null)
         }
     }
 }

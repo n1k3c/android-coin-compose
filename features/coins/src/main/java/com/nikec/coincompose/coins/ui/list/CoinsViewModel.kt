@@ -7,7 +7,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.nikec.coincompose.coins.domain.GetCoinsUseCase
 import com.nikec.coincompose.core.model.Coin
-import com.nikec.coincompose.core.navigation.NavigationCommand
 import com.nikec.coincompose.core.navigation.NavigationManager
 import com.nikec.coincompose.core.navigation.directions.CoinsDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,8 +22,8 @@ class CoinsViewModel @Inject constructor(
     getCoinsUseCase: GetCoinsUseCase
 ) : ViewModel() {
 
-    private val scrollToTopChannel = Channel<Unit>(Channel.CONFLATED)
-    val scrollToTopFlow: Flow<Unit> = scrollToTopChannel.receiveAsFlow()
+    private val coinListActionChannel = Channel<CoinListAction>(Channel.CONFLATED)
+    val coinListAction: Flow<CoinListAction> = coinListActionChannel.receiveAsFlow()
 
     val paginatedCoins: Flow<PagingData<Coin>> =
         getCoinsUseCase.invoke(Unit).cachedIn(viewModelScope)
@@ -34,6 +33,20 @@ class CoinsViewModel @Inject constructor(
     }
 
     fun onScrollToTopClicked() {
-        scrollToTopChannel.trySend(Unit)
+        coinListActionChannel.trySend(CoinListAction.ScrollToTop)
     }
+
+    fun onRefresh() {
+        coinListActionChannel.trySend(CoinListAction.Refresh)
+    }
+
+    fun onRetryClicked() {
+        coinListActionChannel.trySend(CoinListAction.Retry)
+    }
+}
+
+sealed class CoinListAction {
+    object Refresh : CoinListAction()
+    object ScrollToTop : CoinListAction()
+    object Retry : CoinListAction()
 }

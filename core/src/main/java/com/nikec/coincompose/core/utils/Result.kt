@@ -9,7 +9,7 @@ suspend fun <T> safeApiCall(apiCall: suspend () -> T): Result<T> {
         Result.Success(apiCall())
     } catch (e: Throwable) {
         when (e) {
-            is IOException -> Result.NetworkError
+            is IOException -> Result.NetworkError(NoInternetThrowable)
             is HttpException -> {
                 try {
                     Result.HttpError(e)
@@ -28,6 +28,8 @@ sealed class Result<out T> {
     data class HttpError(val exception: HttpException) :
         Result<Nothing>()
 
-    object NetworkError : Result<Nothing>()
+    data class NetworkError(val noInternetThrowable: NoInternetThrowable): Result<Nothing>()
     data class UnknownError(val throwable: Throwable) : Result<Nothing>()
 }
+
+object NoInternetThrowable: Throwable("No internet connection.")

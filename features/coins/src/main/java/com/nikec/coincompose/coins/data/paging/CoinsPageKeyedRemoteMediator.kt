@@ -76,9 +76,9 @@ class CoinsPageKeyedRemoteMediator(
                 e { "Http error -> " + result.exception.toString() }
                 MediatorResult.Error(result.exception)
             }
-            Result.NetworkError -> {
+            is Result.NetworkError -> {
                 e { "Network error" }
-                MediatorResult.Error(Throwable("No internet"))
+                MediatorResult.Error(result.noInternetThrowable)
             }
             is Result.UnknownError -> {
                 e { "Unknown error -> " + result.throwable.toString() }
