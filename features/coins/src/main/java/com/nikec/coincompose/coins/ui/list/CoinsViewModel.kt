@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.nikec.coincompose.coins.domain.GetCoinsUseCase
+import com.nikec.coincompose.coins.domain.FetchCoinsUseCase
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.navigation.NavigationManager
 import com.nikec.coincompose.core.navigation.directions.CoinsDirections
@@ -17,36 +17,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CoinsViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager,
-    getCoinsUseCase: GetCoinsUseCase
+    fetchCoinsUseCase: FetchCoinsUseCase
 ) : ViewModel() {
 
-    private val coinListActionChannel = Channel<CoinListAction>(Channel.CONFLATED)
-    val coinListAction: Flow<CoinListAction> = coinListActionChannel.receiveAsFlow()
+    private val coinListEventsChannel = Channel<CoinListEvent>(Channel.CONFLATED)
+    val coinListEvents: Flow<CoinListEvent> = coinListEventsChannel.receiveAsFlow()
 
     val paginatedCoins: Flow<PagingData<Coin>> =
-        getCoinsUseCase.invoke(Unit).cachedIn(viewModelScope)
+        fetchCoinsUseCase.invoke(Unit).cachedIn(viewModelScope)
 
     fun onCoinClicked(coin: Coin) {
         navigationManager.navigate(CoinsDirections.coin(coin.id))
     }
 
     fun onScrollToTopClicked() {
-        coinListActionChannel.trySend(CoinListAction.ScrollToTop)
+        coinListEventsChannel.trySend(CoinListEvent.ScrollToTop)
     }
 
     fun onRefresh() {
-        coinListActionChannel.trySend(CoinListAction.Refresh)
+        coinListEventsChannel.trySend(CoinListEvent.Refresh)
     }
 
     fun onRetryClicked() {
-        coinListActionChannel.trySend(CoinListAction.Retry)
+        coinListEventsChannel.trySend(CoinListEvent.Retry)
     }
 }
 
-sealed class CoinListAction {
-    object Refresh : CoinListAction()
-    object ScrollToTop : CoinListAction()
-    object Retry : CoinListAction()
+sealed class CoinListEvent {
+    object Refresh : CoinListEvent()
+    object ScrollToTop : CoinListEvent()
+    object Retry : CoinListEvent()
 }

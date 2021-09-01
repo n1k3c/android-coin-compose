@@ -18,6 +18,7 @@ private const val INITIAL_LOAD_SIZE = PAGE_SIZE
 
 interface CoinsRepository {
     fun fetchCoins(): Flow<PagingData<Coin>>
+    suspend fun getCoin(coinId: String): Flow<Coin?>
 }
 
 class CoinsRepositoryImpl @Inject constructor(
@@ -42,4 +43,6 @@ class CoinsRepositoryImpl @Inject constructor(
     ) {
         db.coinsDao().observeCoinsPaginated()
     }.flow
+
+    override suspend fun getCoin(coinId: String): Flow<Coin?> = db.coinsDao().getCoin(coinId)
 }

@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.nikec.coincompose.core.model.Coin
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CoinsDao {
@@ -18,4 +19,7 @@ interface CoinsDao {
 
     @Query("DELETE FROM ${CoinsDatabase.COINS_TABLE}")
     fun deleteAll(): Int
+
+    @Query("SELECT * FROM ${CoinsDatabase.COINS_TABLE} WHERE id = :coinId")
+    fun getCoin(coinId: String): Flow<Coin?>
 }

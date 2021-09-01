@@ -7,7 +7,7 @@ import com.nikec.coincompose.core.utils.BaseUseCase
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetCoinsUseCase @Inject constructor(
+class FetchCoinsUseCase @Inject constructor(
     private val coinsRepository: CoinsRepository
 ) : BaseUseCase<Unit, Flow<PagingData<Coin>>>() {
 
