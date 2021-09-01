@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="back_online">Back Online!</string>
+    <string name="no_internet_connection">No Internet Connection!</string>
+    <string name="not_available">N/A</string>
+    <string name="something_went_wrong">Something went wrong.</string>
+    <string name="retry">Retry</string>
+</resources>

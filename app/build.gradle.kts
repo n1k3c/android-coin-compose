@@ -1,11 +1,17 @@
+import Dependencies.androidTestImplementationDependencies
+import Dependencies.androidxDependencies
+import Dependencies.composeDependencies
+import Dependencies.coroutinesDependencies
+import Dependencies.retrofitDependencies
+import Dependencies.testImplementationDependencies
 import java.io.FileInputStream
 import java.util.*
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     id("dagger.hilt.android.plugin")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
 }
 
 val secretsPropertiesFile = rootProject.file("secrets.properties")
@@ -29,14 +35,14 @@ if (secretsPropertiesFile.exists()) {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = BuildConfig.compileSdk
 
     defaultConfig {
-        applicationId = "com.nikec.coincompose"
-        minSdk = 23
-        targetSdk = 30
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = App.packageName
+        minSdk = BuildConfig.minSdk
+        targetSdk = BuildConfig.targetSdk
+        versionCode = BuildConfig.versionCode
+        versionName = BuildConfig.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -61,48 +67,32 @@ android {
             keyPassword = "${secretProperties["signing_key_password"]}"
         }
     }
-    flavorDimensions("version")
+    flavorDimensions.add("version")
     productFlavors {
         create("development") {
             versionNameSuffix = "-development"
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                "\"https://service.com/api/\""
-            )
             dimension = "version"
         }
         create("staging") {
             versionNameSuffix = "-staging"
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                "\"https://service.com/api/\""
-            )
             dimension = "version"
         }
         create("production") {
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                "\"https://service.com/api/\""
-            )
             dimension = "version"
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = BuildConfig.javaVersion
+        targetCompatibility = BuildConfig.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
-        useIR = true
+        jvmTarget = BuildConfig.jvmTarget
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = Versions.compose
     }
     kapt {
         correctErrorTypes = true
@@ -121,25 +111,30 @@ android {
         resources.excludes.add("META-INF/AL2.0")
         resources.excludes.add("META-INF/LGPL2.1")
     }
+    hilt {
+        enableExperimentalClasspathAggregation = true
+    }
 }
 
 dependencies {
-    implementation(libs.bundles.androidx)
+    implementation(project(":core"))
+    implementation(project(":core-ui"))
+    implementation(project(":features:coins"))
 
-    implementation(libs.bundles.compose)
+    androidxDependencies()
+    composeDependencies()
+    implementation(Dependencies.composeNavigation)
 
-    implementation(libs.androidx.navigation.compose)
+    implementation(Dependencies.hiltCompose)
+    implementation(Dependencies.hiltAndroid)
+    kapt(Dependencies.hiltCompiler)
 
-    implementation(libs.androidx.hilt.compose)
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    coroutinesDependencies()
+    retrofitDependencies()
 
-    implementation(libs.bundles.kotlin.coroutines)
+    implementation(Dependencies.timberkt)
+    implementation(Dependencies.splashscreen)
 
-    implementation(libs.bundles.retrofit)
-
-    implementation(libs.timberkt)
-
-    testImplementation(libs.bundles.test.implementation)
-    androidTestImplementation(libs.bundles.android.test.implementation)
+    testImplementationDependencies()
+    androidTestImplementationDependencies()
 }
