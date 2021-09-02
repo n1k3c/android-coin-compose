@@ -38,4 +38,10 @@ data class Coin(
     @Json(name = "price_change_percentage_1y_in_currency")
     val priceChangePercentage1y: Double?,
     val symbol: String,
+    @Json(name = "sparkline_in_7d")
+    val sparkline: SparklineIn7d
+)
+
+data class SparklineIn7d(
+    val price: List<Double>
 )
