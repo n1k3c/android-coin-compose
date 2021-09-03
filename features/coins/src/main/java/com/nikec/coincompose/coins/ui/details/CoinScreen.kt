@@ -32,7 +32,7 @@ fun CoinScreen(viewModel: CoinViewModel) {
             )
         },
     ) {
-        CoinContent()
+        CoinContent(coin = viewState.coin)
     }
 }
 

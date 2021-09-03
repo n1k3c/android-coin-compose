@@ -30,7 +30,6 @@ class CoinViewModel @Inject constructor(
         when (val result = getCoinUseCase.invoke(coinId)) {
             is Result.Success -> {
                 result.payload.collect { coin ->
-                    i { coin?.sparkline?.price.toString() }
                     emit(CoinUiState(coin = coin))
                 }
             }
