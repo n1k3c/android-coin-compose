@@ -57,22 +57,6 @@ fun Sparkline(
         val dotColor = Color.Black
         val dotRadius = 10f
 
-        // y axis
-        drawLine(
-            color = axisStrokeColor,
-            start = Offset(xAxisOffset, 0f),
-            end = Offset(xAxisOffset, canvasHeight),
-            strokeWidth = axisStrokeWidth
-        )
-
-        // x axis
-        drawLine(
-            color = axisStrokeColor,
-            start = Offset(0f, canvasHeight - yAxisOffset),
-            end = Offset(canvasWidth, canvasHeight - yAxisOffset),
-            strokeWidth = axisStrokeWidth
-        )
-
         val minPriceDaysYAxis = canvasHeight - yAxisOffset
 
         // min price/days value
@@ -119,17 +103,27 @@ fun Sparkline(
 
         val spaceBetweenDotsXAxis = totalDistanceXAxis / (prices.size - 1)
 
+        // y axis
+        drawLine(
+            color = axisStrokeColor,
+            start = Offset(xAxisOffset, 0f),
+            end = Offset(xAxisOffset, canvasHeight),
+            strokeWidth = axisStrokeWidth
+        )
+
+        // x axis
+        drawLine(
+            color = axisStrokeColor,
+            start = Offset(0f, canvasHeight - yAxisOffset),
+            end = Offset(canvasWidth, canvasHeight - yAxisOffset),
+            strokeWidth = axisStrokeWidth
+        )
+
         val points = prices.mapIndexed { index, price ->
             val maxPriceDiffPercentage = (maxPrice - price) / maxMinPriceDiff
 
             val y = ((totalDistanceYAxis * (maxPriceDiffPercentage))).toFloat()
             val x = (index * spaceBetweenDotsXAxis) + xAxisOffset
-
-            drawCircle(
-                color = dotColor,
-                radius = dotRadius,
-                center = Offset(x, y)
-            )
 
             Offset(x, y)
         }
@@ -143,6 +137,12 @@ fun Sparkline(
 //        )
 
         points.forEachIndexed { index, offset ->
+            drawCircle(
+                color = dotColor,
+                radius = dotRadius,
+                center = offset
+            )
+
             if (index == 0) return@forEachIndexed
 
             val pointBefore = points[index - 1]
