@@ -1,20 +1,32 @@
 package com.nikec.coincompose.coins.ui.details
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateOffsetAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.PointMode
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.model.SparklineIn7d
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
@@ -125,7 +137,7 @@ fun Sparkline(
 
         val spaceBetweenDotsXAxis = totalDistanceXAxis.roundToInt() / prices.size
 
-        prices.forEachIndexed { index, price ->
+        val dots = prices.mapIndexed { index, price ->
             val maxPriceDiffPercentage = (maxPrice - price) / maxMinPriceDiff
 
             val y = ((totalDistanceYAxis * (maxPriceDiffPercentage))).toFloat()
@@ -135,6 +147,29 @@ fun Sparkline(
                 color = dotColor,
                 radius = dotRadius,
                 center = Offset(x, y)
+            )
+
+            Offset(x, y)
+        }
+
+//        drawPoints(
+//            points = dots,
+//            pointMode = PointMode.Polygon,
+//            strokeWidth = 7f,
+//            color = Color.Black,
+//            cap = StrokeCap.Round
+//        )
+
+        dots.forEachIndexed { index, offset ->
+            if (index == 0) return@forEachIndexed
+
+            val lastDot = dots[index - 1]
+
+            drawLine(
+                color = Color.Black,
+                start = lastDot,
+                end = offset,
+                strokeWidth = 7f
             )
         }
 
