@@ -1,34 +1,18 @@
 package com.nikec.coincompose.coins.ui.details
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateOffsetAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.PointMode
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.model.SparklineIn7d
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.math.pow
-import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 @Composable
@@ -51,8 +35,8 @@ fun Sparkline(
     val maxPrice = prices.maxOrNull()
     val minPrice = prices.minOrNull()
 
-    prices.remove(maxPrice)
-    prices.remove(minPrice)
+//    prices.remove(maxPrice)
+//    prices.remove(minPrice)
 
     if (maxPrice == null || minPrice == null) return
 
@@ -60,12 +44,13 @@ fun Sparkline(
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp)
+            .padding(16.dp)
     ) {
         val canvasWidth = size.width
         val canvasHeight = size.height
 
-        val yAxisOffset = 40f
-        val xAxisOffset = 40f
+        val yAxisOffset = 0f
+        val xAxisOffset = 0f
         val axisStrokeWidth = 6f
         val axisStrokeColor = Color.Black
 
@@ -88,54 +73,51 @@ fun Sparkline(
             strokeWidth = axisStrokeWidth
         )
 
-        val minPriceDaysXAxis = xAxisOffset
         val minPriceDaysYAxis = canvasHeight - yAxisOffset
 
         // min price/days value
         drawCircle(
             color = Color.Red,
             radius = dotRadius,
-            center = Offset(minPriceDaysXAxis, minPriceDaysYAxis)
+            center = Offset(xAxisOffset, minPriceDaysYAxis)
         )
 
-        val maxPriceXAxis = xAxisOffset
         val maxPriceYAxis = 0f
 
         // max price value
         drawCircle(
             color = Color.Red,
             radius = dotRadius,
-            center = Offset(maxPriceXAxis, maxPriceYAxis)
+            center = Offset(xAxisOffset, maxPriceYAxis)
         )
 
         // max days value
-        val maxDaysXAxis = canvasWidth
-        val maxDaysYAxis = yAxisOffset
+        val maxDaysYAxis = canvasHeight - yAxisOffset
 
         drawCircle(
             color = Color.Red,
             radius = dotRadius,
-            center = Offset(maxDaysXAxis, canvasHeight - maxDaysYAxis)
+            center = Offset(canvasWidth, maxDaysYAxis)
         )
 
         // total distance (x and y axis)
         val totalDistanceXAxis = LineChartHelper.calculateDistance(
-            startX = minPriceDaysXAxis,
+            startX = xAxisOffset,
             startY = minPriceDaysYAxis,
-            endX = maxDaysXAxis,
+            endX = canvasWidth,
             endY = maxDaysYAxis
         )
 
         val totalDistanceYAxis = LineChartHelper.calculateDistance(
-            startX = minPriceDaysXAxis,
+            startX = xAxisOffset,
             startY = minPriceDaysYAxis,
-            endX = maxPriceXAxis,
+            endX = xAxisOffset,
             endY = maxPriceYAxis
         )
 
         val maxMinPriceDiff = maxPrice - minPrice
 
-        val spaceBetweenDotsXAxis = totalDistanceXAxis.roundToInt() / prices.size
+        val spaceBetweenDotsXAxis = totalDistanceXAxis / (prices.size - 1)
 
         val dots = prices.mapIndexed { index, price ->
             val maxPriceDiffPercentage = (maxPrice - price) / maxMinPriceDiff
