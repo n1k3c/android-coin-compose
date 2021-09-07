@@ -31,12 +31,10 @@ fun Sparkline(
 ) {
     if (sparklineIn7d == null) return
 
-    val prices = sparklineIn7d.price.toMutableList()
+    val prices = sparklineIn7d.price
     val maxPrice = prices.maxOrNull()
     val minPrice = prices.minOrNull()
 
-//    prices.remove(maxPrice)
-//    prices.remove(minPrice)
 
     if (maxPrice == null || minPrice == null) return
 
@@ -51,40 +49,19 @@ fun Sparkline(
 
         val yAxisOffset = 0f
         val xAxisOffset = 0f
+
         val axisStrokeWidth = 6f
-        val axisStrokeColor = Color.Black
+        val axisStrokeColor = Color(0xFFF7F7F7)
+        val axisNumberOfLines = 5
 
         val dotColor = Color.Black
-        val dotRadius = 10f
+        val dotRadius = 7f
 
         val minPriceDaysYAxis = canvasHeight - yAxisOffset
 
-        // min price/days value
-        drawCircle(
-            color = Color.Red,
-            radius = dotRadius,
-            center = Offset(xAxisOffset, minPriceDaysYAxis)
-        )
-
         val maxPriceYAxis = 0f
-
-        // max price value
-        drawCircle(
-            color = Color.Red,
-            radius = dotRadius,
-            center = Offset(xAxisOffset, maxPriceYAxis)
-        )
-
-        // max days value
         val maxDaysYAxis = canvasHeight - yAxisOffset
 
-        drawCircle(
-            color = Color.Red,
-            radius = dotRadius,
-            center = Offset(canvasWidth, maxDaysYAxis)
-        )
-
-        // total distance (x and y axis)
         val totalDistanceXAxis = LineChartHelper.calculateDistance(
             startX = xAxisOffset,
             startY = minPriceDaysYAxis,
@@ -103,22 +80,6 @@ fun Sparkline(
 
         val spaceBetweenDotsXAxis = totalDistanceXAxis / (prices.size - 1)
 
-        // y axis
-        drawLine(
-            color = axisStrokeColor,
-            start = Offset(xAxisOffset, 0f),
-            end = Offset(xAxisOffset, canvasHeight),
-            strokeWidth = axisStrokeWidth
-        )
-
-        // x axis
-        drawLine(
-            color = axisStrokeColor,
-            start = Offset(0f, canvasHeight - yAxisOffset),
-            end = Offset(canvasWidth, canvasHeight - yAxisOffset),
-            strokeWidth = axisStrokeWidth
-        )
-
         val points = prices.mapIndexed { index, price ->
             val maxPriceDiffPercentage = (maxPrice - price) / maxMinPriceDiff
 
@@ -128,14 +89,29 @@ fun Sparkline(
             Offset(x, y)
         }
 
-//        drawPoints(
-//            points = dots,
-//            pointMode = PointMode.Polygon,
-//            strokeWidth = 7f,
-//            color = Color.Black,
-//            cap = StrokeCap.Round
-//        )
+        // grid
+        val gridYSpace = totalDistanceXAxis / axisNumberOfLines
+        val gridXSpace = totalDistanceYAxis / axisNumberOfLines
 
+        for (i in 0..axisNumberOfLines) {
+            // y axis
+            drawLine(
+                color = axisStrokeColor,
+                start = Offset((i * gridYSpace) + xAxisOffset, 0f),
+                end = Offset((i * gridYSpace) + xAxisOffset, canvasHeight),
+                strokeWidth = axisStrokeWidth
+            )
+
+            // x axis
+            drawLine(
+                color = axisStrokeColor,
+                start = Offset(0f, (i * gridXSpace) - yAxisOffset),
+                end = Offset(canvasWidth, (i * gridXSpace) - yAxisOffset),
+                strokeWidth = axisStrokeWidth
+            )
+        }
+
+        // points and lines
         points.forEachIndexed { index, offset ->
             drawCircle(
                 color = dotColor,
