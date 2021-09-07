@@ -119,7 +119,7 @@ fun Sparkline(
 
         val spaceBetweenDotsXAxis = totalDistanceXAxis / (prices.size - 1)
 
-        val dots = prices.mapIndexed { index, price ->
+        val points = prices.mapIndexed { index, price ->
             val maxPriceDiffPercentage = (maxPrice - price) / maxMinPriceDiff
 
             val y = ((totalDistanceYAxis * (maxPriceDiffPercentage))).toFloat()
@@ -142,14 +142,14 @@ fun Sparkline(
 //            cap = StrokeCap.Round
 //        )
 
-        dots.forEachIndexed { index, offset ->
+        points.forEachIndexed { index, offset ->
             if (index == 0) return@forEachIndexed
 
-            val lastDot = dots[index - 1]
+            val pointBefore = points[index - 1]
 
             drawLine(
                 color = Color.Black,
-                start = lastDot,
+                start = pointBefore,
                 end = offset,
                 strokeWidth = 7f
             )
