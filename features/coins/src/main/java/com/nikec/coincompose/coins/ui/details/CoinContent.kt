@@ -1,17 +1,22 @@
 package com.nikec.coincompose.coins.ui.details
 
+import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.model.SparklineIn7d
+import java.text.NumberFormat
+import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -131,21 +136,50 @@ fun Sparkline(
             )
         }
 
-//        val textPaint = Paint().apply {
-//            textSize = 20f
-//            textAlign = Paint.Align.CENTER
-//            color = 0xFF000000.toInt()
-//            isAntiAlias = true
-//        }
-//
-//        rotate(-90f, Offset(canvasWidth / 2, canvasHeight / 2)) {
-//            drawContext.canvas.nativeCanvas.drawText(
-//                "Price",
-//                canvasWidth / 2,
-//                canvasHeight / 2,
-//                textPaint
-//            )
-//        }
+        val gridValueXOffset = 6f
+        val gridValueYOffset = 20f
+        val gridValueYEndOffset = 3f
+        val gridValueTextSize = 20f
+
+        val minPriceColor = 0xFFBE2525.toInt()
+        val maxPriceColor = 0xFF51C76A.toInt()
+
+        // grid values
+        val gridTextValuePaint = Paint().apply {
+            textSize = gridValueTextSize
+            color = maxPriceColor
+            isAntiAlias = true
+        }
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "$" + NumberFormat.getInstance(Locale.getDefault())
+                .format(maxPrice),
+            gridValueXOffset,
+            gridValueYOffset,
+            gridTextValuePaint
+        )
+
+        gridTextValuePaint.color = minPriceColor
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "$" + NumberFormat.getInstance(Locale.getDefault())
+                .format(minPrice),
+            gridValueXOffset,
+            canvasHeight - gridValueYEndOffset,
+            gridTextValuePaint
+        )
+
+        gridTextValuePaint.apply {
+            color = 0xFF000000.toInt()
+            textAlign = Paint.Align.RIGHT
+        }
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "7 days",
+            canvasWidth - gridValueXOffset,
+            canvasHeight - gridValueYEndOffset,
+            gridTextValuePaint
+        )
     }
 }
 
