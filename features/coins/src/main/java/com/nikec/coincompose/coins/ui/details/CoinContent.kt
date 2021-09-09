@@ -8,11 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.model.SparklineIn7d
 import java.text.NumberFormat
@@ -43,6 +44,8 @@ fun Sparkline(
 
     if (maxPrice == null || minPrice == null) return
 
+    val gridYAxisName = stringResource(R.string.seven_days_long)
+
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,13 +62,21 @@ fun Sparkline(
         val axisStrokeColor = Color(0xFFF7F7F7)
         val axisNumberOfLines = 5
 
-        val dotColor = Color.Black
-        val dotRadius = 7f
+//        val dotColor = Color.Black
+//        val dotRadius = 7f
 
         val minPriceDaysYAxis = canvasHeight - yAxisOffset
 
         val maxPriceYAxis = 0f
         val maxDaysYAxis = canvasHeight - yAxisOffset
+
+        val gridValueXOffset = 6f
+        val gridValueYOffset = 20f
+        val gridValueYEndOffset = 3f
+        val gridValueTextSize = 20f
+
+        val minPriceColor = 0xFFBE2525.toInt()
+        val maxPriceColor = 0xFF51C76A.toInt()
 
         val totalDistanceXAxis = LineChartHelper.calculateDistance(
             startX = xAxisOffset,
@@ -118,11 +129,11 @@ fun Sparkline(
 
         // points and lines
         points.forEachIndexed { index, offset ->
-            drawCircle(
-                color = dotColor,
-                radius = dotRadius,
-                center = offset
-            )
+//            drawCircle(
+//                color = dotColor,
+//                radius = dotRadius,
+//                center = offset
+//            )
 
             if (index == 0) return@forEachIndexed
 
@@ -135,14 +146,6 @@ fun Sparkline(
                 strokeWidth = 7f
             )
         }
-
-        val gridValueXOffset = 6f
-        val gridValueYOffset = 20f
-        val gridValueYEndOffset = 3f
-        val gridValueTextSize = 20f
-
-        val minPriceColor = 0xFFBE2525.toInt()
-        val maxPriceColor = 0xFF51C76A.toInt()
 
         // grid values
         val gridTextValuePaint = Paint().apply {
@@ -175,7 +178,7 @@ fun Sparkline(
         }
 
         drawContext.canvas.nativeCanvas.drawText(
-            "7 days",
+            gridYAxisName,
             canvasWidth - gridValueXOffset,
             canvasHeight - gridValueYEndOffset,
             gridTextValuePaint
