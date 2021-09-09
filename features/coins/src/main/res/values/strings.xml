@@ -9,4 +9,8 @@
     <string name="one_year">1Y</string>
     <string name="market_cap">Market Cap</string>
     <string name="seven_days_long">7 days</string>
+    <string name="ath">ATH</string>
+    <string name="ath_date">ATH date</string>
+    <string name="atl">ATL</string>
+    <string name="atl_date">ATL date</string>
 </resources>

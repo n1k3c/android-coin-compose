@@ -4,6 +4,8 @@ import androidx.room.TypeConverter
 import com.nikec.coincompose.core.model.SparklineIn7d
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 object DatabaseTypeConverter {
 
@@ -23,5 +25,19 @@ object DatabaseTypeConverter {
             .build()
 
         return moshi.adapter(SparklineIn7d::class.java).lenient().toJson(sparkline)
+    }
+
+    @JvmStatic
+    @TypeConverter
+    fun toLocalDateTime(timestamp: Long?): LocalDateTime? {
+        return timestamp?.let {
+            LocalDateTime.ofEpochSecond(it, 0, ZoneOffset.UTC)
+        }
+    }
+
+    @JvmStatic
+    @TypeConverter
+    fun fromLocalDateTime(time: LocalDateTime?): Long? {
+        return time?.toEpochSecond(ZoneOffset.UTC)
     }
 }

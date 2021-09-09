@@ -44,6 +44,7 @@ object Versions {
     const val coil = "1.3.2"
     const val accompanist = "0.17.0"
     const val splashscreen = "1.0.0-alpha01"
+    const val desugarJdkLibs = "1.0.9"
 
     const val mockk = "1.10.6"
     const val junit = "4.13"

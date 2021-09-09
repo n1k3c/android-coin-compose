@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import com.nikec.coincompose.core.db.CoinsDatabase
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.time.LocalDateTime
 
 @JsonClass(generateAdapter = true)
 @Entity(tableName = CoinsDatabase.COINS_TABLE)
@@ -13,10 +14,10 @@ data class Coin(
     val id: String,
     val ath: Double,
     @Json(name = "ath_date")
-    val athDate: String?,
+    val athDate: LocalDateTime?,
     val atl: Double,
     @Json(name = "atl_date")
-    val atlDate: String?,
+    val atlDate: LocalDateTime?,
     @Json(name = "current_price")
     val currentPrice: Double,
     @Json(name = "high_24")

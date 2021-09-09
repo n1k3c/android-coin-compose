@@ -32,10 +32,7 @@ import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.utils.round
 import com.nikec.core.ui.atoms.ConnectivityStatus
 import com.nikec.core.ui.atoms.ErrorStatus
-import com.nikec.core.ui.theme.Green
-import com.nikec.core.ui.theme.Red
-import com.nikec.core.ui.theme.coinHeaderBackground
-import com.nikec.core.ui.theme.coinHeaderText
+import com.nikec.core.ui.theme.*
 import java.text.NumberFormat
 import java.util.*
 
@@ -104,7 +101,7 @@ private fun CoinsList(
                             onCoinClicked = onCoinClicked,
                             scrollState = scrollState
                         )
-                        Divider(color = MaterialTheme.colors.coinHeaderBackground)
+                        Divider(color = MaterialTheme.colors.divider)
                     }
                 }
 
@@ -277,7 +274,7 @@ private fun PercentageChangeCell(price: Double?) {
 private fun DividerHeader() {
     Divider(
         modifier = Modifier
-            .background(Color.White)
+            .background(MaterialTheme.colors.dividerHeader)
             .width(1.dp)
             .fillMaxHeight()
     )

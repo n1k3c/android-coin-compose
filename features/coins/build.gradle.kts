@@ -30,6 +30,7 @@ dependencies {
     implementation(Dependencies.timberkt)
     implementation(Dependencies.coil)
     implementation(Dependencies.accompanistSwipeToRefresh)
+    coreLibraryDesugaring(Dependencies.desugarJdkLibs)
 
     testImplementationDependencies()
     androidTestImplementationDependencies()

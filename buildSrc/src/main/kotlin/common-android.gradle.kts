@@ -20,6 +20,7 @@ android {
     compileOptions {
         sourceCompatibility = BuildConfig.javaVersion
         targetCompatibility = BuildConfig.javaVersion
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = BuildConfig.jvmTarget

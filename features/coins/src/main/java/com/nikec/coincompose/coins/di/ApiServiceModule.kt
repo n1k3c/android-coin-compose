@@ -2,6 +2,7 @@ package com.nikec.coincompose.coins.di
 
 import com.nikec.coincompose.coins.BuildConfig
 import com.nikec.coincompose.coins.data.api.CoinsService
+import com.nikec.coincompose.coins.data.api.DateAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -49,6 +50,7 @@ object ApiServiceModule {
     }
 
     private fun provideMoshi(): Moshi = Moshi.Builder()
+        .add(DateAdapter())
         .add(KotlinJsonAdapterFactory())
         .build()
 }

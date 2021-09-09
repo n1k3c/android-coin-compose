@@ -16,3 +16,9 @@ val Colors.coinHeaderBackground: Color
 
 val Colors.coinHeaderText: Color
     @Composable get() = if (isLight) Grey else Grey
+
+val Colors.dividerHeader: Color
+    @Composable get() = if (isLight) White else White
+
+val Colors.divider: Color
+    @Composable get() = if (isLight) LightGrey else LightGrey
