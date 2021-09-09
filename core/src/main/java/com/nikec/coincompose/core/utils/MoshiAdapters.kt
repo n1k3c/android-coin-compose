@@ -1,4 +1,4 @@
-package com.nikec.coincompose.coins.data.api
+package com.nikec.coincompose.core.utils
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson

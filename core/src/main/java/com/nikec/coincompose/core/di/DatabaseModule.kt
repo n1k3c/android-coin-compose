@@ -2,10 +2,8 @@ package com.nikec.coincompose.core.di
 
 import android.content.Context
 import androidx.room.Room
-import com.nikec.coincompose.core.db.CoinsDao
-import com.nikec.coincompose.core.db.CoinsDatabase
-import com.nikec.coincompose.core.db.CoinsRemoteKeysDao
-import com.nikec.coincompose.core.db.DATABASE_NAME
+import com.nikec.coincompose.core.db.*
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,11 +17,12 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideCleverestDatabase(@ApplicationContext context: Context): CoinsDatabase {
+    fun provideCleverestDatabase(@ApplicationContext context: Context, moshi: Moshi): CoinsDatabase {
         return Room.databaseBuilder(
             context, CoinsDatabase::class.java,
             DATABASE_NAME
         )
+            .addTypeConverter(DatabaseTypeConverter(moshi))
             .build()
     }
 
