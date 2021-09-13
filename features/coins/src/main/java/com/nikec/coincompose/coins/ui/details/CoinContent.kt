@@ -7,8 +7,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.utils.formatToString
 import com.nikec.core.ui.theme.divider
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -17,22 +19,63 @@ import java.time.format.FormatStyle
 fun CoinContent(coin: Coin?) {
     Column(modifier = Modifier.fillMaxSize()) {
         Sparkline(
+            modifier = Modifier
+                .height(300.dp)
+                .padding(16.dp),
             sparklineIn7d = coin?.sparkline
         )
-        CoinDetailsRow(value = "$" + coin?.ath)
+        CoinDetailsRow(
+            name = stringResource(id = R.string.day_high),
+            value = if (coin?.high24h != null) "$${coin.high24h?.formatToString()}" else stringResource(
+                id = R.string.not_available
+            )
+        )
         DetailsDivider()
         CoinDetailsRow(
+            name = stringResource(id = R.string.day_low),
+            value = if (coin?.low24h != null) "$${coin.low24h?.formatToString()}" else stringResource(
+                id = R.string.not_available
+            )
+        )
+        DetailsDivider()
+        CoinDetailsRow(
+            name = stringResource(id = R.string.ath),
+            value = if (coin?.ath != null) "$${coin.ath.formatToString()}" else stringResource(
+                id = R.string.not_available
+            )
+        )
+        DetailsDivider()
+        CoinDetailsRow(
+            name = stringResource(id = R.string.ath_date),
             value = coin?.athDate?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
-                ?: stringResource(R.string.not_available)
+                ?: stringResource(id = R.string.not_available)
+        )
+        DetailsDivider()
+        CoinDetailsRow(
+            name = stringResource(id = R.string.atl),
+            value = if (coin?.atl != null) "$${coin.atl.formatToString()}" else stringResource(
+                id = R.string.not_available
+            )
+        )
+        DetailsDivider()
+        CoinDetailsRow(
+            name = stringResource(id = R.string.atl_date),
+            value = coin?.atlDate?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+                ?: stringResource(id = R.string.not_available)
         )
     }
 }
 
 @Composable
-private fun CoinDetailsRow(value: String) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+private fun CoinDetailsRow(name: String, value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
         Text(
-            stringResource(R.string.ath),
+            name,
             style = MaterialTheme.typography.body2
         )
         Text(
@@ -44,5 +87,8 @@ private fun CoinDetailsRow(value: String) {
 
 @Composable
 private fun DetailsDivider() {
-    Divider(color = MaterialTheme.colors.divider)
+    Divider(
+        modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
+        color = MaterialTheme.colors.divider
+    )
 }

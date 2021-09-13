@@ -20,10 +20,10 @@ data class Coin(
     val atlDate: LocalDateTime?,
     @Json(name = "current_price")
     val currentPrice: Double,
-    @Json(name = "high_24")
+    @Json(name = "high_24h")
     val high24h: Double?,
     val image: String,
-    @Json(name = "low_24")
+    @Json(name = "low_24h")
     val low24h: Double?,
     @Json(name = "market_cap")
     val marketCap: Long,

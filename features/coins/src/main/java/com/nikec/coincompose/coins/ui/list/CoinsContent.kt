@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -29,12 +28,11 @@ import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.utils.formatToString
 import com.nikec.coincompose.core.utils.round
 import com.nikec.core.ui.atoms.ConnectivityStatus
 import com.nikec.core.ui.atoms.ErrorStatus
 import com.nikec.core.ui.theme.*
-import java.text.NumberFormat
-import java.util.*
 
 private enum class CellWidthDimensions(val dp: Dp) {
     NAME(65.dp),
@@ -218,8 +216,7 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$" + NumberFormat.getInstance(Locale.getDefault())
-                        .format(coin.currentPrice),
+                    text = "$" + coin.currentPrice.formatToString(),
                     modifier = Modifier.width(CellWidthDimensions.PRICE.dp),
                     textAlign = TextAlign.Center
                 )
@@ -229,11 +226,9 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 PercentageChangeCell(price = coin.priceChangePercentage30d)
                 PercentageChangeCell(price = coin.priceChangePercentage1y)
                 Text(
-                    text = "$" + NumberFormat.getInstance(Locale.getDefault())
-                        .format(coin.marketCap),
+                    text = "$" + coin.marketCap.toDouble().formatToString(),
                     modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colors.coinHeaderText,
+                    textAlign = TextAlign.Center
                 )
             }
         }

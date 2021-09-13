@@ -3,8 +3,6 @@ package com.nikec.coincompose.coins.ui.details
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -14,9 +12,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.core.model.SparklineIn7d
+import com.nikec.coincompose.core.utils.formatToString
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.pow
@@ -25,6 +23,7 @@ import kotlin.math.sqrt
 @Preview(showBackground = true)
 @Composable
 fun Sparkline(
+    modifier: Modifier = Modifier,
     @PreviewParameter(FakeSparklineProvider::class) sparklineIn7d: SparklineIn7d?
 ) {
     if (sparklineIn7d == null) return
@@ -39,10 +38,7 @@ fun Sparkline(
     val gridYAxisName = stringResource(R.string.seven_days_long)
 
     Canvas(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-            .padding(16.dp)
+        modifier = Modifier.fillMaxWidth() then modifier
     ) {
         val canvasWidth = size.width
         val canvasHeight = size.height
@@ -147,8 +143,7 @@ fun Sparkline(
         }
 
         drawContext.canvas.nativeCanvas.drawText(
-            "$" + NumberFormat.getInstance(Locale.getDefault())
-                .format(maxPrice),
+            "$" + maxPrice.formatToString(),
             gridValueXOffset,
             gridValueYOffset,
             gridTextValuePaint
@@ -157,8 +152,7 @@ fun Sparkline(
         gridTextValuePaint.color = minPriceColor
 
         drawContext.canvas.nativeCanvas.drawText(
-            "$" + NumberFormat.getInstance(Locale.getDefault())
-                .format(minPrice),
+            "$" + minPrice.formatToString(),
             gridValueXOffset,
             canvasHeight - gridValueYEndOffset,
             gridTextValuePaint

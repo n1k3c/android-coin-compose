@@ -13,4 +13,6 @@
     <string name="ath_date">ATH date</string>
     <string name="atl">ATL</string>
     <string name="atl_date">ATL date</string>
+    <string name="day_high">High 24h</string>
+    <string name="day_low">Low 24h</string>
 </resources>
