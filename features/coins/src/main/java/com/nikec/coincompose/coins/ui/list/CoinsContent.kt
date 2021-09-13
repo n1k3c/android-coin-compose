@@ -150,7 +150,7 @@ private fun CoinHeader(scrollState: ScrollState) {
             .height(24.dp)
     ) {
         Text(
-            text = stringResource(R.string.coin),
+            text = stringResource(id = R.string.coin),
             color = MaterialTheme.colors.coinHeaderText,
             modifier = Modifier.width(CellWidthDimensions.NAME.dp),
             textAlign = TextAlign.Center
@@ -160,24 +160,24 @@ private fun CoinHeader(scrollState: ScrollState) {
             modifier = Modifier.horizontalScroll(scrollState)
         ) {
             Text(
-                text = stringResource(R.string.price),
+                text = stringResource(id = R.string.price),
                 modifier = Modifier.width(CellWidthDimensions.PRICE.dp),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.coinHeaderText,
             )
             DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(R.string.one_hour))
+            PercentageChangeCellHeader(text = stringResource(id = R.string.one_hour))
             DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(R.string.twenty_four_hours))
+            PercentageChangeCellHeader(text = stringResource(id = R.string.twenty_four_hours))
             DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(R.string.seven_days))
+            PercentageChangeCellHeader(text = stringResource(id = R.string.seven_days))
             DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(R.string.thirty_days))
+            PercentageChangeCellHeader(text = stringResource(id = R.string.thirty_days))
             DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(R.string.one_year))
+            PercentageChangeCellHeader(text = stringResource(id = R.string.one_year))
             DividerHeader()
             Text(
-                text = stringResource(R.string.market_cap),
+                text = stringResource(id = R.string.market_cap),
                 modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
                 textAlign = TextAlign.Center
             )
@@ -250,7 +250,7 @@ private fun PercentageChangeCell(price: Double?) {
     val modifier = Modifier.width(CellWidthDimensions.PERCENTAGE_CHANGE.dp)
     if (price == null) {
         Text(
-            text = stringResource(R.string.not_available),
+            text = stringResource(id = R.string.not_available),
             modifier = modifier,
             textAlign = TextAlign.Center
         )

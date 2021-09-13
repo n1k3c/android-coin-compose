@@ -3,7 +3,6 @@ package com.nikec.coincompose.coins.ui.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.coins.domain.GetCoinUseCase
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.navigation.NavigationManager

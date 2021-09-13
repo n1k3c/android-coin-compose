@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.core.model.SparklineIn7d
 import com.nikec.coincompose.core.utils.formatToString
-import java.text.NumberFormat
 import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -35,7 +34,7 @@ fun Sparkline(
 
     if (maxPrice == null || minPrice == null) return
 
-    val gridYAxisName = stringResource(R.string.seven_days_long)
+    val gridYAxisName = stringResource(id = R.string.seven_days_long)
 
     Canvas(
         modifier = Modifier.fillMaxWidth() then modifier
