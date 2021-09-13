@@ -27,6 +27,8 @@ data class Coin(
     val low24h: Double?,
     @Json(name = "market_cap")
     val marketCap: Long,
+    @Json(name = "market_cap_rank")
+    val marketCapRank: Int,
     val name: String,
     @Json(name = "price_change_percentage_1h_in_currency")
     val priceChangePercentage1h: Double?,

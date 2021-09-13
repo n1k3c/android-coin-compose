@@ -15,4 +15,5 @@
     <string name="atl_date">ATL date</string>
     <string name="day_high">High 24h</string>
     <string name="day_low">Low 24h</string>
+    <string name="market_cap_rank">Market Cap Rank</string>
 </resources>

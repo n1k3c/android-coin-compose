@@ -25,49 +25,49 @@ fun CoinContent(coin: Coin?) {
             sparklineIn7d = coin?.sparkline
         )
         CoinDetailsRow(
+            name = stringResource(id = R.string.market_cap),
+            value = "$${coin?.marketCap?.toDouble()?.formatToString()}"
+        )
+        DetailsDivider()
+        CoinDetailsRow(
+            name = stringResource(id = R.string.market_cap_rank),
+            value = if (coin?.marketCapRank != null) "#${coin.marketCapRank}" else null
+        )
+        DetailsDivider()
+        CoinDetailsRow(
             name = stringResource(id = R.string.day_high),
-            value = if (coin?.high24h != null) "$${coin.high24h?.formatToString()}" else stringResource(
-                id = R.string.not_available
-            )
+            value = if (coin?.high24h != null) "$${coin.high24h?.formatToString()}" else null
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.day_low),
-            value = if (coin?.low24h != null) "$${coin.low24h?.formatToString()}" else stringResource(
-                id = R.string.not_available
-            )
+            value = if (coin?.low24h != null) "$${coin.low24h?.formatToString()}" else null
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.ath),
-            value = if (coin?.ath != null) "$${coin.ath.formatToString()}" else stringResource(
-                id = R.string.not_available
-            )
+            value = if (coin?.ath != null) "$${coin.ath.formatToString()}" else null
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.ath_date),
             value = coin?.athDate?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
-                ?: stringResource(id = R.string.not_available)
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.atl),
-            value = if (coin?.atl != null) "$${coin.atl.formatToString()}" else stringResource(
-                id = R.string.not_available
-            )
+            value = if (coin?.atl != null) "$${coin.atl.formatToString()}" else null
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.atl_date),
             value = coin?.atlDate?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
-                ?: stringResource(id = R.string.not_available)
         )
     }
 }
 
 @Composable
-private fun CoinDetailsRow(name: String, value: String) {
+private fun CoinDetailsRow(name: String, value: String?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -79,7 +79,7 @@ private fun CoinDetailsRow(name: String, value: String) {
             style = MaterialTheme.typography.body2
         )
         Text(
-            value,
+            value ?: stringResource(id = R.string.not_available),
             style = MaterialTheme.typography.body2
         )
     }
