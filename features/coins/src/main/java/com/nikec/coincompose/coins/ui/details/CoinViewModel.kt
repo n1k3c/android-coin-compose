@@ -3,10 +3,10 @@ package com.nikec.coincompose.coins.ui.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nikec.coincompose.coins.navigation.CoinsDirections
 import com.nikec.coincompose.coins.domain.GetCoinUseCase
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.navigation.NavigationManager
-import com.nikec.coincompose.core.navigation.directions.CoinsDirections
 import com.nikec.coincompose.core.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

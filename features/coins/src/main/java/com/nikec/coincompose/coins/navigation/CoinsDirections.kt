@@ -1,4 +1,4 @@
-package com.nikec.coincompose.core.navigation.directions
+package com.nikec.coincompose.coins.navigation
 
 import androidx.navigation.compose.NamedNavArgument
 import com.nikec.coincompose.core.navigation.NavigationCommand

@@ -153,7 +153,8 @@ private fun CoinHeader(scrollState: ScrollState) {
             text = stringResource(id = R.string.coin),
             color = MaterialTheme.colors.coinHeaderText,
             modifier = Modifier.width(CellWidthDimensions.NAME.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.body2
         )
         DividerHeader()
         Row(
@@ -164,6 +165,7 @@ private fun CoinHeader(scrollState: ScrollState) {
                 modifier = Modifier.width(CellWidthDimensions.PRICE.dp),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.coinHeaderText,
+                style = MaterialTheme.typography.body2
             )
             DividerHeader()
             PercentageChangeCellHeader(text = stringResource(id = R.string.one_hour))
@@ -207,7 +209,7 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                         .size(20.dp)
                         .padding(bottom = 4.dp)
                 )
-                Text(text = coin.symbol.uppercase())
+                Text(text = coin.symbol.uppercase(), style = MaterialTheme.typography.body2)
             }
             Row(
                 modifier = Modifier
@@ -218,7 +220,8 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 Text(
                     text = "$" + coin.currentPrice.formatToString(),
                     modifier = Modifier.width(CellWidthDimensions.PRICE.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.body2
                 )
                 PercentageChangeCell(price = coin.priceChangePercentage1h)
                 PercentageChangeCell(price = coin.priceChangePercentage24h)
@@ -228,7 +231,8 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 Text(
                     text = "$" + coin.marketCap.toDouble().formatToString(),
                     modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.body2
                 )
             }
         }
@@ -242,6 +246,7 @@ private fun PercentageChangeCellHeader(text: String) {
         modifier = Modifier.width(CellWidthDimensions.PERCENTAGE_CHANGE.dp),
         textAlign = TextAlign.Center,
         color = MaterialTheme.colors.coinHeaderText,
+        style = MaterialTheme.typography.body2
     )
 }
 
@@ -252,7 +257,8 @@ private fun PercentageChangeCell(price: Double?) {
         Text(
             text = stringResource(id = R.string.not_available),
             modifier = modifier,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.body2
         )
         return
     }
@@ -261,7 +267,8 @@ private fun PercentageChangeCell(price: Double?) {
         text = price.round().toString() + "%",
         modifier = modifier,
         color = color,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.body2
     )
 }
 
