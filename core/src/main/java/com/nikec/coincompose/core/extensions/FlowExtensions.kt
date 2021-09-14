@@ -1,4 +1,4 @@
-package com.nikec.coincompose.core.utils
+package com.nikec.coincompose.core.extensions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

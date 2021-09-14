@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.core.model.SparklineIn7d
-import com.nikec.coincompose.core.utils.formatToString
+import com.nikec.coincompose.core.extensions.formatToString
 import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt

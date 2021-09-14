@@ -12,10 +12,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nikec.coincompose.coins.R
+import com.nikec.coincompose.coins.ui.common.PercentageChangeValues
 import com.nikec.coincompose.core.extensions.formatLocalized
+import com.nikec.coincompose.core.extensions.formatToString
+import com.nikec.coincompose.core.extensions.round
 import com.nikec.coincompose.core.model.Coin
-import com.nikec.coincompose.core.utils.formatToString
-import com.nikec.coincompose.core.utils.round
 import com.nikec.core.ui.theme.Green
 import com.nikec.core.ui.theme.Red
 import com.nikec.core.ui.theme.divider
@@ -33,6 +34,7 @@ fun CoinContent(coin: Coin?) {
                 .padding(16.dp),
             sparklineIn7d = coin?.sparkline
         )
+        ChangePricePercentages()
         CoinDetailsRow(
             name = stringResource(id = R.string.market_cap),
             value = "$${coin?.marketCap?.toDouble()?.formatToString()}"
@@ -93,6 +95,20 @@ private fun CoinPrice(currentPrice: Double?, priceChangePercentage1h: Double?) {
                 text = "${price.round()}%",
                 color = color,
                 style = MaterialTheme.typography.body2,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ChangePricePercentages() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        PercentageChangeValues.values().forEach { percentageChangeValue ->
+            Text(
+                text = stringResource(id = percentageChangeValue.value)
             )
         }
     }

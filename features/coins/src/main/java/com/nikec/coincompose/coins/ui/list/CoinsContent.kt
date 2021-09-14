@@ -27,9 +27,10 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikec.coincompose.coins.R
+import com.nikec.coincompose.coins.ui.common.PercentageChangeValues
 import com.nikec.coincompose.core.model.Coin
-import com.nikec.coincompose.core.utils.formatToString
-import com.nikec.coincompose.core.utils.round
+import com.nikec.coincompose.core.extensions.formatToString
+import com.nikec.coincompose.core.extensions.round
 import com.nikec.core.ui.atoms.ConnectivityStatus
 import com.nikec.core.ui.atoms.ErrorStatus
 import com.nikec.core.ui.theme.*
@@ -168,20 +169,16 @@ private fun CoinHeader(scrollState: ScrollState) {
                 style = MaterialTheme.typography.body2
             )
             DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(id = R.string.one_hour))
-            DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(id = R.string.twenty_four_hours))
-            DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(id = R.string.seven_days))
-            DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(id = R.string.thirty_days))
-            DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(id = R.string.one_year))
-            DividerHeader()
+            PercentageChangeValues.values().forEach { percentageChangeValue ->
+                PercentageChangeCellHeader(text = stringResource(id = percentageChangeValue.value))
+                DividerHeader()
+            }
             Text(
                 text = stringResource(id = R.string.market_cap),
                 modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.coinHeaderText,
+                style = MaterialTheme.typography.body2
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.nikec.coincompose.core.utils
+package com.nikec.coincompose.core.extensions
 
 import java.text.NumberFormat
 import java.util.*
