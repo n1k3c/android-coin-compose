@@ -22,7 +22,7 @@ object BuildConfig {
 
 object Versions {
     const val kotlin = "1.5.21"
-    const val androidBuildTools = "7.1.0-alpha02"
+    const val androidBuildTools = "7.1.0-alpha03"
     const val compose = "1.0.1"
     const val composeActivity = "1.3.0"
     const val composeViewModel = "1.0.0-alpha07"
