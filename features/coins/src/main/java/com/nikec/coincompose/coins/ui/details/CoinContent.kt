@@ -170,8 +170,8 @@ private fun ChangePricePercentages(coin: Coin?) {
                         // draw bottom border
                         drawLine(
                             color = dividerCellColor,
-                            start = Offset(0f, size.height - borderStrokeWidth),
-                            end = Offset(size.width, size.height - borderStrokeWidth),
+                            start = Offset(0f, size.height - (borderStrokeWidth / 2)),
+                            end = Offset(size.width, size.height - (borderStrokeWidth / 2)),
                             strokeWidth = borderStrokeWidth
                         )
                     },

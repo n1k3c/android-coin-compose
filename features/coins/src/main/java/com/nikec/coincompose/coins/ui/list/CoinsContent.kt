@@ -299,8 +299,8 @@ private fun ScrollToTopButton(
         modifier = modifier
     ) {
         FloatingActionButton(
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.secondary,
+            backgroundColor = MaterialTheme.colors.fab,
+            contentColor = MaterialTheme.colors.fabContent,
             onClick = { onClick.invoke() }) {
             Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = null)
         }

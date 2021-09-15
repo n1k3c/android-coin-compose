@@ -55,10 +55,11 @@ private fun DetailsTopBar(coin: Coin?, onBackClicked: () -> Unit) {
                 )
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.body2.copy(
+                    style = MaterialTheme.typography.body1.copy(
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold
                     ),
+                    color = MaterialTheme.colors.secondary,
                     modifier = Modifier.padding(start = 6.dp),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1

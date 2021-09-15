@@ -9,26 +9,21 @@ import androidx.compose.ui.unit.sp
 val Typography = Typography(
     defaultFontFamily = FontFamily.Monospace,
     h1 = TextStyle(
-        fontSize = 30.sp,
-        color = Black
+        fontSize = 30.sp
     ),
     h2 = TextStyle(
-        fontSize = 26.sp,
-        color = Black
+        fontSize = 26.sp
     ),
     body1 = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        color = Black
+        fontSize = 16.sp
     ),
     body2 = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        color = Black
+        fontSize = 14.sp
     ),
     button = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 18.sp,
-        color = Black
+        fontSize = 18.sp
     )
 )
