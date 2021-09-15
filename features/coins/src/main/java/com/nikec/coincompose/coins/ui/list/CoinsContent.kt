@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -27,7 +28,8 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikec.coincompose.coins.R
-import com.nikec.coincompose.coins.ui.common.PercentageChangeValues
+import com.nikec.coincompose.coins.ui.common.PercentageChangeHeader
+import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.extensions.formatToString
 import com.nikec.coincompose.core.extensions.round
@@ -169,7 +171,7 @@ private fun CoinHeader(scrollState: ScrollState) {
                 style = MaterialTheme.typography.body2
             )
             DividerHeader()
-            PercentageChangeValues.values().forEach { percentageChangeValue ->
+            PercentageChangeHeader.values().forEach { percentageChangeValue ->
                 PercentageChangeCellHeader(text = stringResource(id = percentageChangeValue.value))
                 DividerHeader()
             }
@@ -259,13 +261,15 @@ private fun PercentageChangeCell(price: Double?) {
         )
         return
     }
-    val color = if (price < 0) Red else Green
+    val color = percentageChangeColorText(price)
     Text(
         text = price.round().toString() + "%",
         modifier = modifier,
         color = color,
         textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.body2
+        style = MaterialTheme.typography.body2,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
     )
 }
 

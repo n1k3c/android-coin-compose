@@ -1,78 +1,88 @@
 package com.nikec.coincompose.coins.ui.details
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nikec.coincompose.coins.R
-import com.nikec.coincompose.coins.ui.common.PercentageChangeValues
+import com.nikec.coincompose.coins.ui.common.PercentageChangeHeader
+import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
 import com.nikec.coincompose.core.extensions.formatLocalized
 import com.nikec.coincompose.core.extensions.formatToString
 import com.nikec.coincompose.core.extensions.round
 import com.nikec.coincompose.core.model.Coin
-import com.nikec.core.ui.theme.Green
-import com.nikec.core.ui.theme.Red
-import com.nikec.core.ui.theme.divider
+import com.nikec.core.ui.theme.*
 
 @Composable
 fun CoinContent(coin: Coin?) {
+    if (coin == null) return
+
     Column(modifier = Modifier.fillMaxSize()) {
         CoinPrice(
-            currentPrice = coin?.currentPrice,
-            priceChangePercentage1h = coin?.priceChangePercentage1h
+            currentPrice = coin.currentPrice,
+            priceChangePercentage1h = coin.priceChangePercentage1h
         )
         Sparkline(
             modifier = Modifier
                 .height(300.dp)
                 .padding(16.dp),
-            sparklineIn7d = coin?.sparkline
+            sparklineIn7d = coin.sparkline
         )
-        ChangePricePercentages()
+        ChangePricePercentages(coin = coin)
         CoinDetailsRow(
             name = stringResource(id = R.string.market_cap),
-            value = "$${coin?.marketCap?.toDouble()?.formatToString()}"
+            value = "$${coin.marketCap.toDouble().formatToString()}"
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.market_cap_rank),
-            value = if (coin?.marketCapRank != null) "#${coin.marketCapRank}" else null
+            value = "#${coin.marketCapRank}"
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.day_high),
-            value = if (coin?.high24h != null) "$${coin.high24h?.formatToString()}" else null
+            value = if (coin.high24h != null) "$${coin.high24h?.formatToString()}" else null
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.day_low),
-            value = if (coin?.low24h != null) "$${coin.low24h?.formatToString()}" else null
+            value = if (coin.low24h != null) "$${coin.low24h?.formatToString()}" else null
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.ath),
-            value = if (coin?.ath != null) "$${coin.ath.formatToString()}" else null
+            value = "$${coin.ath.formatToString()}"
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.ath_date),
-            value = coin?.athDate?.formatLocalized()
+            value = coin.athDate?.formatLocalized()
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.atl),
-            value = if (coin?.atl != null) "$${coin.atl.formatToString()}" else null
+            value = "$${coin.atl.formatToString()}"
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.atl_date),
-            value = coin?.atlDate?.formatLocalized()
+            value = coin.atlDate?.formatLocalized()
         )
     }
 }
@@ -100,16 +110,91 @@ private fun CoinPrice(currentPrice: Double?, priceChangePercentage1h: Double?) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ChangePricePercentages() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+private fun ChangePricePercentages(coin: Coin?) {
+    val percentageChangeValues = buildPercentageChangeCellData(coin = coin)
+    val dividerHeaderColor = MaterialTheme.colors.dividerHeader
+    val dividerCellColor = MaterialTheme.colors.coinHeaderBackground
+    val borderStrokeWidth = 6.dp.value
+
+    LazyVerticalGrid(
+        modifier = Modifier
+            .padding(bottom = 16.dp)
+            .height(65.dp),
+        cells = GridCells.Fixed(percentageChangeValues.size),
     ) {
-        PercentageChangeValues.values().forEach { percentageChangeValue ->
-            Text(
-                text = stringResource(id = percentageChangeValue.value)
-            )
+        itemsIndexed(percentageChangeValues.keys.toList()) { index, item ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)
+                    .background(color = MaterialTheme.colors.coinHeaderBackground)
+                    .drawBehind {
+                        if (index != percentageChangeValues.size - 1) {
+                            drawLine(
+                                color = dividerHeaderColor,
+                                start = Offset(size.width - borderStrokeWidth, 0f),
+                                end = Offset(size.width - borderStrokeWidth, size.height),
+                                strokeWidth = borderStrokeWidth
+                            )
+                        }
+                    },
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(id = item.value),
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.coinHeaderText,
+                    style = MaterialTheme.typography.body2,
+                )
+            }
+
+        }
+        itemsIndexed(percentageChangeValues.values.toList()) { index, price ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(35.dp)
+                    .drawBehind {
+                        if (index != percentageChangeValues.size - 1) {
+                            // draw right border
+                            drawLine(
+                                color = dividerCellColor,
+                                start = Offset(size.width - borderStrokeWidth, 0f),
+                                end = Offset(size.width - borderStrokeWidth, size.height),
+                                strokeWidth = borderStrokeWidth
+                            )
+                        }
+                        // draw bottom border
+                        drawLine(
+                            color = dividerCellColor,
+                            start = Offset(0f, size.height - borderStrokeWidth),
+                            end = Offset(size.width, size.height - borderStrokeWidth),
+                            strokeWidth = borderStrokeWidth
+                        )
+                    },
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = if (price != null) {
+                        "${price.round()}%"
+                    } else {
+                        stringResource(id = R.string.not_available)
+                    },
+                    textAlign = TextAlign.Center,
+                    color = if (price != null) {
+                        percentageChangeColorText(price)
+                    } else {
+                        MaterialTheme.colors.coinHeaderText
+                    },
+                    style = MaterialTheme.typography.body2.copy(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }
@@ -140,3 +225,12 @@ private fun DetailsDivider() {
         color = MaterialTheme.colors.divider
     )
 }
+
+private fun buildPercentageChangeCellData(coin: Coin?): Map<PercentageChangeHeader, Double?> =
+    mapOf(
+        PercentageChangeHeader.ONE_HOUR to coin?.priceChangePercentage1h,
+        PercentageChangeHeader.TWENTY_FOUR_HOURS to coin?.priceChangePercentage24h,
+        PercentageChangeHeader.SEVEN_DAYS to coin?.priceChangePercentage7d,
+        PercentageChangeHeader.THIRTY_DAYS to coin?.priceChangePercentage30d,
+        PercentageChangeHeader.ONE_YEAR to coin?.priceChangePercentage1y
+    )

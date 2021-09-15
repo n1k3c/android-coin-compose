@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -39,7 +40,11 @@ fun CoinScreen(viewModel: CoinViewModel) {
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 private fun DetailsTopBar(coin: Coin?, onBackClicked: () -> Unit) {
-    val title = "${coin?.name} (${coin?.symbol?.uppercase()})"
+    val title = if (coin != null) {
+        "${coin.name} (${coin.symbol.uppercase()})"
+    } else {
+        stringResource(id = R.string.loading)
+    }
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
