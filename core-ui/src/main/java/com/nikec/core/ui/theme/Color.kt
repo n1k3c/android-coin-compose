@@ -22,3 +22,16 @@ val Colors.dividerHeader: Color
 
 val Colors.divider: Color
     @Composable get() = if (isLight) LightGrey else LightGrey
+
+// Sparkline
+val Colors.graphLineColor: Color
+    @Composable get() = if (isLight) Black else White
+
+val Colors.axisGridStrokeColor: Color
+    @Composable get() = if (isLight) LightGrey else LightGrey
+
+val Colors.priceChangeNegative: Color
+    @Composable get() = if (isLight) Red else Red
+
+val Colors.priceChangePositive: Color
+    @Composable get() = if (isLight) Green else Green

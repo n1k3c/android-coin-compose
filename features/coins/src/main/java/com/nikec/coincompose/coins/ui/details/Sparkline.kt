@@ -3,18 +3,23 @@ package com.nikec.coincompose.coins.ui.details
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.nikec.coincompose.coins.R
-import com.nikec.coincompose.core.model.SparklineIn7d
 import com.nikec.coincompose.core.extensions.formatToString
+import com.nikec.coincompose.core.model.SparklineIn7d
+import com.nikec.core.ui.theme.axisGridStrokeColor
+import com.nikec.core.ui.theme.graphLineColor
+import com.nikec.core.ui.theme.priceChangeNegative
+import com.nikec.core.ui.theme.priceChangePositive
 import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -31,10 +36,28 @@ fun Sparkline(
     val maxPrice = prices.maxOrNull()
     val minPrice = prices.minOrNull()
 
-
     if (maxPrice == null || minPrice == null) return
 
+    val yAxisOffset = 0f
+    val xAxisOffset = 0f
+
+    val maxPriceYAxis = 0f
+
+    val axisGridStrokeWidth = 6f
+    val axisGridStrokeColor = MaterialTheme.colors.axisGridStrokeColor
+    val axisNumberOfLines = 5
+
+    val gridValueXOffset = 6f
+    val gridValueYOffset = 20f
+    val gridValueYEndOffset = 3f
+    val gridValueTextSize = 20f
     val gridYAxisName = stringResource(id = R.string.seven_days_long)
+    val gridTextValueColor = MaterialTheme.colors.secondary.toArgb()
+
+    val minPriceColor = MaterialTheme.colors.priceChangeNegative.toArgb()
+    val maxPriceColor = MaterialTheme.colors.priceChangePositive.toArgb()
+
+    val graphLineColor = MaterialTheme.colors.graphLineColor
 
     Canvas(
         modifier = Modifier.fillMaxWidth() then modifier
@@ -42,28 +65,8 @@ fun Sparkline(
         val canvasWidth = size.width
         val canvasHeight = size.height
 
-        val yAxisOffset = 0f
-        val xAxisOffset = 0f
-
-        val axisStrokeWidth = 6f
-        val axisStrokeColor = Color(0xFFF7F7F7)
-        val axisNumberOfLines = 5
-
-//        val dotColor = Color.Black
-//        val dotRadius = 7f
-
         val minPriceDaysYAxis = canvasHeight - yAxisOffset
-
-        val maxPriceYAxis = 0f
         val maxDaysYAxis = canvasHeight - yAxisOffset
-
-        val gridValueXOffset = 6f
-        val gridValueYOffset = 20f
-        val gridValueYEndOffset = 3f
-        val gridValueTextSize = 20f
-
-        val minPriceColor = 0xFFBE2525.toInt()
-        val maxPriceColor = 0xFF51C76A.toInt()
 
         val totalDistanceXAxis = LineChartHelper.calculateDistance(
             startX = xAxisOffset,
@@ -99,35 +102,29 @@ fun Sparkline(
         for (i in 0..axisNumberOfLines) {
             // y axis
             drawLine(
-                color = axisStrokeColor,
+                color = axisGridStrokeColor,
                 start = Offset((i * gridYSpace) + xAxisOffset, 0f),
                 end = Offset((i * gridYSpace) + xAxisOffset, canvasHeight),
-                strokeWidth = axisStrokeWidth
+                strokeWidth = axisGridStrokeWidth
             )
 
             // x axis
             drawLine(
-                color = axisStrokeColor,
+                color = axisGridStrokeColor,
                 start = Offset(0f, (i * gridXSpace) - yAxisOffset),
                 end = Offset(canvasWidth, (i * gridXSpace) - yAxisOffset),
-                strokeWidth = axisStrokeWidth
+                strokeWidth = axisGridStrokeWidth
             )
         }
 
         // points and lines
         points.forEachIndexed { index, offset ->
-//            drawCircle(
-//                color = dotColor,
-//                radius = dotRadius,
-//                center = offset
-//            )
-
             if (index == 0) return@forEachIndexed
 
             val pointBefore = points[index - 1]
 
             drawLine(
-                color = Color.Black,
+                color = graphLineColor,
                 start = pointBefore,
                 end = offset,
                 strokeWidth = 7f
@@ -158,7 +155,7 @@ fun Sparkline(
         )
 
         gridTextValuePaint.apply {
-            color = 0xFF000000.toInt()
+            color = gridTextValueColor
             textAlign = Paint.Align.RIGHT
         }
 
