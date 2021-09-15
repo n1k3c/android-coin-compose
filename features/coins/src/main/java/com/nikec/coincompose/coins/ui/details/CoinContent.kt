@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -33,7 +35,14 @@ import com.nikec.core.ui.theme.*
 fun CoinContent(coin: Coin?) {
     if (coin == null) return
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(state = scrollState)
+            .padding(bottom = 12.dp)
+    ) {
         CoinPrice(
             currentPrice = coin.currentPrice,
             priceChangePercentage1h = coin.priceChangePercentage1h
