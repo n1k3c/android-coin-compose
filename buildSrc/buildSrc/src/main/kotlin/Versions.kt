@@ -8,7 +8,7 @@ object App {
 }
 
 object BuildConfig {
-    const val minSdk = 23
+    const val minSdk = 26
     const val compileSdk = 31
     const val targetSdk = 31
     val javaVersion = JavaVersion.VERSION_1_8
