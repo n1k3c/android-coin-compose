@@ -8,6 +8,7 @@ dependencyResolutionManagement {
 rootProject.name = "Coin Compose"
 
 include(":app")
-include(":features:coins")
 include(":core")
 include(":core-ui")
+include(":features:coins")
+include(":features:news")

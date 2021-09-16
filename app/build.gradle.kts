@@ -120,6 +120,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core-ui"))
     implementation(project(":features:coins"))
+    implementation(project(":features:news"))
 
     androidxDependencies()
     composeDependencies()
