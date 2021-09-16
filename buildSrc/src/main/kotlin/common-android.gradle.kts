@@ -1,6 +1,5 @@
 plugins {
     id("com.android.library")
-    id("dagger.hilt.android.plugin")
     kotlin("android")
     kotlin("kapt")
 }
@@ -20,10 +19,11 @@ android {
     compileOptions {
         sourceCompatibility = BuildConfig.javaVersion
         targetCompatibility = BuildConfig.javaVersion
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = BuildConfig.jvmTarget
-        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
     }
     buildFeatures {
         compose = true

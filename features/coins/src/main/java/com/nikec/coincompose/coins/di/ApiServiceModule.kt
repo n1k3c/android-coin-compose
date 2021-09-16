@@ -3,7 +3,6 @@ package com.nikec.coincompose.coins.di
 import com.nikec.coincompose.coins.BuildConfig
 import com.nikec.coincompose.coins.data.api.CoinsService
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,9 +19,9 @@ object ApiServiceModule {
 
     @Provides
     @Singleton
-    fun provideCoinsService(): CoinsService {
+    fun provideCoinsService(moshi: Moshi): CoinsService {
         val okHttpClient = createOkHttpClient()
-        val retrofit = createRetrofit(okHttpClient)
+        val retrofit = createRetrofit(okHttpClient, moshi)
         return retrofit.create(CoinsService::class.java)
     }
 
@@ -40,15 +39,11 @@ object ApiServiceModule {
 
     @Provides
     @Singleton
-    fun createRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun createRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .addConverterFactory(MoshiConverterFactory.create(provideMoshi()))
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(okHttpClient)
             .baseUrl(BuildConfig.COINS_BASE_URL)
             .build()
     }
-
-    private fun provideMoshi(): Moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
 }

@@ -13,9 +13,5 @@ dependencies {
     implementation(Dependencies.composeNavigation)
     implementation(Dependencies.composePaging)
 
-    implementation(Dependencies.hiltCompose)
-    implementation(Dependencies.hiltAndroid)
-    kapt(Dependencies.hiltCompiler)
-
     implementation(Dependencies.timberkt)
 }

@@ -16,7 +16,7 @@ import com.nikec.coincompose.core.model.ConnectionState
 import com.nikec.core.ui.R
 import com.nikec.core.ui.theme.Green
 import com.nikec.core.ui.theme.Red
-import connectivityState
+import com.nikec.core.ui.utils.connectivityState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 

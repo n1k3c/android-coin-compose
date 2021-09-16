@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,23 +19,23 @@ import com.nikec.core.ui.R
 fun ErrorStatus(throwable: Throwable, onClick: () -> Unit) {
     val message = when (throwable) {
         is NoInternetThrowable -> {
-            stringResource(R.string.no_internet_connection)
+            stringResource(id = R.string.no_internet_connection)
         }
-        else -> stringResource(R.string.something_went_wrong)
+        else -> stringResource(id = R.string.something_went_wrong)
     }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
     ) {
-        Text(text = message)
+        Text(text = message, style = MaterialTheme.typography.body2)
         Button(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 8.dp),
             onClick = { onClick() }
         ) {
-            Text(text = stringResource(R.string.retry))
+            Text(text = stringResource(id = R.string.retry), style = MaterialTheme.typography.body2)
         }
     }
 }

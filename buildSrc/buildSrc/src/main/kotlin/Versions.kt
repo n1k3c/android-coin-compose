@@ -8,7 +8,7 @@ object App {
 }
 
 object BuildConfig {
-    const val minSdk = 23
+    const val minSdk = 26
     const val compileSdk = 31
     const val targetSdk = 31
     val javaVersion = JavaVersion.VERSION_1_8
@@ -22,7 +22,7 @@ object BuildConfig {
 
 object Versions {
     const val kotlin = "1.5.21"
-    const val androidBuildTools = "7.1.0-alpha02"
+    const val androidBuildTools = "7.1.0-alpha03"
     const val compose = "1.0.1"
     const val composeActivity = "1.3.0"
     const val composeViewModel = "1.0.0-alpha07"
@@ -44,6 +44,7 @@ object Versions {
     const val coil = "1.3.2"
     const val accompanist = "0.17.0"
     const val splashscreen = "1.0.0-alpha01"
+    const val desugarJdkLibs = "1.0.9"
 
     const val mockk = "1.10.6"
     const val junit = "4.13"

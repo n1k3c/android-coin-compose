@@ -14,9 +14,9 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -28,16 +28,14 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikec.coincompose.coins.R
+import com.nikec.coincompose.coins.ui.common.PercentageChangeHeader
+import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
 import com.nikec.coincompose.core.model.Coin
-import com.nikec.coincompose.core.utils.round
+import com.nikec.coincompose.core.extensions.formatToString
+import com.nikec.coincompose.core.extensions.round
 import com.nikec.core.ui.atoms.ConnectivityStatus
 import com.nikec.core.ui.atoms.ErrorStatus
-import com.nikec.core.ui.theme.Green
-import com.nikec.core.ui.theme.Red
-import com.nikec.core.ui.theme.coinHeaderBackground
-import com.nikec.core.ui.theme.coinHeaderText
-import java.text.NumberFormat
-import java.util.*
+import com.nikec.core.ui.theme.*
 
 private enum class CellWidthDimensions(val dp: Dp) {
     NAME(65.dp),
@@ -104,7 +102,7 @@ private fun CoinsList(
                             onCoinClicked = onCoinClicked,
                             scrollState = scrollState
                         )
-                        Divider(color = MaterialTheme.colors.coinHeaderBackground)
+                        Divider(color = MaterialTheme.colors.divider)
                     }
                 }
 
@@ -155,36 +153,34 @@ private fun CoinHeader(scrollState: ScrollState) {
             .height(24.dp)
     ) {
         Text(
-            text = stringResource(R.string.coin),
+            text = stringResource(id = R.string.coin),
             color = MaterialTheme.colors.coinHeaderText,
             modifier = Modifier.width(CellWidthDimensions.NAME.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.body2
         )
         DividerHeader()
         Row(
             modifier = Modifier.horizontalScroll(scrollState)
         ) {
             Text(
-                text = stringResource(R.string.price),
+                text = stringResource(id = R.string.price),
                 modifier = Modifier.width(CellWidthDimensions.PRICE.dp),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.coinHeaderText,
+                style = MaterialTheme.typography.body2
             )
             DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(R.string.one_hour))
-            DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(R.string.twenty_four_hours))
-            DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(R.string.seven_days))
-            DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(R.string.thirty_days))
-            DividerHeader()
-            PercentageChangeCellHeader(text = stringResource(R.string.one_year))
-            DividerHeader()
+            PercentageChangeHeader.values().forEach { percentageChangeValue ->
+                PercentageChangeCellHeader(text = stringResource(id = percentageChangeValue.value))
+                DividerHeader()
+            }
             Text(
-                text = stringResource(R.string.market_cap),
+                text = stringResource(id = R.string.market_cap),
                 modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.coinHeaderText,
+                style = MaterialTheme.typography.body2
             )
         }
     }
@@ -212,7 +208,7 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                         .size(20.dp)
                         .padding(bottom = 4.dp)
                 )
-                Text(text = coin.symbol.uppercase())
+                Text(text = coin.symbol.uppercase(), style = MaterialTheme.typography.body2)
             }
             Row(
                 modifier = Modifier
@@ -221,10 +217,10 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$" + NumberFormat.getInstance(Locale.getDefault())
-                        .format(coin.currentPrice),
+                    text = "$" + coin.currentPrice.formatToString(),
                     modifier = Modifier.width(CellWidthDimensions.PRICE.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.body2
                 )
                 PercentageChangeCell(price = coin.priceChangePercentage1h)
                 PercentageChangeCell(price = coin.priceChangePercentage24h)
@@ -232,11 +228,10 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 PercentageChangeCell(price = coin.priceChangePercentage30d)
                 PercentageChangeCell(price = coin.priceChangePercentage1y)
                 Text(
-                    text = "$" + NumberFormat.getInstance(Locale.getDefault())
-                        .format(coin.marketCap),
+                    text = "$" + coin.marketCap.toDouble().formatToString(),
                     modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
                     textAlign = TextAlign.Center,
-                    color = MaterialTheme.colors.coinHeaderText,
+                    style = MaterialTheme.typography.body2
                 )
             }
         }
@@ -250,6 +245,7 @@ private fun PercentageChangeCellHeader(text: String) {
         modifier = Modifier.width(CellWidthDimensions.PERCENTAGE_CHANGE.dp),
         textAlign = TextAlign.Center,
         color = MaterialTheme.colors.coinHeaderText,
+        style = MaterialTheme.typography.body2
     )
 }
 
@@ -258,18 +254,22 @@ private fun PercentageChangeCell(price: Double?) {
     val modifier = Modifier.width(CellWidthDimensions.PERCENTAGE_CHANGE.dp)
     if (price == null) {
         Text(
-            text = stringResource(R.string.not_available),
+            text = stringResource(id = R.string.not_available),
             modifier = modifier,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.body2
         )
         return
     }
-    val color = if (price < 0) Red else Green
+    val color = percentageChangeColorText(price)
     Text(
         text = price.round().toString() + "%",
         modifier = modifier,
         color = color,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.body2,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
     )
 }
 
@@ -277,7 +277,7 @@ private fun PercentageChangeCell(price: Double?) {
 private fun DividerHeader() {
     Divider(
         modifier = Modifier
-            .background(Color.White)
+            .background(MaterialTheme.colors.dividerHeader)
             .width(1.dp)
             .fillMaxHeight()
     )
@@ -299,8 +299,8 @@ private fun ScrollToTopButton(
         modifier = modifier
     ) {
         FloatingActionButton(
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.secondary,
+            backgroundColor = MaterialTheme.colors.fab,
+            contentColor = MaterialTheme.colors.fabContent,
             onClick = { onClick.invoke() }) {
             Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = null)
         }
