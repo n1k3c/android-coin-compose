@@ -1,4 +1,4 @@
-package com.nikec.core.ui
+package com.nikec.coincompose.core.ui
 
 import org.junit.Test
 

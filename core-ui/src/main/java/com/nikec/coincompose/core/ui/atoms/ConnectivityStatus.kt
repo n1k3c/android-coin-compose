@@ -1,4 +1,4 @@
-package com.nikec.core.ui.atoms
+package com.nikec.coincompose.core.ui.atoms
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
@@ -13,10 +13,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nikec.coincompose.core.model.ConnectionState
-import com.nikec.core.ui.R
-import com.nikec.core.ui.theme.Green
-import com.nikec.core.ui.theme.Red
-import com.nikec.core.ui.utils.connectivityState
+import com.nikec.coincompose.core.ui.R
+import com.nikec.coincompose.core.ui.theme.Green
+import com.nikec.coincompose.core.ui.theme.Red
+import com.nikec.coincompose.core.ui.utils.connectivityState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 

@@ -1,4 +1,4 @@
-package com.nikec.core.ui.theme
+package com.nikec.coincompose.core.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

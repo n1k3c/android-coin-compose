@@ -1,4 +1,4 @@
-package com.nikec.core.ui.utils
+package com.nikec.coincompose.core.ui.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

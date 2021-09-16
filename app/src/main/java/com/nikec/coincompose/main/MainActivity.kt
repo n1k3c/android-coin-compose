@@ -17,7 +17,7 @@ import com.nikec.coincompose.coins.ui.details.CoinScreen
 import com.nikec.coincompose.coins.ui.list.CoinsScreen
 import com.nikec.coincompose.core.navigation.DESTINATION_BACK
 import com.nikec.coincompose.core.navigation.NavigationManager
-import com.nikec.core.ui.theme.CoinComposeTheme
+import com.nikec.coincompose.core.ui.theme.CoinComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject

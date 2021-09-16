@@ -29,7 +29,7 @@ import com.nikec.coincompose.core.extensions.formatLocalized
 import com.nikec.coincompose.core.extensions.formatToString
 import com.nikec.coincompose.core.extensions.round
 import com.nikec.coincompose.core.model.Coin
-import com.nikec.core.ui.theme.*
+import com.nikec.coincompose.core.ui.theme.*
 
 @Composable
 fun CoinContent(coin: Coin?) {

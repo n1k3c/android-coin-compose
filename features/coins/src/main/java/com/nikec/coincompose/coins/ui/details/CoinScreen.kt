@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.nikec.coincompose.core.model.Coin
-import com.nikec.core.ui.R
+import com.nikec.coincompose.core.ui.R
 
 @Composable
 fun CoinScreen(viewModel: CoinViewModel) {

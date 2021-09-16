@@ -1,4 +1,4 @@
-package com.nikec.core.ui.atoms
+package com.nikec.coincompose.core.ui.atoms
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nikec.coincompose.core.utils.NoInternetThrowable
-import com.nikec.core.ui.R
+import com.nikec.coincompose.core.ui.R
 
 @Composable
 fun ErrorStatus(throwable: Throwable, onClick: () -> Unit) {

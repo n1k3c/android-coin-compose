@@ -3,8 +3,8 @@ package com.nikec.coincompose.coins.ui.common
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.nikec.coincompose.coins.R
-import com.nikec.core.ui.theme.Green
-import com.nikec.core.ui.theme.Red
+import com.nikec.coincompose.core.ui.theme.Green
+import com.nikec.coincompose.core.ui.theme.Red
 
 enum class PercentageChangeHeader(@StringRes val value: Int) {
     ONE_HOUR(R.string.one_hour),
