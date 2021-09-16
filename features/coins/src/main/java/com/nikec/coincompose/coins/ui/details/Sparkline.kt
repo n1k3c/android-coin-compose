@@ -38,9 +38,6 @@ fun Sparkline(
 
     if (maxPrice == null || minPrice == null) return
 
-    val yAxisOffset = 0f
-    val xAxisOffset = 0f
-
     val maxPriceYAxis = 0f
 
     val axisGridStrokeWidth = 6f
@@ -65,20 +62,15 @@ fun Sparkline(
         val canvasWidth = size.width
         val canvasHeight = size.height
 
-        val minPriceDaysYAxis = canvasHeight - yAxisOffset
-        val maxDaysYAxis = canvasHeight - yAxisOffset
-
-        val totalDistanceXAxis = LineChartHelper.calculateDistance(
-            startX = xAxisOffset,
-            startY = minPriceDaysYAxis,
+        val totalDistanceXAxis = calculateDistance(
+            startY = canvasHeight,
             endX = canvasWidth,
-            endY = maxDaysYAxis
+            endY = canvasHeight
         )
 
-        val totalDistanceYAxis = LineChartHelper.calculateDistance(
-            startX = xAxisOffset,
-            startY = minPriceDaysYAxis,
-            endX = xAxisOffset,
+        val totalDistanceYAxis = calculateDistance(
+            startY = canvasHeight,
+            endX = 0f,
             endY = maxPriceYAxis
         )
 
@@ -90,7 +82,7 @@ fun Sparkline(
             val maxPriceDiffPercentage = (maxPrice - price) / maxMinPriceDiff
 
             val y = ((totalDistanceYAxis * (maxPriceDiffPercentage))).toFloat()
-            val x = (index * spaceBetweenDotsXAxis) + xAxisOffset
+            val x = index * spaceBetweenDotsXAxis
 
             Offset(x, y)
         }
@@ -103,16 +95,16 @@ fun Sparkline(
             // y axis
             drawLine(
                 color = axisGridStrokeColor,
-                start = Offset((i * gridYSpace) + xAxisOffset, 0f),
-                end = Offset((i * gridYSpace) + xAxisOffset, canvasHeight),
+                start = Offset(i * gridYSpace, 0f),
+                end = Offset(i * gridYSpace, canvasHeight),
                 strokeWidth = axisGridStrokeWidth
             )
 
             // x axis
             drawLine(
                 color = axisGridStrokeColor,
-                start = Offset(0f, (i * gridXSpace) - yAxisOffset),
-                end = Offset(canvasWidth, (i * gridXSpace) - yAxisOffset),
+                start = Offset(0f, i * gridXSpace),
+                end = Offset(canvasWidth, i * gridXSpace),
                 strokeWidth = axisGridStrokeWidth
             )
         }
@@ -168,11 +160,8 @@ fun Sparkline(
     }
 }
 
-object LineChartHelper {
-
-    fun calculateDistance(startX: Float, startY: Float, endX: Float, endY: Float): Float {
-        return sqrt((startX - endX).pow(2) + (startY - endY).pow(2))
-    }
+private fun calculateDistance(startX: Float = 0f, startY: Float, endX: Float, endY: Float): Float {
+    return sqrt((startX - endX).pow(2) + (startY - endY).pow(2))
 }
 
 class FakeSparklineProvider : PreviewParameterProvider<SparklineIn7d> {
