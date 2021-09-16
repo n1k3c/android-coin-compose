@@ -34,7 +34,7 @@ object Versions {
     const val hilt = "2.37"
     const val hiltCompose = "1.0.0-alpha02"
     const val coroutines = "1.4.3"
-    const val navigation = "2.4.0-alpha03"
+    const val navigation = "2.4.0-alpha08"
     const val paging = "1.0.0-alpha12"
     const val room = "2.3.0"
     const val okhttp = "4.9.1"

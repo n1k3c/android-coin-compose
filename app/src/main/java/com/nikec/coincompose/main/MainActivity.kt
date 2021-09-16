@@ -4,17 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -22,6 +23,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import androidx.navigation.navigation
@@ -85,8 +88,12 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         BottomNavigationBar(navController = navController, items = bottomBarItems)
                     }
-                ) {
-                    NavHost(navController, startDestination = CoinsDirections.root.destination) {
+                ) { innerPadding ->
+                    NavHost(
+                        modifier = Modifier.padding(innerPadding),
+                        navController = navController,
+                        startDestination = CoinsDirections.root.destination
+                    ) {
                         navigation(
                             startDestination = CoinsDirections.coinsList.destination,
                             route = CoinsDirections.root.route
@@ -111,13 +118,19 @@ class MainActivity : ComponentActivity() {
     private fun BottomNavigationBar(navController: NavHostController, items: Array<BottomBarItem>) {
         BottomNavigation(backgroundColor = Color.Black) {
             val backStackEntry = navController.currentBackStackEntryAsState()
-            val currentRoot = backStackEntry.value?.destination?.route
+            val currentDestination = backStackEntry.value?.destination
             items.forEach { item ->
-                val selected = item.route == currentRoot
+                val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
                 BottomNavigationItem(
                     selected = selected,
                     onClick = {
-                        if (currentRoot != item.route) navController.navigate(item.route)
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     },
                     icon = { Icon(imageVector = item.icon, contentDescription = item.name) },
                     alwaysShowLabel = false,
