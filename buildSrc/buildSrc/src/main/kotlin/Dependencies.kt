@@ -59,6 +59,8 @@ object Dependencies {
 
     const val desugarJdkLibs = "com.android.tools:desugar_jdk_libs:${Versions.desugarJdkLibs}"
 
+    const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
+
     private const val mockk = "io.mockk:mockk:${Versions.mockk}"
     private const val junit = "junit:junit:${Versions.junit}"
     private const val roomTest = "androidx.room:room-testing:${Versions.room}"

@@ -1,3 +1,5 @@
+package com.nikec.core.ui.utils
+
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
@@ -6,7 +8,6 @@ import android.net.NetworkRequest
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.nikec.coincompose.core.model.ConnectionState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,9 +36,6 @@ fun Context.observeConnectivityAsFlow() = callbackFlow {
     }
 }
 
-/**
- * Network utility to get current state of internet connection
- */
 val Context.currentConnectivityState: ConnectionState
     get() {
         val connectivityManager =
@@ -46,11 +44,11 @@ val Context.currentConnectivityState: ConnectionState
     }
 
 private fun getCurrentConnectivityState(connectivityManager: ConnectivityManager): ConnectionState {
-    val connected = connectivityManager.allNetworks.any { network ->
-        connectivityManager.getNetworkCapabilities(network)
-            ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            ?: false
-    }
+    val networkCapabilities =
+        connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+
+    val connected =
+        networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
 
     return if (connected) ConnectionState.Available else ConnectionState.Unavailable
 }
@@ -67,11 +65,11 @@ fun networkCallback(callback: (ConnectionState) -> Unit): ConnectivityManager.Ne
     }
 }
 
-@Composable
-fun currentConnectionState(): ConnectionState {
-    val context = LocalContext.current
-    return remember { context.currentConnectivityState }
-}
+//@Composable
+//fun currentConnectionState(): ConnectionState {
+//    val context = LocalContext.current
+//    return remember { context.currentConnectivityState }
+//}
 
 @ExperimentalCoroutinesApi
 @Composable

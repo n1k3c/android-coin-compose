@@ -7,6 +7,15 @@ import Dependencies.testImplementationDependencies
 
 plugins {
     id("common-android")
+    id("dagger.hilt.android.plugin")
+}
+
+android {
+    kapt {
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
+    }
 }
 
 dependencies {
@@ -28,6 +37,8 @@ dependencies {
     kapt(Dependencies.roomCompiler)
 
     implementation(Dependencies.timberkt)
+
+    implementation(Dependencies.kotlinReflect)
 
     testImplementationDependencies()
     androidTestImplementationDependencies()

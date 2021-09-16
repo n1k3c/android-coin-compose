@@ -1,6 +1,5 @@
 package com.nikec.coincompose.coins.ui.list
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -17,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CoinsViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager,
     fetchCoinsUseCase: FetchCoinsUseCase
 ) : ViewModel() {

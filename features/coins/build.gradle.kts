@@ -7,6 +7,7 @@ import Dependencies.testImplementationDependencies
 
 plugins {
     id("common-android")
+    id("dagger.hilt.android.plugin")
 }
 
 dependencies {
