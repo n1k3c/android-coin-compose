@@ -1,6 +1,8 @@
 package com.nikec.coincompose.coins.navigation
 
+import androidx.navigation.NavType
 import androidx.navigation.compose.NamedNavArgument
+import androidx.navigation.compose.navArgument
 import com.nikec.coincompose.core.navigation.NavigationCommand
 
 object CoinsDirections {
@@ -11,7 +13,7 @@ object CoinsDirections {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destination = "root"
+        override val destination = "coins"
 
         override val route = destination
     }
@@ -20,15 +22,17 @@ object CoinsDirections {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destination = "coins"
+        override val destination = "coinsList"
 
         override val route = destination
     }
 
-    fun coin(coinId: String? = null): NavigationCommand {
+    fun coinDetails(coinId: String? = null): NavigationCommand {
         return object : NavigationCommand {
 
-            override val arguments = emptyList<NamedNavArgument>()
+            override val arguments = listOf(
+                navArgument(COIN_ID) { type = NavType.StringType }
+            )
 
             override val destination = "coin/$coinId"
 

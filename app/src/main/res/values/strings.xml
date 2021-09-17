@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Coin Compose</string>
+    <string name="coins">Coins</string>
+    <string name="news">News</string>
 </resources>

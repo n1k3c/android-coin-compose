@@ -34,7 +34,7 @@ object Versions {
     const val hilt = "2.37"
     const val hiltCompose = "1.0.0-alpha02"
     const val coroutines = "1.4.3"
-    const val navigation = "2.4.0-alpha03"
+    const val navigation = "2.4.0-alpha08"
     const val paging = "1.0.0-alpha12"
     const val room = "2.3.0"
     const val okhttp = "4.9.1"
@@ -42,7 +42,7 @@ object Versions {
     const val moshi = "1.12.0"
     const val timberkt = "1.5.1"
     const val coil = "1.3.2"
-    const val accompanist = "0.17.0"
+    const val accompanist = "0.18.0"
     const val splashscreen = "1.0.0-alpha01"
     const val desugarJdkLibs = "1.0.9"
 

@@ -33,9 +33,9 @@ import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.extensions.formatToString
 import com.nikec.coincompose.core.extensions.round
-import com.nikec.core.ui.atoms.ConnectivityStatus
-import com.nikec.core.ui.atoms.ErrorStatus
-import com.nikec.core.ui.theme.*
+import com.nikec.coincompose.core.ui.atoms.ConnectivityStatus
+import com.nikec.coincompose.core.ui.atoms.ErrorStatus
+import com.nikec.coincompose.core.ui.theme.*
 
 private enum class CellWidthDimensions(val dp: Dp) {
     NAME(65.dp),

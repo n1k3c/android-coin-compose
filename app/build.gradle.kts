@@ -87,6 +87,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = BuildConfig.jvmTarget
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
     }
     buildFeatures {
         compose = true
@@ -120,6 +121,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core-ui"))
     implementation(project(":features:coins"))
+    implementation(project(":features:news"))
 
     androidxDependencies()
     composeDependencies()
@@ -134,6 +136,8 @@ dependencies {
 
     implementation(Dependencies.timberkt)
     implementation(Dependencies.splashscreen)
+
+    implementation(Dependencies.accompanistSystemUiController)
 
     testImplementationDependencies()
     androidTestImplementationDependencies()

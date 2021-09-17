@@ -3,21 +3,25 @@ package com.nikec.coincompose.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.compose.*
-import androidx.navigation.navigation
+import com.google.accompanist.systemuicontroller.SystemUiController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.nikec.coincompose.coins.navigation.CoinsDirections
-import com.nikec.coincompose.coins.ui.details.CoinScreen
-import com.nikec.coincompose.coins.ui.list.CoinsScreen
 import com.nikec.coincompose.core.navigation.DESTINATION_BACK
 import com.nikec.coincompose.core.navigation.NavigationManager
-import com.nikec.core.ui.theme.CoinComposeTheme
+import com.nikec.coincompose.core.ui.theme.CoinComposeTheme
+import com.nikec.coincompose.navigation.BottomNavigationBar
+import com.nikec.coincompose.navigation.coinsGraph
+import com.nikec.coincompose.navigation.newsGraph
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
@@ -36,6 +40,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CoinComposeTheme {
                 val navController = rememberNavController()
+                val systemUiController = rememberSystemUiController()
 
                 val lifecycleOwner = LocalLifecycleOwner.current
                 val eventsFlowLifecycleAware =
@@ -58,21 +63,36 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
+                
+                SetupSystemUi(systemUiController = systemUiController)
 
-                NavHost(navController, startDestination = CoinsDirections.root.destination) {
-                    navigation(
-                        startDestination = CoinsDirections.coinsList.destination,
-                        route = CoinsDirections.root.route
+                Scaffold(
+                    bottomBar = {
+                        BottomNavigationBar(
+                            navController = navController
+                        )
+                    }
+                ) { innerPadding ->
+                    NavHost(
+                        modifier = Modifier.padding(innerPadding),
+                        navController = navController,
+                        startDestination = CoinsDirections.root.destination
                     ) {
-                        composable(CoinsDirections.coinsList.route) {
-                            CoinsScreen(viewModel = hiltViewModel())
-                        }
-                        composable(CoinsDirections.coin().route) {
-                            CoinScreen(viewModel = hiltViewModel())
-                        }
+                        newsGraph()
+                        coinsGraph()
                     }
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun SetupSystemUi(systemUiController: SystemUiController) {
+        val barsColor = MaterialTheme.colors.primaryVariant
+
+        SideEffect {
+            systemUiController.setStatusBarColor(color = barsColor)
+            systemUiController.setNavigationBarColor(color = barsColor)
         }
     }
 }

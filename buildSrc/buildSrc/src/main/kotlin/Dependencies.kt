@@ -54,6 +54,8 @@ object Dependencies {
 
     const val accompanistSwipeToRefresh =
         "com.google.accompanist:accompanist-swiperefresh:${Versions.accompanist}"
+    const val accompanistSystemUiController =
+        "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}"
 
     const val splashscreen = "androidx.core:core-splashscreen:${Versions.splashscreen}"
 

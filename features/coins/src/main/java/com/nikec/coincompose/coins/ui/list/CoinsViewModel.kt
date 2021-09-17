@@ -27,7 +27,7 @@ class CoinsViewModel @Inject constructor(
         fetchCoinsUseCase.invoke(Unit).cachedIn(viewModelScope)
 
     fun onCoinClicked(coin: Coin) {
-        navigationManager.navigate(CoinsDirections.coin(coin.id))
+        navigationManager.navigate(CoinsDirections.coinDetails(coin.id))
     }
 
     fun onScrollToTopClicked() {
