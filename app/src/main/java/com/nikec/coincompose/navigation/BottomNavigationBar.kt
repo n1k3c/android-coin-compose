@@ -1,10 +1,12 @@
 package com.nikec.coincompose.navigation
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -12,7 +14,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -26,16 +30,16 @@ import com.nikec.coincompose.news.navigation.NewsDirections
 private sealed class NavigationBarItem(
     @StringRes val title: Int,
     val route: String,
-    val icon: ImageVector
+    @DrawableRes val icon: Int
 ) {
     object Coins : NavigationBarItem(
         R.string.coins,
         CoinsDirections.coinsList.route,
-        Icons.Default.CheckCircle
+        R.drawable.ic_coins
     )
 
     object News :
-        NavigationBarItem(R.string.news, NewsDirections.newsList.route, Icons.Default.List)
+        NavigationBarItem(R.string.news, NewsDirections.newsList.route, R.drawable.ic_news)
 }
 
 private val navigationBarItems = listOf(NavigationBarItem.Coins, NavigationBarItem.News)
@@ -78,7 +82,8 @@ internal fun BottomNavigationBar(
                     },
                     icon = {
                         Icon(
-                            imageVector = item.icon,
+                            modifier = Modifier.size(22.dp),
+                            painter = painterResource(id = item.icon),
                             contentDescription = stringResource(id = item.title)
                         )
                     },
