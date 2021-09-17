@@ -9,7 +9,7 @@ object NewsDirections {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destination = "root"
+        override val destination = "news"
 
         override val route = destination
     }
@@ -18,7 +18,7 @@ object NewsDirections {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destination = "news"
+        override val destination = "newsList"
 
         override val route = destination
     }

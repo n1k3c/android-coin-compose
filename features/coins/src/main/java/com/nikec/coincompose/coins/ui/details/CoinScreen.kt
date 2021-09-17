@@ -76,5 +76,6 @@ private fun DetailsTopBar(coin: Coin?, onBackClicked: () -> Unit) {
                 )
             }
         },
+        elevation = 0.dp
     )
 }
