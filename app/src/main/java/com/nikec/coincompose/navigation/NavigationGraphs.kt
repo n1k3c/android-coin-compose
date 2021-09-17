@@ -1,6 +1,5 @@
 package com.nikec.coincompose.navigation
 
-import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -16,10 +15,13 @@ internal fun NavGraphBuilder.coinsGraph() {
         startDestination = CoinsDirections.coinsList.destination,
         route = CoinsDirections.root.route
     ) {
-        composable(CoinsDirections.coinsList.route) {
+        composable(route = CoinsDirections.coinsList.route) {
             CoinsScreen(viewModel = hiltViewModel())
         }
-        composable(CoinsDirections.coin().route) {
+        composable(
+            route = CoinsDirections.coinDetails().route,
+            arguments = CoinsDirections.coinDetails().arguments
+        ) {
             CoinScreen(viewModel = hiltViewModel())
         }
     }
@@ -30,7 +32,7 @@ internal fun NavGraphBuilder.newsGraph() {
         startDestination = NewsDirections.newsList.destination,
         route = NewsDirections.root.route
     ) {
-        composable(NewsDirections.newsList.route) {
+        composable(route = NewsDirections.newsList.route) {
             NewsScreen(viewModel = hiltViewModel())
         }
     }
