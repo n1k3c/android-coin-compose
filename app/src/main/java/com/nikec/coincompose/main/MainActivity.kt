@@ -145,7 +145,8 @@ class MainActivity : ComponentActivity() {
         var visibility by remember { mutableStateOf(true) }
 
         LaunchedEffect(currentDestination) {
-            visibility = currentDestination?.hierarchy?.any { enabledRoutes.contains(it.route) } != false
+            visibility =
+                currentDestination?.hierarchy?.any { enabledRoutes.contains(it.route) } != false
         }
 
         AnimatedVisibility(
@@ -155,7 +156,8 @@ class MainActivity : ComponentActivity() {
         ) {
             BottomNavigation(backgroundColor = Color.Black) {
                 items.forEach { item ->
-                    val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
+                    val selected =
+                        currentDestination?.hierarchy?.any { it.route == item.route } == true
                     BottomNavigationItem(
                         selected = selected,
                         onClick = {
