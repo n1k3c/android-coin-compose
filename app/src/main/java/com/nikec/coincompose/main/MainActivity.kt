@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -12,6 +13,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.compose.*
+import com.google.accompanist.systemuicontroller.SystemUiController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.nikec.coincompose.coins.navigation.CoinsDirections
 import com.nikec.coincompose.core.navigation.DESTINATION_BACK
 import com.nikec.coincompose.core.navigation.NavigationManager
@@ -37,6 +40,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CoinComposeTheme {
                 val navController = rememberNavController()
+                val systemUiController = rememberSystemUiController()
 
                 val lifecycleOwner = LocalLifecycleOwner.current
                 val eventsFlowLifecycleAware =
@@ -59,6 +63,8 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
+                
+                SetupSystemUi(systemUiController = systemUiController)
 
                 Scaffold(
                     bottomBar = {
@@ -77,6 +83,16 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun SetupSystemUi(systemUiController: SystemUiController) {
+        val barsColor = MaterialTheme.colors.primaryVariant
+
+        SideEffect {
+            systemUiController.setStatusBarColor(color = barsColor)
+            systemUiController.setNavigationBarColor(color = barsColor)
         }
     }
 }

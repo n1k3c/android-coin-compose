@@ -136,6 +136,8 @@ dependencies {
     implementation(Dependencies.timberkt)
     implementation(Dependencies.splashscreen)
 
+    implementation(Dependencies.accompanistSystemUiController)
+
     testImplementationDependencies()
     androidTestImplementationDependencies()
 }
