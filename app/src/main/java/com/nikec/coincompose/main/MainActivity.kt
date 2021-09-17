@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -12,13 +16,12 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.List
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -44,9 +47,19 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    enum class BottomBarItem(@StringRes val title: Int, val route: String, val icon: ImageVector) {
-        COINS(R.string.coins, CoinsDirections.coinsList.route, Icons.Default.CheckCircle),
-        NEWS(R.string.news, NewsDirections.newsList.route, Icons.Default.List)
+    sealed class BottomBarItem(
+        @StringRes val title: Int,
+        val route: String,
+        val icon: ImageVector
+    ) {
+        object Coins : BottomBarItem(
+            R.string.coins,
+            CoinsDirections.coinsList.route,
+            Icons.Default.CheckCircle
+        )
+
+        object News :
+            BottomBarItem(R.string.news, NewsDirections.newsList.route, Icons.Default.List)
     }
 
     @Inject
@@ -60,7 +73,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             CoinComposeTheme {
                 val navController = rememberNavController()
-                val bottomBarItems = BottomBarItem.values()
+                val bottomBarItems = listOf(BottomBarItem.Coins, BottomBarItem.News)
+                val enabledRoutes =
+                    listOf(CoinsDirections.coinsList.route, NewsDirections.newsList.route)
 
                 val lifecycleOwner = LocalLifecycleOwner.current
                 val eventsFlowLifecycleAware =
@@ -86,7 +101,11 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     bottomBar = {
-                        BottomNavigationBar(navController = navController, items = bottomBarItems)
+                        BottomNavigationBar(
+                            navController = navController,
+                            items = bottomBarItems,
+                            enabledRoutes = enabledRoutes
+                        )
                     }
                 ) { innerPadding ->
                     NavHost(
@@ -114,29 +133,51 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalAnimationApi::class)
     @Composable
-    private fun BottomNavigationBar(navController: NavHostController, items: Array<BottomBarItem>) {
-        BottomNavigation(backgroundColor = Color.Black) {
-            val backStackEntry = navController.currentBackStackEntryAsState()
-            val currentDestination = backStackEntry.value?.destination
-            items.forEach { item ->
-                val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
-                BottomNavigationItem(
-                    selected = selected,
-                    onClick = {
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+    private fun BottomNavigationBar(
+        navController: NavHostController,
+        items: List<BottomBarItem>,
+        enabledRoutes: List<String>
+    ) {
+        val backStackEntry = navController.currentBackStackEntryAsState()
+        val currentDestination = backStackEntry.value?.destination
+        var visibility by remember { mutableStateOf(true) }
+
+        LaunchedEffect(currentDestination) {
+            visibility = currentDestination?.hierarchy?.any { enabledRoutes.contains(it.route) } != false
+        }
+
+        AnimatedVisibility(
+            visible = visibility,
+            enter = expandVertically(),
+            exit = shrinkVertically()
+        ) {
+            BottomNavigation(backgroundColor = Color.Black) {
+                items.forEach { item ->
+                    val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
+                    BottomNavigationItem(
+                        selected = selected,
+                        onClick = {
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    icon = { Icon(imageVector = item.icon, contentDescription = item.name) },
-                    alwaysShowLabel = false,
-                    selectedContentColor = Color.White,
-                    unselectedContentColor = Color.DarkGray
-                )
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = item.icon,
+                                contentDescription = stringResource(id = item.title)
+                            )
+                        },
+                        alwaysShowLabel = false,
+                        selectedContentColor = Color.White,
+                        unselectedContentColor = Color.DarkGray
+                    )
+                }
             }
         }
     }
