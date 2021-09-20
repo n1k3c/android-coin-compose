@@ -3,6 +3,7 @@ package com.nikec.coincompose.news.di
 import com.nikec.coincompose.core.utils.DateAdapter
 import com.nikec.coincompose.core.utils.DatePattern
 import com.nikec.coincompose.news.BuildConfig
+import com.nikec.coincompose.news.data.api.NewsInterceptor
 import com.nikec.coincompose.news.data.api.NewsService
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -31,6 +32,7 @@ object ApiServiceModule {
     @Singleton
     fun createOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
+            .addNetworkInterceptor(NewsInterceptor())
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level =
                     if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY

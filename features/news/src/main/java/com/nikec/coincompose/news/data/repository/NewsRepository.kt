@@ -16,5 +16,5 @@ class NewsRepositoryImpl @Inject constructor(
 ) : NewsRepository {
 
     override suspend fun fetchNews(): Result<NewsResponse> =
-        safeApiCall { newsService.fetchNews(page = 1) }
+        safeApiCall { newsService.fetchNews() }
 }
