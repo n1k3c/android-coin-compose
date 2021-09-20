@@ -32,6 +32,7 @@ dependencies {
     implementation(Dependencies.coil)
     implementation(Dependencies.accompanistSwipeToRefresh)
     coreLibraryDesugaring(Dependencies.desugarJdkLibs)
+    implementation(Dependencies.jsoup)
 
     testImplementationDependencies()
     androidTestImplementationDependencies()

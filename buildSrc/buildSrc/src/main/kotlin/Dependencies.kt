@@ -58,10 +58,9 @@ object Dependencies {
         "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}"
 
     const val splashscreen = "androidx.core:core-splashscreen:${Versions.splashscreen}"
-
     const val desugarJdkLibs = "com.android.tools:desugar_jdk_libs:${Versions.desugarJdkLibs}"
-
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
+    const val jsoup = "org.jsoup:jsoup:${Versions.jsoup}"
 
     private const val mockk = "io.mockk:mockk:${Versions.mockk}"
     private const val junit = "junit:junit:${Versions.junit}"
