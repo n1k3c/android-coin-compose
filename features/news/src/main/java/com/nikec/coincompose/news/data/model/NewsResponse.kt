@@ -2,6 +2,7 @@ package com.nikec.coincompose.news.data.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.time.LocalDateTime
 
 @JsonClass(generateAdapter = true)
 data class NewsResponse(
@@ -13,12 +14,12 @@ data class NewsResponse(
 
 data class News(
     @Json(name = "created_at")
-    val createdAt: String,
+    val createdAt: LocalDateTime?,
     val currencies: List<Currency>?,
     val domain: String,
     val id: Int,
     @Json(name = "published_at")
-    val publishedAt: String,
+    val publishedAt: LocalDateTime?,
     val source: Source,
     val title: String,
     val url: String

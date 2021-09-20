@@ -1,5 +1,7 @@
 package com.nikec.coincompose.news.di
 
+import com.nikec.coincompose.core.utils.DateAdapter
+import com.nikec.coincompose.core.utils.DatePattern
 import com.nikec.coincompose.news.BuildConfig
 import com.nikec.coincompose.news.data.api.NewsService
 import com.squareup.moshi.Moshi
@@ -41,9 +43,13 @@ object ApiServiceModule {
     @Singleton
     fun createRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create(attachMoshiAdapters(moshi)))
             .client(okHttpClient)
             .baseUrl(BuildConfig.NEWS_BASE_URL)
             .build()
+    }
+
+    private fun attachMoshiAdapters(moshi: Moshi): Moshi {
+        return moshi.newBuilder().add(DateAdapter(datePattern = DatePattern.NEWS)).build()
     }
 }

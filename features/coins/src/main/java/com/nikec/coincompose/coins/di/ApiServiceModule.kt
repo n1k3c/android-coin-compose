@@ -2,6 +2,8 @@ package com.nikec.coincompose.coins.di
 
 import com.nikec.coincompose.coins.BuildConfig
 import com.nikec.coincompose.coins.data.api.CoinsService
+import com.nikec.coincompose.core.utils.DateAdapter
+import com.nikec.coincompose.core.utils.DatePattern
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -41,9 +43,13 @@ object ApiServiceModule {
     @Singleton
     fun createRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create(attachMoshiAdapters(moshi)))
             .client(okHttpClient)
             .baseUrl(BuildConfig.COINS_BASE_URL)
             .build()
+    }
+
+    private fun attachMoshiAdapters(moshi: Moshi): Moshi {
+        return moshi.newBuilder().add(DateAdapter(datePattern = DatePattern.COINS)).build()
     }
 }
