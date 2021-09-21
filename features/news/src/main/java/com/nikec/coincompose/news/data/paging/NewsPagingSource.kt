@@ -3,17 +3,14 @@ package com.nikec.coincompose.news.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.github.ajalt.timberkt.e
-import com.nikec.coincompose.core.utils.CoroutineContextProvider
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
 import com.nikec.coincompose.news.data.api.NewsService
 import com.nikec.coincompose.news.data.model.News
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 
 class NewsPagingSource(
     private val newsService: NewsService,
-    private val coroutineContextProvider: CoroutineContextProvider
 ) : PagingSource<Int, News>() {
 
     override fun getRefreshKey(state: PagingState<Int, News>): Int? {
@@ -23,11 +20,9 @@ class NewsPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, News> {
         val key = params.key ?: 1
 
-        val result = withContext(coroutineContextProvider.io) {
+        val result = safeApiCall {
             if (key != 1) delay(1000)
-            safeApiCall {
-                newsService.fetchNews(page = key)
-            }
+            newsService.fetchNews(page = key)
         }
 
         return when (result) {

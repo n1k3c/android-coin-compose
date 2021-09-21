@@ -19,14 +19,14 @@ import javax.inject.Inject
 class CoinViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager,
-    private val getCoinUseCase: GetCoinUseCase
+    getCoinUseCase: GetCoinUseCase
 ) : ViewModel() {
 
     private val coinId = savedStateHandle.get<String>(CoinsDirections.COIN_ID)
         ?: throw IllegalStateException("Coin ID can not be null.")
 
     val state = flow {
-        when (val result = getCoinUseCase.invoke(coinId)) {
+        when (val result = getCoinUseCase.execute(coinId = coinId)) {
             is Result.Success -> {
                 result.payload.collect { coin ->
                     emit(CoinUiState(coin = coin))

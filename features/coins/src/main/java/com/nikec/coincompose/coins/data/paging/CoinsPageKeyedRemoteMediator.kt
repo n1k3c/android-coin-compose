@@ -10,17 +10,14 @@ import com.nikec.coincompose.coins.data.api.CoinsService
 import com.nikec.coincompose.core.db.CoinsDatabase
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.model.CoinRemoteKeys
-import com.nikec.coincompose.core.utils.CoroutineContextProvider
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
-import kotlinx.coroutines.withContext
 import java.io.InvalidObjectException
 
 @OptIn(ExperimentalPagingApi::class)
 class CoinsPageKeyedRemoteMediator(
     private val db: CoinsDatabase,
     private val coinsService: CoinsService,
-    private val coroutineContextProvider: CoroutineContextProvider,
     private val maxPages: Int
 ) : RemoteMediator<Int, Coin>() {
 
@@ -40,15 +37,12 @@ class CoinsPageKeyedRemoteMediator(
             }
         }
 
-        return when (val result =
-            withContext(coroutineContextProvider.io) {
-                safeApiCall {
-                    coinsService.fetchCoins(
-                        page = page,
-                        perPage = state.config.pageSize
-                    )
-                }
-            }) {
+        return when (val result = safeApiCall {
+            coinsService.fetchCoins(
+                page = page,
+                perPage = state.config.pageSize
+            )
+        }) {
             is Result.Success -> {
                 val endOfPaginationReached = page == maxPages
 
@@ -61,10 +55,8 @@ class CoinsPageKeyedRemoteMediator(
                     val prevKey = if (page == 1) null else page - 1
                     val nextKey = if (endOfPaginationReached) null else page + 1
 
-                    val keys = withContext(coroutineContextProvider.io) {
-                        result.payload.map {
-                            CoinRemoteKeys(coinId = it.id, prevKey = prevKey, nextKey = nextKey)
-                        }
+                    val keys = result.payload.map {
+                        CoinRemoteKeys(coinId = it.id, prevKey = prevKey, nextKey = nextKey)
                     }
 
                     db.coinsRemoteKeysDao().insertAll(keys)

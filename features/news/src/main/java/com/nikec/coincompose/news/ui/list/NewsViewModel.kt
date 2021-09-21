@@ -12,5 +12,5 @@ class NewsViewModel @Inject constructor(
     fetchCoinsUseCase: FetchCoinsUseCase
 ) : ViewModel() {
 
-    val paginatedNews = fetchCoinsUseCase.invoke(Unit).cachedIn(viewModelScope)
+    val paginatedNews = fetchCoinsUseCase.execute().cachedIn(viewModelScope)
 }

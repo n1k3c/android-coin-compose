@@ -3,7 +3,6 @@ package com.nikec.coincompose.news.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.nikec.coincompose.core.utils.CoroutineContextProvider
 import com.nikec.coincompose.news.data.api.NewsService
 import com.nikec.coincompose.news.data.model.News
 import com.nikec.coincompose.news.data.paging.NewsPagingSource
@@ -19,10 +18,8 @@ interface NewsRepository {
     suspend fun fetchNewsImage(news: News): String?
 }
 
-class NewsRepositoryImpl @Inject constructor(
-    private val newsService: NewsService,
-    private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
-) : NewsRepository {
+class NewsRepositoryImpl @Inject constructor(private val newsService: NewsService) :
+    NewsRepository {
 
     override fun fetchNews(): Flow<PagingData<News>> {
         return Pager(
@@ -31,12 +28,7 @@ class NewsRepositoryImpl @Inject constructor(
                 initialLoadSize = INITIAL_LOAD_SIZE,
                 enablePlaceholders = true
             ),
-            pagingSourceFactory = {
-                NewsPagingSource(
-                    newsService = newsService,
-                    coroutineContextProvider = coroutineContextProvider
-                )
-            }
+            pagingSourceFactory = { NewsPagingSource(newsService = newsService) }
         ).flow
     }
 

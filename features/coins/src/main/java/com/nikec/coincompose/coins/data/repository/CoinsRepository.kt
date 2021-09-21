@@ -23,8 +23,7 @@ interface CoinsRepository {
 
 class CoinsRepositoryImpl @Inject constructor(
     private val db: CoinsDatabase,
-    private val coinsService: CoinsService,
-    private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
+    private val coinsService: CoinsService
 ) : CoinsRepository {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -37,7 +36,6 @@ class CoinsRepositoryImpl @Inject constructor(
         remoteMediator = CoinsPageKeyedRemoteMediator(
             db,
             coinsService,
-            coroutineContextProvider,
             MAX_PAGES
         )
     ) {

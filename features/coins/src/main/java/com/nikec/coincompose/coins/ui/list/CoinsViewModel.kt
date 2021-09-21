@@ -24,7 +24,7 @@ class CoinsViewModel @Inject constructor(
     val coinListEvents: Flow<CoinListEvent> = coinListEventsChannel.receiveAsFlow()
 
     val paginatedCoins: Flow<PagingData<Coin>> =
-        fetchCoinsUseCase.invoke(Unit).cachedIn(viewModelScope)
+        fetchCoinsUseCase.execute().cachedIn(viewModelScope)
 
     fun onCoinClicked(coin: Coin) {
         navigationManager.navigate(CoinsDirections.coinDetails(coin.id))
