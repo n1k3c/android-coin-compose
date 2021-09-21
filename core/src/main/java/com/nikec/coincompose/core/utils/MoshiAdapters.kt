@@ -1,5 +1,6 @@
 package com.nikec.coincompose.core.utils
 
+import com.github.ajalt.timberkt.e
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 import java.time.LocalDateTime
@@ -18,8 +19,14 @@ class DateAdapter(private val datePattern: DatePattern) {
     fun dateFromJson(dateString: String): LocalDateTime? {
         val dateFormat =
             DateTimeFormatter.ofPattern(datePattern.value)
-        return LocalDateTime.parse(dateString, dateFormat).atOffset(ZoneOffset.UTC)
-            .atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime()
+
+        return try {
+            LocalDateTime.parse(dateString, dateFormat).atOffset(ZoneOffset.UTC)
+                .atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime()
+        } catch (e: Exception) {
+            e { "Can not parse date: $e" }
+            null
+        }
     }
 
     @ToJson

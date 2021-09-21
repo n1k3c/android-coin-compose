@@ -22,7 +22,8 @@ data class News(
     val publishedAt: LocalDateTime?,
     val source: Source,
     val title: String,
-    val url: String
+    val url: String,
+    val image: String?
 )
 
 data class Currency(
