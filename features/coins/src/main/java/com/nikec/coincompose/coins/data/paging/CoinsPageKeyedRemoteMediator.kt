@@ -7,18 +7,19 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.github.ajalt.timberkt.Timber.e
 import com.nikec.coincompose.coins.data.api.CoinsService
+import com.nikec.coincompose.coins.data.repository.CoinsRepository
 import com.nikec.coincompose.core.db.CoinsDatabase
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.model.CoinRemoteKeys
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
 import java.io.InvalidObjectException
+import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class CoinsPageKeyedRemoteMediator(
+class CoinsPageKeyedRemoteMediator @Inject constructor(
     private val db: CoinsDatabase,
-    private val coinsService: CoinsService,
-    private val maxPages: Int
+    private val coinsService: CoinsService
 ) : RemoteMediator<Int, Coin>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Coin>): MediatorResult {
@@ -44,7 +45,7 @@ class CoinsPageKeyedRemoteMediator(
             )
         }) {
             is Result.Success -> {
-                val endOfPaginationReached = page == maxPages
+                val endOfPaginationReached = page == CoinsRepository.MAX_PAGES
 
                 db.withTransaction {
                     if (loadType == LoadType.REFRESH) {

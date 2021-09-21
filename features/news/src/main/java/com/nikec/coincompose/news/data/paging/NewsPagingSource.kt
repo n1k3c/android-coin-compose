@@ -8,8 +8,9 @@ import com.nikec.coincompose.core.utils.safeApiCall
 import com.nikec.coincompose.news.data.api.NewsService
 import com.nikec.coincompose.news.data.model.News
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
-class NewsPagingSource(
+class NewsPagingSource @Inject constructor(
     private val newsService: NewsService,
 ) : PagingSource<Int, News>() {
 
