@@ -28,12 +28,7 @@ internal fun NavGraphBuilder.coinsGraph() {
 }
 
 internal fun NavGraphBuilder.newsGraph() {
-    navigation(
-        startDestination = NewsDirections.newsList.destination,
-        route = NewsDirections.root.route
-    ) {
-        composable(route = NewsDirections.newsList.route) {
-            NewsScreen(viewModel = hiltViewModel())
-        }
+    composable(route = NewsDirections.newsList.route) {
+        NewsScreen(viewModel = hiltViewModel())
     }
 }
