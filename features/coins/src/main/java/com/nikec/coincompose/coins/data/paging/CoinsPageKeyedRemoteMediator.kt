@@ -11,6 +11,7 @@ import com.nikec.coincompose.coins.data.repository.CoinsRepository
 import com.nikec.coincompose.core.db.CoinsDatabase
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.model.CoinRemoteKeys
+import com.nikec.coincompose.core.utils.CoroutineContextProvider
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
 import java.io.InvalidObjectException
@@ -18,6 +19,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
 class CoinsPageKeyedRemoteMediator @Inject constructor(
+    private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider(),
     private val db: CoinsDatabase,
     private val coinsService: CoinsService
 ) : RemoteMediator<Int, Coin>() {
@@ -38,7 +40,7 @@ class CoinsPageKeyedRemoteMediator @Inject constructor(
             }
         }
 
-        return when (val result = safeApiCall {
+        return when (val result = safeApiCall(coroutineContextProvider.io) {
             coinsService.fetchCoins(
                 page = page,
                 perPage = state.config.pageSize

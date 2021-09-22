@@ -7,7 +7,7 @@ import java.io.IOException
 import kotlin.coroutines.CoroutineContext
 
 suspend fun <T> safeApiCall(
-    coroutineContext: CoroutineContext = CoroutineContextProvider().io,
+    coroutineContext: CoroutineContext,
     apiCall: suspend () -> T
 ): Result<T> {
     return try {
