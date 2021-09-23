@@ -3,6 +3,7 @@ package com.nikec.coincompose.news.ui.list
 import android.text.format.DateUtils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
@@ -114,19 +115,27 @@ private fun NewsItem(news: News, onNewsClicked: (News) -> Unit) {
         stringResource(id = R.string.not_available)
     }
 
+    val errorDrawable = if (isSystemInDarkTheme()) {
+        R.drawable.ic_error_image_white
+    } else {
+        R.drawable.ic_error_image
+    }
+
     Row(modifier = Modifier
         .fillMaxWidth()
         .height(100.dp)
         .clickable { onNewsClicked(news) }) {
         Image(
-            modifier = Modifier.size(100.dp).padding(start = 8.dp, top = 12.dp, bottom = 12.dp),
+            modifier = Modifier
+                .size(100.dp)
+                .padding(start = 8.dp, top = 12.dp, bottom = 12.dp),
             painter = rememberImagePainter(
                 data = news.image,
                 builder = {
                     crossfade(true)
                     placeholder(R.drawable.ic_placeholder_image)
-                    error(R.drawable.ic_error_image)
-                    fallback(R.drawable.ic_error_image)
+                    error(errorDrawable)
+                    fallback(errorDrawable)
                     transformations(RoundedCornersTransformation(radius = 35f))
                 }
             ),
