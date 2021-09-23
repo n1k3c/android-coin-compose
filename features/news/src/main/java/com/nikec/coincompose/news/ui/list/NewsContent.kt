@@ -1,5 +1,6 @@
 package com.nikec.coincompose.news.ui.list
 
+import android.text.format.DateUtils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +27,7 @@ import com.nikec.coincompose.core.ui.atoms.ErrorStatus
 import com.nikec.coincompose.core.ui.atoms.SwipeToRefreshIndicator
 import com.nikec.coincompose.news.R
 import com.nikec.coincompose.news.data.model.News
+import java.time.*
 
 @Composable
 fun NewsContent(
@@ -99,6 +102,14 @@ private fun NewsList(
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 private fun NewsItem(news: News, onNewsClicked: (News) -> Unit) {
+    val timePassedFromPublishedAt = if (news.publishedAt != null) {
+        val millis =
+            ZonedDateTime.of(news.publishedAt, ZoneId.systemDefault()).toInstant().toEpochMilli()
+        DateUtils.getRelativeTimeSpanString(millis).toString()
+    } else {
+        stringResource(id = R.string.not_available)
+    }
+
     Row(modifier = Modifier
         .fillMaxWidth()
         .height(100.dp)
@@ -136,7 +147,7 @@ private fun NewsItem(news: News, onNewsClicked: (News) -> Unit) {
                     style = MaterialTheme.typography.body2.copy(fontSize = 12.sp)
                 )
                 Text(
-                    text = news.publishedAt.toString(),
+                    text = timePassedFromPublishedAt,
                     style = MaterialTheme.typography.body2.copy(fontSize = 12.sp)
                 )
             }

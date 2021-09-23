@@ -17,7 +17,7 @@ class NewsPagingSource @Inject constructor(
 ) : PagingSource<Int, News>() {
 
     override fun getRefreshKey(state: PagingState<Int, News>): Int? {
-        return state.anchorPosition
+        return null
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, News> {
