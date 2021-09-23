@@ -2,9 +2,11 @@ package com.nikec.coincompose.news.ui.list
 
 import android.text.format.DateUtils
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,9 +27,11 @@ import com.nikec.coincompose.core.ui.atoms.AppendLoadingIndicator
 import com.nikec.coincompose.core.ui.atoms.ConnectivityStatus
 import com.nikec.coincompose.core.ui.atoms.ErrorStatus
 import com.nikec.coincompose.core.ui.atoms.SwipeToRefreshIndicator
+import com.nikec.coincompose.core.ui.theme.divider
 import com.nikec.coincompose.news.R
 import com.nikec.coincompose.news.data.model.News
-import java.time.*
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 @Composable
 fun NewsContent(
@@ -71,6 +75,7 @@ private fun NewsList(
                             news = news,
                             onNewsClicked = onNewsClicked
                         )
+                        Divider(color = MaterialTheme.colors.divider)
                     }
                 }
 
@@ -113,10 +118,9 @@ private fun NewsItem(news: News, onNewsClicked: (News) -> Unit) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .height(100.dp)
-        .padding(8.dp)
         .clickable { onNewsClicked(news) }) {
         Image(
-            modifier = Modifier.size(100.dp),
+            modifier = Modifier.size(100.dp).padding(start = 8.dp, top = 12.dp, bottom = 12.dp),
             painter = rememberImagePainter(
                 data = news.image,
                 builder = {
@@ -132,7 +136,7 @@ private fun NewsItem(news: News, onNewsClicked: (News) -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 8.dp, top = 2.dp, bottom = 2.dp),
+                .padding(start = 8.dp, top = 10.dp, bottom = 12.dp, end = 8.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
