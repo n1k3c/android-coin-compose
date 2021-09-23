@@ -1,22 +1,29 @@
 package com.nikec.coincompose.news.ui.list
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
+import coil.transform.RoundedCornersTransformation
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikec.coincompose.core.ui.atoms.AppendLoadingIndicator
 import com.nikec.coincompose.core.ui.atoms.ConnectivityStatus
 import com.nikec.coincompose.core.ui.atoms.ErrorStatus
 import com.nikec.coincompose.core.ui.atoms.SwipeToRefreshIndicator
+import com.nikec.coincompose.news.R
 import com.nikec.coincompose.news.data.model.News
 
 @Composable
@@ -54,7 +61,7 @@ private fun NewsList(
                     refreshTriggerDistance = trigger
                 )
             }) {
-            LazyColumn {
+            LazyColumn(contentPadding = PaddingValues(bottom = 12.dp)) {
                 items(newsList) { news ->
                     news?.let {
                         NewsItem(
@@ -89,9 +96,50 @@ private fun NewsList(
     }
 }
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 private fun NewsItem(news: News, onNewsClicked: (News) -> Unit) {
-    Column(modifier = Modifier.clickable { onNewsClicked(news) }) {
-        Text(text = news.title)
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .height(100.dp)
+        .padding(8.dp)
+        .clickable { onNewsClicked(news) }) {
+        Image(
+            modifier = Modifier.size(100.dp),
+            painter = rememberImagePainter(
+                data = news.image,
+                builder = {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_placeholder_image)
+                    error(R.drawable.ic_error_image)
+                    fallback(R.drawable.ic_error_image)
+                    transformations(RoundedCornersTransformation(radius = 35f))
+                }
+            ),
+            contentDescription = news.title
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 8.dp, top = 2.dp, bottom = 2.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = news.title,
+                style = MaterialTheme.typography.body2,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Column {
+                Text(
+                    text = news.source.title,
+                    style = MaterialTheme.typography.body2.copy(fontSize = 12.sp)
+                )
+                Text(
+                    text = news.publishedAt.toString(),
+                    style = MaterialTheme.typography.body2.copy(fontSize = 12.sp)
+                )
+            }
+        }
     }
 }

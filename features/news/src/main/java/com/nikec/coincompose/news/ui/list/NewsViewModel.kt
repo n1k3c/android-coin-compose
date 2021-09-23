@@ -3,7 +3,6 @@ package com.nikec.coincompose.news.ui.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.core.navigation.NavigationManager
 import com.nikec.coincompose.news.data.model.News
 import com.nikec.coincompose.news.domain.FetchCoinsUseCase
@@ -25,7 +24,7 @@ class NewsViewModel @Inject constructor(
     val paginatedNews = fetchCoinsUseCase.execute().cachedIn(viewModelScope)
 
     fun onNewsClicked(news: News) {
-        i { "News: $news" }
+        newsListEventsChannel.trySend(NewsListEvent.OpenDetails(news))
     }
 
     fun onRefresh() {
@@ -40,4 +39,5 @@ class NewsViewModel @Inject constructor(
 sealed class NewsListEvent {
     object Refresh : NewsListEvent()
     object Retry : NewsListEvent()
+    data class OpenDetails(val news: News) : NewsListEvent()
 }

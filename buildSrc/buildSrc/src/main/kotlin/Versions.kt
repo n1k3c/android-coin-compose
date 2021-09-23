@@ -46,6 +46,7 @@ object Versions {
     const val splashscreen = "1.0.0-alpha01"
     const val desugarJdkLibs = "1.0.9"
     const val jsoup = "1.14.2"
+    const val browser = "1.3.0"
 
     const val mockk = "1.10.6"
     const val junit = "4.13"

@@ -33,6 +33,7 @@ dependencies {
     implementation(Dependencies.accompanistSwipeToRefresh)
     coreLibraryDesugaring(Dependencies.desugarJdkLibs)
     implementation(Dependencies.jsoup)
+    implementation(Dependencies.browser)
 
     testImplementationDependencies()
     androidTestImplementationDependencies()

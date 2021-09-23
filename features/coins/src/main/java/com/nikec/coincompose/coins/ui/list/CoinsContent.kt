@@ -196,11 +196,13 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = rememberImagePainter(coin.image),
-                    contentDescription = null,
                     modifier = Modifier
                         .size(20.dp)
-                        .padding(bottom = 4.dp)
+                        .padding(bottom = 4.dp),
+                    painter = rememberImagePainter(
+                        data = coin.image,
+                        builder = { crossfade(true) }),
+                    contentDescription = "${coin.name} image"
                 )
                 Text(text = coin.symbol.uppercase(), style = MaterialTheme.typography.body2)
             }

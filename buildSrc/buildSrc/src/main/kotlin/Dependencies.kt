@@ -61,6 +61,7 @@ object Dependencies {
     const val desugarJdkLibs = "com.android.tools:desugar_jdk_libs:${Versions.desugarJdkLibs}"
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
     const val jsoup = "org.jsoup:jsoup:${Versions.jsoup}"
+    const val browser = "androidx.browser:browser:${Versions.browser}"
 
     private const val mockk = "io.mockk:mockk:${Versions.mockk}"
     private const val junit = "junit:junit:${Versions.junit}"
