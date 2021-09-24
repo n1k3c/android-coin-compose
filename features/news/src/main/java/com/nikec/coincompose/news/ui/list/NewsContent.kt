@@ -60,6 +60,7 @@ private fun NewsList(
 ) {
     Box {
         SwipeRefresh(
+            modifier = Modifier.fillMaxSize(),
             state = rememberSwipeRefreshState(isRefreshing = newsList.loadState.refresh is LoadState.Loading),
             onRefresh = { onRefresh() },
             indicator = { state, trigger ->

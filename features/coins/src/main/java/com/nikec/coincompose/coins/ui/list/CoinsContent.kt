@@ -83,6 +83,7 @@ private fun CoinsList(
 ) {
     Box {
         SwipeRefresh(
+            modifier = Modifier.fillMaxSize(),
             state = rememberSwipeRefreshState(isRefreshing = coinsList.loadState.refresh is LoadState.Loading),
             onRefresh = { onRefresh() },
             indicator = { state, trigger ->
