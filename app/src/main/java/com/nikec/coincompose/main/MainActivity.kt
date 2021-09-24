@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
-                
+
                 SetupSystemUi(systemUiController = systemUiController)
 
                 Scaffold(

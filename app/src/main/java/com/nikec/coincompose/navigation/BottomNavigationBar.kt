@@ -61,7 +61,7 @@ internal fun BottomNavigationBar(
         enter = expandVertically(),
         exit = shrinkVertically()
     ) {
-        BottomNavigation(elevation = 0.dp) {
+        BottomNavigation(elevation = 1.dp) {
             navigationBarItems.forEach { item ->
                 val selected =
                     currentDestination?.hierarchy?.any { it.route == item.route } == true

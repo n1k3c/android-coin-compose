@@ -16,7 +16,7 @@ class FetchCoinsUseCase @Inject constructor(
 ) {
 
     fun execute(): Flow<PagingData<News>> {
-        return newsRepository.fetchNews().map {  pagingData ->
+        return newsRepository.fetchNews().map { pagingData ->
             pagingData.map { news ->
                 val newsImage = withContext(coroutineContextProvider.io) {
                     newsRepository.fetchNewsImage(news)
