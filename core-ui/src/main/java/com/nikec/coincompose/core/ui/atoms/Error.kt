@@ -12,8 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.nikec.coincompose.core.utils.NoInternetThrowable
 import com.nikec.coincompose.core.ui.R
+import com.nikec.coincompose.core.utils.NoInternetThrowable
 
 @Composable
 fun ErrorStatus(throwable: Throwable, onClick: () -> Unit) {

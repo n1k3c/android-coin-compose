@@ -7,21 +7,21 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.github.ajalt.timberkt.Timber.e
 import com.nikec.coincompose.coins.data.api.CoinsService
+import com.nikec.coincompose.coins.data.repository.CoinsRepository
 import com.nikec.coincompose.core.db.CoinsDatabase
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.model.CoinRemoteKeys
 import com.nikec.coincompose.core.utils.CoroutineContextProvider
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
-import kotlinx.coroutines.withContext
 import java.io.InvalidObjectException
+import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class CoinsPageKeyedRemoteMediator(
+class CoinsPageKeyedRemoteMediator @Inject constructor(
+    private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider(),
     private val db: CoinsDatabase,
-    private val coinsService: CoinsService,
-    private val coroutineContextProvider: CoroutineContextProvider,
-    private val maxPages: Int
+    private val coinsService: CoinsService
 ) : RemoteMediator<Int, Coin>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Coin>): MediatorResult {
@@ -40,17 +40,14 @@ class CoinsPageKeyedRemoteMediator(
             }
         }
 
-        return when (val result =
-            withContext(coroutineContextProvider.io) {
-                safeApiCall {
-                    coinsService.fetchCoins(
-                        page = page,
-                        perPage = state.config.pageSize
-                    )
-                }
-            }) {
+        return when (val result = safeApiCall(coroutineContextProvider.io) {
+            coinsService.fetchCoins(
+                page = page,
+                perPage = state.config.pageSize
+            )
+        }) {
             is Result.Success -> {
-                val endOfPaginationReached = page == maxPages
+                val endOfPaginationReached = page == CoinsRepository.MAX_PAGES
 
                 db.withTransaction {
                     if (loadType == LoadType.REFRESH) {
@@ -61,10 +58,8 @@ class CoinsPageKeyedRemoteMediator(
                     val prevKey = if (page == 1) null else page - 1
                     val nextKey = if (endOfPaginationReached) null else page + 1
 
-                    val keys = withContext(coroutineContextProvider.io) {
-                        result.payload.map {
-                            CoinRemoteKeys(coinId = it.id, prevKey = prevKey, nextKey = nextKey)
-                        }
+                    val keys = result.payload.map {
+                        CoinRemoteKeys(coinId = it.id, prevKey = prevKey, nextKey = nextKey)
                     }
 
                     db.coinsRemoteKeysDao().insertAll(keys)

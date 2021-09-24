@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.nikec.coincompose.coins.navigation.CoinsDirections
 import com.nikec.coincompose.coins.domain.FetchCoinsUseCase
+import com.nikec.coincompose.coins.navigation.CoinsDirections
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.navigation.NavigationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ class CoinsViewModel @Inject constructor(
     val coinListEvents: Flow<CoinListEvent> = coinListEventsChannel.receiveAsFlow()
 
     val paginatedCoins: Flow<PagingData<Coin>> =
-        fetchCoinsUseCase.invoke(Unit).cachedIn(viewModelScope)
+        fetchCoinsUseCase.execute().cachedIn(viewModelScope)
 
     fun onCoinClicked(coin: Coin) {
         navigationManager.navigate(CoinsDirections.coinDetails(coin.id))

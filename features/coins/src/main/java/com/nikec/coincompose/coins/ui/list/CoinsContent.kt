@@ -25,16 +25,17 @@ import androidx.paging.compose.items
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.coins.ui.common.PercentageChangeHeader
 import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
-import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.extensions.formatToString
 import com.nikec.coincompose.core.extensions.round
+import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.ui.atoms.AppendLoadingIndicator
 import com.nikec.coincompose.core.ui.atoms.ConnectivityStatus
 import com.nikec.coincompose.core.ui.atoms.ErrorStatus
+import com.nikec.coincompose.core.ui.atoms.SwipeToRefreshIndicator
 import com.nikec.coincompose.core.ui.theme.*
 
 private enum class CellWidthDimensions(val dp: Dp) {
@@ -82,23 +83,23 @@ private fun CoinsList(
 ) {
     Box {
         SwipeRefresh(
+            modifier = Modifier.fillMaxSize(),
             state = rememberSwipeRefreshState(isRefreshing = coinsList.loadState.refresh is LoadState.Loading),
             onRefresh = { onRefresh() },
             indicator = { state, trigger ->
-                SwipeRefreshIndicator(
+                SwipeToRefreshIndicator(
                     state = state,
-                    refreshTriggerDistance = trigger,
-                    contentColor = MaterialTheme.colors.secondary,
+                    refreshTriggerDistance = trigger
                 )
             }) {
             LazyColumn(
                 state = listState,
                 contentPadding = PaddingValues(bottom = 80.dp)
             ) {
-                items(coinsList) {
-                    if (it != null) {
+                items(coinsList) { coin ->
+                    coin?.let {
                         CoinItem(
-                            coin = it,
+                            coin = coin,
                             onCoinClicked = onCoinClicked,
                             scrollState = scrollState
                         )
@@ -109,13 +110,7 @@ private fun CoinsList(
                 coinsList.apply {
                     if (loadState.append is LoadState.Loading) {
                         item {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .wrapContentWidth(Alignment.CenterHorizontally)
-                                    .padding(top = 12.dp),
-                                color = MaterialTheme.colors.secondary
-                            )
+                            AppendLoadingIndicator()
                         }
                     }
                     if (loadState.append is LoadState.Error) {
@@ -202,11 +197,13 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = rememberImagePainter(coin.image),
-                    contentDescription = null,
                     modifier = Modifier
                         .size(20.dp)
-                        .padding(bottom = 4.dp)
+                        .padding(bottom = 4.dp),
+                    painter = rememberImagePainter(
+                        data = coin.image,
+                        builder = { crossfade(true) }),
+                    contentDescription = "${coin.name} image"
                 )
                 Text(text = coin.symbol.uppercase(), style = MaterialTheme.typography.body2)
             }

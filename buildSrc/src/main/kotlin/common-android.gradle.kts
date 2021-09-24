@@ -1,7 +1,22 @@
+import java.io.FileInputStream
+import java.util.*
+
 plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
+}
+
+val secretsPropertiesFile = rootProject.file("secrets.properties")
+val secretProperties = Properties()
+
+if (secretsPropertiesFile.exists()) {
+    secretProperties.load(FileInputStream(secretsPropertiesFile))
+} else {
+    secretProperties.setProperty(
+        "news_api_key",
+        System.getenv("news_api_key") ?: ""
+    )
 }
 
 android {
@@ -48,6 +63,8 @@ android {
                 "COINS_BASE_URL",
                 "\"https://api.coingecko.com/\""
             )
+            buildConfigField("String", "NEWS_BASE_URL", "\"https://cryptopanic.com/\"")
+            buildConfigField("String", "NEWS_API_KEY", "\"${secretProperties["news_api_key"]}\"")
             dimension = "version"
         }
         create("staging") {
@@ -56,6 +73,8 @@ android {
                 "COINS_BASE_URL",
                 "\"https://api.coingecko.com/\""
             )
+            buildConfigField("String", "NEWS_BASE_URL", "\"https://cryptopanic.com/\"")
+            buildConfigField("String", "NEWS_API_KEY", "\"${secretProperties["news_api_key"]}\"")
             dimension = "version"
         }
         create("production") {
@@ -64,6 +83,8 @@ android {
                 "COINS_BASE_URL",
                 "\"https://api.coingecko.com/\""
             )
+            buildConfigField("String", "NEWS_BASE_URL", "\"https://cryptopanic.com/\"")
+            buildConfigField("String", "NEWS_API_KEY", "\"${secretProperties["news_api_key"]}\"")
             dimension = "version"
         }
     }

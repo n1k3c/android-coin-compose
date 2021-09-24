@@ -2,7 +2,6 @@ package com.nikec.coincompose.core.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.model.CoinRemoteKeys

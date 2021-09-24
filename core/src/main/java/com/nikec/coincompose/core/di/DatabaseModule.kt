@@ -17,7 +17,10 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideCleverestDatabase(@ApplicationContext context: Context, moshi: Moshi): CoinsDatabase {
+    fun provideCleverestDatabase(
+        @ApplicationContext context: Context,
+        moshi: Moshi
+    ): CoinsDatabase {
         return Room.databaseBuilder(
             context, CoinsDatabase::class.java,
             DATABASE_NAME

@@ -159,7 +159,6 @@ private fun ChangePricePercentages(coin: Coin?) {
                     style = MaterialTheme.typography.body2,
                 )
             }
-
         }
         itemsIndexed(percentageChangeValues.values.toList()) { index, price ->
             Column(

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.collect
 @Composable
 fun CoinsScreen(viewModel: CoinsViewModel) {
     val coinsList = viewModel.paginatedCoins.collectAsLazyPagingItems()
-    val coinListEvents = rememberFlowWithLifecycle(viewModel.coinListEvents)
+    val coinListEvents = rememberFlowWithLifecycle(flow = viewModel.coinListEvents)
     val scrollState = rememberScrollState()
     val listState = rememberLazyListState()
 
@@ -21,7 +21,7 @@ fun CoinsScreen(viewModel: CoinsViewModel) {
             when (it) {
                 CoinListEvent.Refresh -> coinsList.refresh()
                 CoinListEvent.Retry -> coinsList.retry()
-                CoinListEvent.ScrollToTop -> listState.scrollToItem(0)
+                CoinListEvent.ScrollToTop -> listState.animateScrollToItem(0)
             }
         }
     }

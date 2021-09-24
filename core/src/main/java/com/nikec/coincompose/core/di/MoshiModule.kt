@@ -1,6 +1,5 @@
 package com.nikec.coincompose.core.di
 
-import com.nikec.coincompose.core.utils.DateAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -16,7 +15,6 @@ object MoshiModule {
     @Singleton
     @Provides
     fun providesMoshi(): Moshi = Moshi.Builder()
-        .add(DateAdapter())
         .add(KotlinJsonAdapterFactory())
         .build()
 }

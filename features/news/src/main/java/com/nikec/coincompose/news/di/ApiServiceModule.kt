@@ -1,9 +1,10 @@
-package com.nikec.coincompose.coins.di
+package com.nikec.coincompose.news.di
 
-import com.nikec.coincompose.coins.BuildConfig
-import com.nikec.coincompose.coins.data.api.CoinsService
 import com.nikec.coincompose.core.utils.DateAdapter
 import com.nikec.coincompose.core.utils.DatePattern
+import com.nikec.coincompose.news.BuildConfig
+import com.nikec.coincompose.news.data.api.NewsInterceptor
+import com.nikec.coincompose.news.data.api.NewsService
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -21,16 +22,17 @@ object ApiServiceModule {
 
     @Provides
     @Singleton
-    fun provideCoinsService(moshi: Moshi): CoinsService {
+    fun provideNewsService(moshi: Moshi): NewsService {
         val okHttpClient = createOkHttpClient()
         val retrofit = createRetrofit(okHttpClient, moshi)
-        return retrofit.create(CoinsService::class.java)
+        return retrofit.create(NewsService::class.java)
     }
 
     @Provides
     @Singleton
     fun createOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
+            .addNetworkInterceptor(NewsInterceptor())
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level =
                     if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
@@ -45,11 +47,11 @@ object ApiServiceModule {
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(attachMoshiAdapters(moshi)))
             .client(okHttpClient)
-            .baseUrl(BuildConfig.COINS_BASE_URL)
+            .baseUrl(BuildConfig.NEWS_BASE_URL)
             .build()
     }
 
     private fun attachMoshiAdapters(moshi: Moshi): Moshi {
-        return moshi.newBuilder().add(DateAdapter(datePattern = DatePattern.COINS)).build()
+        return moshi.newBuilder().add(DateAdapter(datePattern = DatePattern.NEWS)).build()
     }
 }
