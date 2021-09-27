@@ -9,6 +9,8 @@ import com.nikec.coincompose.coins.ui.details.CoinScreen
 import com.nikec.coincompose.coins.ui.list.CoinsScreen
 import com.nikec.coincompose.news.navigation.NewsDirections
 import com.nikec.coincompose.news.ui.list.NewsScreen
+import com.nikec.coincompose.settings.navigation.SettingsDirections
+import com.nikec.coincompose.settings.ui.SettingsScreen
 
 internal fun NavGraphBuilder.coinsGraph() {
     navigation(
@@ -30,5 +32,11 @@ internal fun NavGraphBuilder.coinsGraph() {
 internal fun NavGraphBuilder.newsGraph() {
     composable(route = NewsDirections.newsList.route) {
         NewsScreen(viewModel = hiltViewModel())
+    }
+}
+
+internal fun NavGraphBuilder.settingsGraph() {
+    composable(route = SettingsDirections.settings.route) {
+        SettingsScreen(viewModel = hiltViewModel())
     }
 }

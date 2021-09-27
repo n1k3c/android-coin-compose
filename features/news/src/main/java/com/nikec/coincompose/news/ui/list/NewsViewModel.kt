@@ -14,7 +14,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
-    private val navigationManager: NavigationManager,
     fetchCoinsUseCase: FetchCoinsUseCase
 ) : ViewModel() {
 
