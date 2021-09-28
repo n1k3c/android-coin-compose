@@ -28,10 +28,11 @@ private fun PriceDropdown() {
     val currencies = Currency.values()
     var selectedCurrency by remember { mutableStateOf(Currency.USD) }
 
-    val icon = if (expanded)
+    val icon = if (expanded) {
         Icons.Filled.KeyboardArrowUp
-    else
+    } else {
         Icons.Filled.KeyboardArrowDown
+    }
 
     Column {
         Row(
