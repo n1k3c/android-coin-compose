@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.github.ajalt.timberkt.i
 import com.nikec.coincompose.core.data.repository.SettingsRepository
 import com.nikec.coincompose.core.data.model.Currency
+import com.nikec.coincompose.core.domain.GetCurrencyUseCase
+import com.nikec.coincompose.core.domain.SaveCurrencyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -12,12 +14,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository
+    getCurrencyUseCase: GetCurrencyUseCase,
+    private val saveCurrencyUseCase: SaveCurrencyUseCase
 ) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            settingsRepository.getCurrency().collect { currency ->
+            getCurrencyUseCase.execute().collect { currency ->
                 i { "Currency -> $currency" }
             }
         }
@@ -25,7 +28,7 @@ class SettingsViewModel @Inject constructor(
 
     fun onCurrencyChange(currency: Currency) {
         viewModelScope.launch {
-            settingsRepository.setCurrency(currency)
+            saveCurrencyUseCase.execute(currency)
         }
     }
 }
