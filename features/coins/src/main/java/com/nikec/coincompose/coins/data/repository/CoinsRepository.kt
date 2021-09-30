@@ -5,8 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.nikec.coincompose.coins.data.paging.CoinsPageKeyedRemoteMediator
-import com.nikec.coincompose.core.db.CoinsDatabase
-import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.data.db.CoinsDatabase
+import com.nikec.coincompose.core.data.model.Coin
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

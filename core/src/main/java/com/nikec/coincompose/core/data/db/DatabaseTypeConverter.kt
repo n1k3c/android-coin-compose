@@ -1,8 +1,8 @@
-package com.nikec.coincompose.core.db
+package com.nikec.coincompose.core.data.db
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.nikec.coincompose.core.model.SparklineIn7d
+import com.nikec.coincompose.core.data.model.SparklineIn7d
 import com.squareup.moshi.Moshi
 import java.time.LocalDateTime
 import java.time.ZoneOffset

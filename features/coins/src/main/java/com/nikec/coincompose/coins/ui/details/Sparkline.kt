@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.core.extensions.formatToString
-import com.nikec.coincompose.core.model.SparklineIn7d
+import com.nikec.coincompose.core.data.model.SparklineIn7d
 import com.nikec.coincompose.core.ui.theme.axisGridStrokeColor
 import com.nikec.coincompose.core.ui.theme.graphLineColor
 import com.nikec.coincompose.core.ui.theme.priceChangeNegative

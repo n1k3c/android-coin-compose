@@ -31,7 +31,7 @@ import com.nikec.coincompose.coins.ui.common.PercentageChangeHeader
 import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
 import com.nikec.coincompose.core.extensions.formatToString
 import com.nikec.coincompose.core.extensions.round
-import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.data.model.Coin
 import com.nikec.coincompose.core.ui.atoms.AppendLoadingIndicator
 import com.nikec.coincompose.core.ui.atoms.ConnectivityStatus
 import com.nikec.coincompose.core.ui.atoms.ErrorStatus

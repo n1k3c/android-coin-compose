@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.data.model.Coin
 import com.nikec.coincompose.core.ui.R
 
 @Composable

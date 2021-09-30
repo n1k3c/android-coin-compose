@@ -12,18 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nikec.coincompose.core.model.Currency
+import com.nikec.coincompose.core.data.model.Currency
 import com.nikec.coincompose.settings.R
 
 @Composable
-fun SettingsContent() {
+fun SettingsContent(onCurrencyChange: (Currency) -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
-        PriceDropdown()
+        PriceDropdown(onCurrencyChange)
     }
 }
 
 @Composable
-private fun PriceDropdown() {
+private fun PriceDropdown(onCurrencyChange: (Currency) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     val currencies = Currency.values()
     var selectedCurrency by remember { mutableStateOf(Currency.USD) }
@@ -75,6 +75,7 @@ private fun PriceDropdown() {
             currencies.forEach { currency ->
                 DropdownMenuItem(onClick = {
                     selectedCurrency = currency
+                    onCurrencyChange(currency)
                     expanded = false
                 }) {
                     Text(

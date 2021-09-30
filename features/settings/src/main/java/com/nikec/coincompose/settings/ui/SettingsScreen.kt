@@ -7,6 +7,6 @@ import androidx.compose.runtime.Composable
 fun SettingsScreen(viewModel: SettingsViewModel) {
 
     Scaffold {
-        SettingsContent()
+        SettingsContent(onCurrencyChange = viewModel::onCurrencyChange)
     }
 }

@@ -8,9 +8,9 @@ import androidx.room.withTransaction
 import com.github.ajalt.timberkt.Timber.e
 import com.nikec.coincompose.coins.data.api.CoinsService
 import com.nikec.coincompose.coins.data.repository.CoinsRepository
-import com.nikec.coincompose.core.db.CoinsDatabase
-import com.nikec.coincompose.core.model.Coin
-import com.nikec.coincompose.core.model.CoinRemoteKeys
+import com.nikec.coincompose.core.data.db.CoinsDatabase
+import com.nikec.coincompose.core.data.model.Coin
+import com.nikec.coincompose.core.data.model.CoinRemoteKeys
 import com.nikec.coincompose.core.utils.CoroutineContextProvider
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
