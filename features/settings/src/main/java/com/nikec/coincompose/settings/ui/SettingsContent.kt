@@ -16,17 +16,18 @@ import com.nikec.coincompose.core.data.model.Currency
 import com.nikec.coincompose.settings.R
 
 @Composable
-fun SettingsContent(onCurrencyChange: (Currency) -> Unit) {
+fun SettingsContent(onCurrencyChange: (Currency) -> Unit, currency: Currency?) {
     Column(modifier = Modifier.fillMaxSize()) {
-        PriceDropdown(onCurrencyChange)
+        PriceDropdown(onCurrencyChange = onCurrencyChange, currency = currency)
     }
 }
 
 @Composable
-private fun PriceDropdown(onCurrencyChange: (Currency) -> Unit) {
+private fun PriceDropdown(onCurrencyChange: (Currency) -> Unit, currency: Currency?) {
+    if (currency == null) return
+
     var expanded by remember { mutableStateOf(false) }
     val currencies = Currency.values()
-    var selectedCurrency by remember { mutableStateOf(Currency.USD) }
 
     val icon = if (expanded) {
         Icons.Filled.KeyboardArrowUp
@@ -55,7 +56,7 @@ private fun PriceDropdown(onCurrencyChange: (Currency) -> Unit) {
                 )
                 Text(
                     modifier = Modifier.padding(top = 4.dp),
-                    text = selectedCurrency.name,
+                    text = currency.name,
                     style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.SemiBold)
                 )
             }
@@ -74,7 +75,6 @@ private fun PriceDropdown(onCurrencyChange: (Currency) -> Unit) {
         ) {
             currencies.forEach { currency ->
                 DropdownMenuItem(onClick = {
-                    selectedCurrency = currency
                     onCurrencyChange(currency)
                     expanded = false
                 }) {

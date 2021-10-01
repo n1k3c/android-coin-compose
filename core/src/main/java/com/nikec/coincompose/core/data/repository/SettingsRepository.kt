@@ -30,14 +30,14 @@ class SettingsRepositoryImpl @Inject constructor(
         }
 
     override fun getCurrency(): Flow<Currency> = settingsFlow.map { settings ->
-        Currency.values().firstOrNull { settings.currency == it.symbol }
+        Currency.values().firstOrNull { settings.currency == it.key }
             ?: Currency.USD // Default value
     }
 
     override suspend fun setCurrency(currency: Currency) {
         settingsDataStore.updateData { currentSettings ->
             currentSettings.toBuilder()
-                .setCurrency(currency.symbol)
+                .setCurrency(currency.key)
                 .build()
         }
     }
