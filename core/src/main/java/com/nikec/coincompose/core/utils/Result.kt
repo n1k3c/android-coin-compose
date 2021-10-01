@@ -1,23 +1,14 @@
 package com.nikec.coincompose.core.utils
 
 import androidx.annotation.Keep
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
-import kotlin.coroutines.CoroutineContext
 
 suspend fun <T> safeApiCall(
-    coroutineContext: CoroutineContext? = null,
     apiCall: suspend () -> T
 ): Result<T> {
     return try {
-        if (coroutineContext == null) {
-            Result.Success(apiCall())
-        } else {
-            withContext(coroutineContext) {
-                Result.Success(apiCall())
-            }
-        }
+        Result.Success(apiCall())
     } catch (e: Throwable) {
         when (e) {
             is IOException -> Result.NetworkError(NoInternetThrowable)
