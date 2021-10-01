@@ -7,12 +7,16 @@ import java.io.IOException
 import kotlin.coroutines.CoroutineContext
 
 suspend fun <T> safeApiCall(
-    coroutineContext: CoroutineContext,
+    coroutineContext: CoroutineContext? = null,
     apiCall: suspend () -> T
 ): Result<T> {
     return try {
-        withContext(coroutineContext) {
+        if (coroutineContext == null) {
             Result.Success(apiCall())
+        } else {
+            withContext(coroutineContext) {
+                Result.Success(apiCall())
+            }
         }
     } catch (e: Throwable) {
         when (e) {

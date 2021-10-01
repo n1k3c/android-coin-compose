@@ -6,6 +6,8 @@ import java.util.*
 
 fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()
 
-fun Double.formatToStringWithCurrency(currency: Currency): String =
-    currency.symbol + NumberFormat.getInstance(Locale.getDefault())
+fun Double.formatToStringWithCurrency(currency: Currency?): String {
+    val currencyPlaceholder = currency?.symbol ?: " "
+    return currencyPlaceholder + NumberFormat.getInstance(Locale.getDefault())
         .format(this)
+}

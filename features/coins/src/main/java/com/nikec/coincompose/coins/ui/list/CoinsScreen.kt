@@ -5,6 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.nikec.coincompose.core.extensions.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.collect
@@ -13,6 +14,8 @@ import kotlinx.coroutines.flow.collect
 fun CoinsScreen(viewModel: CoinsViewModel) {
     val coinsList = viewModel.paginatedCoins.collectAsLazyPagingItems()
     val coinListEvents = rememberFlowWithLifecycle(flow = viewModel.coinListEvents)
+    val currency =
+        rememberFlowWithLifecycle(flow = viewModel.currency).collectAsState(initial = null).value
     val scrollState = rememberScrollState()
     val listState = rememberLazyListState()
 
@@ -33,6 +36,7 @@ fun CoinsScreen(viewModel: CoinsViewModel) {
             onScrollToTopClicked = viewModel::onScrollToTopClicked,
             onRefresh = viewModel::onRefresh,
             onRetryClicked = viewModel::onRetryClicked,
+            currency = currency,
             scrollState = scrollState,
             listState = listState
         )
