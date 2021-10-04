@@ -11,7 +11,7 @@ import com.nikec.coincompose.core.data.model.Currency
 import com.nikec.coincompose.core.domain.GetCurrencyUseCase
 import com.nikec.coincompose.core.navigation.NavigationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -32,8 +32,8 @@ class CoinsViewModel @Inject constructor(
         null
     )
 
-    @OptIn(FlowPreview::class)
-    val paginatedCoins: Flow<PagingData<Coin>> = currency.filterNotNull().flatMapMerge { currency ->
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val paginatedCoins: Flow<PagingData<Coin>> = currency.filterNotNull().flatMapLatest { currency ->
         fetchCoinsUseCase.execute(currency)
     }.cachedIn(viewModelScope)
 
