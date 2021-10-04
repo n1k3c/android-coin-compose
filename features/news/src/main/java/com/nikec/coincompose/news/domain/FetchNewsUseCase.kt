@@ -8,6 +8,7 @@ import com.nikec.coincompose.news.data.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FetchNewsUseCase @Inject constructor(
@@ -18,7 +19,9 @@ class FetchNewsUseCase @Inject constructor(
     fun execute(): Flow<PagingData<News>> {
         return newsRepository.fetchNews().map { pagingData ->
             pagingData.map { news ->
-                val newsImage = newsRepository.fetchNewsImage(news)
+                val newsImage = withContext(coroutineContextProvider.io) {
+                    newsRepository.fetchNewsImage(news)
+                }
                 news.copy(image = newsImage)
             }
         }.flowOn(coroutineContextProvider.io)
