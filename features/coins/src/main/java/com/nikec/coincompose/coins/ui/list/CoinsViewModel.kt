@@ -26,7 +26,11 @@ class CoinsViewModel @Inject constructor(
     private val coinListEventsChannel = Channel<CoinListEvent>(Channel.CONFLATED)
     val coinListEvents: Flow<CoinListEvent> = coinListEventsChannel.receiveAsFlow()
 
-    val currency: StateFlow<Currency?> = getCurrencyUseCase.execute().stateIn(
+    init {
+        getCurrencyUseCase.invoke(Unit)
+    }
+
+    val currency: StateFlow<Currency?> = getCurrencyUseCase.flow.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         null

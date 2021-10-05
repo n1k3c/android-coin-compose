@@ -27,9 +27,14 @@ class CoinViewModel @Inject constructor(
     private val coinId = savedStateHandle.get<String>(CoinsDirections.COIN_ID)
         ?: throw IllegalStateException("Coin ID can not be null.")
 
+    init {
+        getCoinUseCase.invoke(GetCoinUseCase.Params(coinId = coinId))
+        getCurrencyUseCase.invoke(Unit)
+    }
+
     val state: StateFlow<CoinUiState> = combine(
-        getCoinUseCase.execute(coinId),
-        getCurrencyUseCase.execute()
+        getCoinUseCase.flow,
+        getCurrencyUseCase.flow
     ) { coinResult, currency ->
         CoinUiState(coin = coinResult, currency = currency)
     }.stateIn(

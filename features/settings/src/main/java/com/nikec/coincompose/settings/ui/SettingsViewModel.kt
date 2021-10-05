@@ -18,7 +18,11 @@ class SettingsViewModel @Inject constructor(
     private val saveCurrencyUseCase: SaveCurrencyUseCase
 ) : ViewModel() {
 
-    val currency: StateFlow<Currency?> = getCurrencyUseCase.execute().stateIn(
+    init {
+        getCurrencyUseCase.invoke(Unit)
+    }
+
+    val currency: StateFlow<Currency?> = getCurrencyUseCase.flow.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         null
