@@ -29,9 +29,10 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.coins.ui.common.PercentageChangeHeader
 import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
-import com.nikec.coincompose.core.extensions.formatToString
+import com.nikec.coincompose.core.data.model.Coin
+import com.nikec.coincompose.core.data.model.Currency
+import com.nikec.coincompose.core.extensions.formatToStringWithCurrency
 import com.nikec.coincompose.core.extensions.round
-import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.ui.atoms.AppendLoadingIndicator
 import com.nikec.coincompose.core.ui.atoms.ConnectivityStatus
 import com.nikec.coincompose.core.ui.atoms.ErrorStatus
@@ -53,7 +54,8 @@ fun CoinsContent(
     scrollState: ScrollState,
     listState: LazyListState,
     onRefresh: () -> Unit,
-    onRetryClicked: () -> Unit
+    onRetryClicked: () -> Unit,
+    currency: Currency?
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         ConnectivityStatus()
@@ -66,7 +68,8 @@ fun CoinsContent(
             listState = listState,
             onScrollToTopClicked = onScrollToTopClicked,
             onRefresh = onRefresh,
-            onRetryClicked = onRetryClicked
+            onRetryClicked = onRetryClicked,
+            currency = currency
         )
     }
 }
@@ -79,7 +82,8 @@ private fun CoinsList(
     listState: LazyListState,
     onScrollToTopClicked: () -> Unit,
     onRefresh: () -> Unit,
-    onRetryClicked: () -> Unit
+    onRetryClicked: () -> Unit,
+    currency: Currency?
 ) {
     Box {
         SwipeRefresh(
@@ -101,7 +105,8 @@ private fun CoinsList(
                         CoinItem(
                             coin = coin,
                             onCoinClicked = onCoinClicked,
-                            scrollState = scrollState
+                            scrollState = scrollState,
+                            currency = currency
                         )
                         Divider(color = MaterialTheme.colors.divider)
                     }
@@ -183,7 +188,12 @@ private fun CoinHeader(scrollState: ScrollState) {
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: ScrollState) {
+private fun CoinItem(
+    coin: Coin,
+    onCoinClicked: (Coin) -> Unit,
+    scrollState: ScrollState,
+    currency: Currency?
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -214,7 +224,7 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$" + coin.currentPrice.formatToString(),
+                    text = coin.currentPrice.formatToStringWithCurrency(currency),
                     modifier = Modifier.width(CellWidthDimensions.PRICE.dp),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.body2
@@ -225,7 +235,7 @@ private fun CoinItem(coin: Coin, onCoinClicked: (Coin) -> Unit, scrollState: Scr
                 PercentageChangeCell(price = coin.priceChangePercentage30d)
                 PercentageChangeCell(price = coin.priceChangePercentage1y)
                 Text(
-                    text = "$" + coin.marketCap.toDouble().formatToString(),
+                    text = "$" + coin.marketCap.toDouble().formatToStringWithCurrency(Currency.USD),
                     modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.body2

@@ -25,14 +25,15 @@ import androidx.compose.ui.unit.sp
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.coins.ui.common.PercentageChangeHeader
 import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
+import com.nikec.coincompose.core.data.model.Coin
+import com.nikec.coincompose.core.data.model.Currency
 import com.nikec.coincompose.core.extensions.formatLocalized
-import com.nikec.coincompose.core.extensions.formatToString
+import com.nikec.coincompose.core.extensions.formatToStringWithCurrency
 import com.nikec.coincompose.core.extensions.round
-import com.nikec.coincompose.core.model.Coin
 import com.nikec.coincompose.core.ui.theme.*
 
 @Composable
-fun CoinContent(coin: Coin?) {
+fun CoinContent(coin: Coin?, currency: Currency) {
     if (coin == null) return
 
     val scrollState = rememberScrollState()
@@ -45,18 +46,20 @@ fun CoinContent(coin: Coin?) {
     ) {
         CoinPrice(
             currentPrice = coin.currentPrice,
-            priceChangePercentage1h = coin.priceChangePercentage1h
+            priceChangePercentage1h = coin.priceChangePercentage1h,
+            currency = currency
         )
         Sparkline(
             modifier = Modifier
                 .height(300.dp)
                 .padding(16.dp),
-            sparklineIn7d = coin.sparkline
+            sparklineIn7d = coin.sparkline,
+            currency = currency
         )
         ChangePricePercentages(coin = coin)
         CoinDetailsRow(
             name = stringResource(id = R.string.market_cap),
-            value = "$${coin.marketCap.toDouble().formatToString()}"
+            value = coin.marketCap.toDouble().formatToStringWithCurrency(currency)
         )
         DetailsDivider()
         CoinDetailsRow(
@@ -66,17 +69,17 @@ fun CoinContent(coin: Coin?) {
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.day_high),
-            value = if (coin.high24h != null) "$${coin.high24h?.formatToString()}" else null
+            value = coin.high24h?.formatToStringWithCurrency(currency)
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.day_low),
-            value = if (coin.low24h != null) "$${coin.low24h?.formatToString()}" else null
+            value = coin.low24h?.formatToStringWithCurrency(currency)
         )
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.ath),
-            value = "$${coin.ath.formatToString()}"
+            value = coin.ath.formatToStringWithCurrency(currency)
         )
         DetailsDivider()
         CoinDetailsRow(
@@ -86,7 +89,7 @@ fun CoinContent(coin: Coin?) {
         DetailsDivider()
         CoinDetailsRow(
             name = stringResource(id = R.string.atl),
-            value = "$${coin.atl.formatToString()}"
+            value = coin.atl.formatToStringWithCurrency(currency)
         )
         DetailsDivider()
         CoinDetailsRow(
@@ -97,13 +100,14 @@ fun CoinContent(coin: Coin?) {
 }
 
 @Composable
-private fun CoinPrice(currentPrice: Double?, priceChangePercentage1h: Double?) {
+private fun CoinPrice(currentPrice: Double?, priceChangePercentage1h: Double?, currency: Currency) {
     Row(
         modifier = Modifier.padding(start = 16.dp, top = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "$${currentPrice?.formatToString()}",
+            text = currentPrice?.formatToStringWithCurrency(currency)
+                ?: stringResource(id = R.string.not_available),
             style = MaterialTheme.typography.body2.copy(fontSize = 26.sp)
         )
 

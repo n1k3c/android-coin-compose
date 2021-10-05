@@ -8,20 +8,19 @@ import androidx.room.withTransaction
 import com.github.ajalt.timberkt.Timber.e
 import com.nikec.coincompose.coins.data.api.CoinsService
 import com.nikec.coincompose.coins.data.repository.CoinsRepository
-import com.nikec.coincompose.core.db.CoinsDatabase
-import com.nikec.coincompose.core.model.Coin
-import com.nikec.coincompose.core.model.CoinRemoteKeys
-import com.nikec.coincompose.core.utils.CoroutineContextProvider
+import com.nikec.coincompose.core.data.db.CoinsDatabase
+import com.nikec.coincompose.core.data.model.Coin
+import com.nikec.coincompose.core.data.model.CoinRemoteKeys
+import com.nikec.coincompose.core.data.model.Currency
 import com.nikec.coincompose.core.utils.Result
 import com.nikec.coincompose.core.utils.safeApiCall
 import java.io.InvalidObjectException
-import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class CoinsPageKeyedRemoteMediator @Inject constructor(
-    private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider(),
+class CoinsPageKeyedRemoteMediator(
     private val db: CoinsDatabase,
-    private val coinsService: CoinsService
+    private val coinsService: CoinsService,
+    private val currency: Currency
 ) : RemoteMediator<Int, Coin>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Coin>): MediatorResult {
@@ -40,10 +39,11 @@ class CoinsPageKeyedRemoteMediator @Inject constructor(
             }
         }
 
-        return when (val result = safeApiCall(coroutineContextProvider.io) {
+        return when (val result = safeApiCall {
             coinsService.fetchCoins(
                 page = page,
-                perPage = state.config.pageSize
+                perPage = state.config.pageSize,
+                currency = currency.key
             )
         }) {
             is Result.Success -> {

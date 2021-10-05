@@ -22,6 +22,7 @@ import com.nikec.coincompose.core.ui.theme.CoinComposeTheme
 import com.nikec.coincompose.navigation.BottomNavigationBar
 import com.nikec.coincompose.navigation.coinsGraph
 import com.nikec.coincompose.navigation.newsGraph
+import com.nikec.coincompose.navigation.settingsGraph
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
@@ -78,8 +79,9 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = CoinsDirections.root.destination
                     ) {
-                        newsGraph()
                         coinsGraph()
+                        newsGraph()
+                        settingsGraph()
                     }
                 }
             }

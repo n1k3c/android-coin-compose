@@ -1,4 +1,4 @@
-package com.nikec.coincompose.core.model
+package com.nikec.coincompose.core.data.model
 
 sealed class ConnectionState {
     object Available : ConnectionState()

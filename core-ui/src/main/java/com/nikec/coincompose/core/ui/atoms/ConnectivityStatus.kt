@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.nikec.coincompose.core.model.ConnectionState
+import com.nikec.coincompose.core.data.model.ConnectionState
 import com.nikec.coincompose.core.ui.R
 import com.nikec.coincompose.core.ui.theme.Green
 import com.nikec.coincompose.core.ui.theme.Red

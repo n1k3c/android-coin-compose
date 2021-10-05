@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.nikec.coincompose.R
 import com.nikec.coincompose.coins.navigation.CoinsDirections
 import com.nikec.coincompose.news.navigation.NewsDirections
+import com.nikec.coincompose.settings.navigation.SettingsDirections
 
 private sealed class NavigationBarItem(
     @StringRes val title: Int,
@@ -36,9 +37,16 @@ private sealed class NavigationBarItem(
 
     object News :
         NavigationBarItem(R.string.news, NewsDirections.newsList.route, R.drawable.ic_news)
+
+    object Settings : NavigationBarItem(
+        R.string.settings,
+        SettingsDirections.settings.route,
+        R.drawable.ic_settings
+    )
 }
 
-private val navigationBarItems = listOf(NavigationBarItem.Coins, NavigationBarItem.News)
+private val navigationBarItems =
+    listOf(NavigationBarItem.Coins, NavigationBarItem.News, NavigationBarItem.Settings)
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

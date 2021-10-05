@@ -1,8 +1,8 @@
-package com.nikec.coincompose.core.model
+package com.nikec.coincompose.core.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.nikec.coincompose.core.db.CoinsDatabase
+import com.nikec.coincompose.core.data.db.CoinsDatabase
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.time.LocalDateTime

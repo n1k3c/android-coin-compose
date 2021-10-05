@@ -5,13 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nikec.coincompose.coins.domain.GetCoinUseCase
 import com.nikec.coincompose.coins.navigation.CoinsDirections
-import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.data.model.Coin
+import com.nikec.coincompose.core.data.model.Currency
+import com.nikec.coincompose.core.domain.GetCurrencyUseCase
 import com.nikec.coincompose.core.navigation.NavigationManager
-import com.nikec.coincompose.core.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -19,23 +20,18 @@ import javax.inject.Inject
 class CoinViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager,
-    getCoinUseCase: GetCoinUseCase
+    getCoinUseCase: GetCoinUseCase,
+    getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
 
     private val coinId = savedStateHandle.get<String>(CoinsDirections.COIN_ID)
         ?: throw IllegalStateException("Coin ID can not be null.")
 
-    val state = flow {
-        when (val result = getCoinUseCase.execute(coinId = coinId)) {
-            is Result.Success -> {
-                result.payload.collect { coin ->
-                    emit(CoinUiState(coin = coin))
-                }
-            }
-            else -> {
-                emit(CoinUiState(coinError = true))
-            }
-        }
+    val state: StateFlow<CoinUiState> = combine(
+        getCoinUseCase.execute(coinId),
+        getCurrencyUseCase.execute()
+    ) { coinResult, currency ->
+        CoinUiState(coin = coinResult, currency = currency)
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
@@ -49,5 +45,5 @@ class CoinViewModel @Inject constructor(
 
 data class CoinUiState(
     val coin: Coin? = null,
-    val coinError: Boolean = false
+    val currency: Currency = Currency.USD
 )

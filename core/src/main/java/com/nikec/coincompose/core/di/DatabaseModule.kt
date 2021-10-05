@@ -2,7 +2,7 @@ package com.nikec.coincompose.core.di
 
 import android.content.Context
 import androidx.room.Room
-import com.nikec.coincompose.core.db.*
+import com.nikec.coincompose.core.data.db.*
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

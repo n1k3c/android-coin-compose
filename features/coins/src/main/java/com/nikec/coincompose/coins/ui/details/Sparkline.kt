@@ -10,12 +10,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.nikec.coincompose.coins.R
-import com.nikec.coincompose.core.extensions.formatToString
-import com.nikec.coincompose.core.model.SparklineIn7d
+import com.nikec.coincompose.core.data.model.Currency
+import com.nikec.coincompose.core.data.model.SparklineIn7d
+import com.nikec.coincompose.core.extensions.formatToStringWithCurrency
 import com.nikec.coincompose.core.ui.theme.axisGridStrokeColor
 import com.nikec.coincompose.core.ui.theme.graphLineColor
 import com.nikec.coincompose.core.ui.theme.priceChangeNegative
@@ -24,11 +24,11 @@ import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-@Preview(showBackground = true)
 @Composable
 fun Sparkline(
     modifier: Modifier = Modifier,
-    @PreviewParameter(FakeSparklineProvider::class) sparklineIn7d: SparklineIn7d?
+    @PreviewParameter(FakeSparklineProvider::class) sparklineIn7d: SparklineIn7d?,
+    currency: Currency
 ) {
     if (sparklineIn7d == null) return
 
@@ -131,7 +131,7 @@ fun Sparkline(
         }
 
         drawContext.canvas.nativeCanvas.drawText(
-            "$" + maxPrice.formatToString(),
+            maxPrice.formatToStringWithCurrency(currency),
             gridValueXOffset,
             gridValueYOffset,
             gridTextValuePaint
@@ -140,7 +140,7 @@ fun Sparkline(
         gridTextValuePaint.color = minPriceColor
 
         drawContext.canvas.nativeCanvas.drawText(
-            "$" + minPrice.formatToString(),
+            minPrice.formatToStringWithCurrency(currency),
             gridValueXOffset,
             canvasHeight - gridValueYEndOffset,
             gridTextValuePaint

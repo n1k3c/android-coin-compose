@@ -1,11 +1,11 @@
-package com.nikec.coincompose.core.db
+package com.nikec.coincompose.core.data.db
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.data.model.Coin
 import kotlinx.coroutines.flow.Flow
 
 @Dao

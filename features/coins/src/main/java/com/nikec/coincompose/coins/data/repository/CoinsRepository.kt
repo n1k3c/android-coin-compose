@@ -4,9 +4,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.nikec.coincompose.coins.data.api.CoinsService
 import com.nikec.coincompose.coins.data.paging.CoinsPageKeyedRemoteMediator
-import com.nikec.coincompose.core.db.CoinsDatabase
-import com.nikec.coincompose.core.model.Coin
+import com.nikec.coincompose.core.data.db.CoinsDatabase
+import com.nikec.coincompose.core.data.model.Coin
+import com.nikec.coincompose.core.data.model.Currency
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -18,26 +20,30 @@ interface CoinsRepository {
         const val MAX_PAGES = 6
     }
 
-    fun fetchCoins(): Flow<PagingData<Coin>>
-    suspend fun getCoin(coinId: String): Flow<Coin?>
+    fun fetchCoins(currency: Currency): Flow<PagingData<Coin>>
+    fun getCoin(coinId: String): Flow<Coin?>
 }
 
 class CoinsRepositoryImpl @Inject constructor(
     private val db: CoinsDatabase,
-    private val coinsPageKeyedRemoteMediator: CoinsPageKeyedRemoteMediator
+    private val coinsService: CoinsService
 ) : CoinsRepository {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun fetchCoins() = Pager(
+    override fun fetchCoins(currency: Currency) = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
             initialLoadSize = INITIAL_LOAD_SIZE,
             enablePlaceholders = true
         ),
-        remoteMediator = coinsPageKeyedRemoteMediator
+        remoteMediator = CoinsPageKeyedRemoteMediator(
+            db = db,
+            coinsService = coinsService,
+            currency = currency
+        )
     ) {
         db.coinsDao().observeCoinsPaginated()
     }.flow
 
-    override suspend fun getCoin(coinId: String): Flow<Coin?> = db.coinsDao().getCoin(coinId)
+    override fun getCoin(coinId: String): Flow<Coin?> = db.coinsDao().getCoin(coinId)
 }
