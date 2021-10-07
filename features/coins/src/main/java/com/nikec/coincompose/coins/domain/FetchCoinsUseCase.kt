@@ -23,12 +23,6 @@ class FetchCoinsUseCase @Inject constructor(
     private val coinsService: CoinsService
 ) : PagingInteractor<FetchCoinsUseCase.Params, Coin>() {
 
-    data class Params(
-        override val pagingConfig: PagingConfig,
-        val currency: Currency,
-        val maxPages: Int
-    ) : PagingInteractor.Params<Coin>
-
     @OptIn(ExperimentalPagingApi::class)
     override fun createObservable(params: Params): Flow<PagingData<Coin>> {
         return Pager(
@@ -43,4 +37,10 @@ class FetchCoinsUseCase @Inject constructor(
             coinsRepository.getCoins()
         }.flow.flowOn(coroutineContextProvider.io)
     }
+
+    data class Params(
+        override val pagingConfig: PagingConfig,
+        val currency: Currency,
+        val maxPages: Int
+    ) : PagingInteractor.Params<Coin>
 }

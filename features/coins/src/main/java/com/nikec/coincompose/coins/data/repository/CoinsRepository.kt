@@ -15,8 +15,7 @@ interface CoinsRepository {
 }
 
 class CoinsRepositoryImpl @Inject constructor(
-    private val db: CoinsDatabase,
-    private val coinsService: CoinsService
+    private val db: CoinsDatabase
 ) : CoinsRepository {
 
     override fun getCoins(): PagingSource<Int, Coin> = db.coinsDao().observeCoinsPaginated()
