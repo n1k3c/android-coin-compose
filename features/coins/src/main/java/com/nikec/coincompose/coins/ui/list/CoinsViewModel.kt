@@ -2,6 +2,7 @@ package com.nikec.coincompose.coins.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.nikec.coincompose.coins.domain.FetchCoinsUseCase
@@ -16,12 +17,22 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+private const val PAGE_SIZE = 35
+private const val INITIAL_LOAD_SIZE = PAGE_SIZE
+private const val MAX_PAGES = 6
+
 @HiltViewModel
 class CoinsViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     fetchCoinsUseCase: FetchCoinsUseCase,
     getCurrencyUseCase: GetCurrencyUseCase
 ) : ViewModel() {
+
+    private val pagingConfig = PagingConfig(
+        pageSize = PAGE_SIZE,
+        initialLoadSize = INITIAL_LOAD_SIZE,
+        enablePlaceholders = true
+    )
 
     private val coinListEventsChannel = Channel<CoinListEvent>(Channel.CONFLATED)
     val coinListEvents: Flow<CoinListEvent> = coinListEventsChannel.receiveAsFlow()
@@ -37,9 +48,17 @@ class CoinsViewModel @Inject constructor(
     )
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val paginatedCoins: Flow<PagingData<Coin>> = currency.filterNotNull().flatMapLatest { currency ->
-        fetchCoinsUseCase.execute(currency)
-    }.cachedIn(viewModelScope)
+    val paginatedCoins: Flow<PagingData<Coin>> =
+        currency.filterNotNull().flatMapLatest { currency ->
+            fetchCoinsUseCase.invoke(
+                FetchCoinsUseCase.Params(
+                    pagingConfig = pagingConfig,
+                    currency = currency,
+                    maxPages = MAX_PAGES
+                )
+            )
+            fetchCoinsUseCase.flow
+        }.cachedIn(viewModelScope)
 
     fun onCoinClicked(coin: Coin) {
         navigationManager.navigate(CoinsDirections.coinDetails(coin.id))

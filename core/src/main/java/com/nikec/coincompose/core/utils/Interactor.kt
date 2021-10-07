@@ -18,9 +18,9 @@ abstract class ResultInteractor<in P, R> {
     protected abstract suspend fun doWork(params: P): R
 }
 
-abstract class PagingInteractor<P : PagingInteractor.Parameters<T>, T : Any> :
+abstract class PagingInteractor<P : PagingInteractor.Params<T>, T : Any> :
     SubjectInteractor<P, PagingData<T>>() {
-    interface Parameters<T : Any> {
+    interface Params<T : Any> {
         val pagingConfig: PagingConfig
     }
 }
