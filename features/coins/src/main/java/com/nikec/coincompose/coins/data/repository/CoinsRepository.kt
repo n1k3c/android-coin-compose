@@ -1,11 +1,8 @@
 package com.nikec.coincompose.coins.data.repository
 
-import androidx.paging.*
-import com.nikec.coincompose.coins.data.api.CoinsService
-import com.nikec.coincompose.coins.data.paging.CoinsPageKeyedRemoteMediator
+import androidx.paging.PagingSource
 import com.nikec.coincompose.core.data.db.CoinsDatabase
 import com.nikec.coincompose.core.data.model.Coin
-import com.nikec.coincompose.core.data.model.Currency
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

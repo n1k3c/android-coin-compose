@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import com.nikec.coincompose.core.Settings
-import com.nikec.coincompose.core.data.repository.SettingsRepository
-import com.nikec.coincompose.core.data.repository.SettingsRepositoryImpl
 import com.nikec.coincompose.core.data.datastore.SettingsSerializer
 import dagger.Module
 import dagger.Provides
