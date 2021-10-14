@@ -120,6 +120,8 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":core-ui"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
     implementation(project(":features:coins"))
     implementation(project(":features:news"))
     implementation(project(":features:settings"))
