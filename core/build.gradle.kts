@@ -4,7 +4,10 @@ import Dependencies.composeDependencies
 import Dependencies.coroutinesDependencies
 import Dependencies.retrofitDependencies
 import Dependencies.testImplementationDependencies
-import com.google.protobuf.gradle.*
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.plugins
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
 
 plugins {
     id("common-android")
@@ -18,7 +21,7 @@ protobuf {
     }
     generateProtoTasks {
         all().forEach { task ->
-            task.plugins{
+            task.plugins {
                 create("java") {
                     option("lite")
                 }

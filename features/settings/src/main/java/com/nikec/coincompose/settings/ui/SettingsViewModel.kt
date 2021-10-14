@@ -6,9 +6,8 @@ import com.nikec.coincompose.core.data.model.Currency
 import com.nikec.coincompose.core.domain.GetCurrencyUseCase
 import com.nikec.coincompose.core.domain.SaveCurrencyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,15 +17,33 @@ class SettingsViewModel @Inject constructor(
     private val saveCurrencyUseCase: SaveCurrencyUseCase
 ) : ViewModel() {
 
-    val currency: StateFlow<Currency?> = getCurrencyUseCase.execute().stateIn(
+    init {
+        viewModelScope.launch {
+            getCurrencyUseCase.invoke(Unit)
+        }
+    }
+
+    private val setCurrencyResult: MutableStateFlow<String?> = MutableStateFlow("")
+
+    val currency: StateFlow<Currency?> = combine(
+        getCurrencyUseCase.flow,
+        setCurrencyResult
+    ) { currency, _ ->
+        // Right now we don't need currencyResult; this is just example how we can use
+        // MutableStateFlow to hold a value and combine results...
+        currency
+    }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         null
     )
 
+    @OptIn(FlowPreview::class)
     fun onCurrencyChange(currency: Currency) {
         viewModelScope.launch {
-            saveCurrencyUseCase.execute(currency)
+            saveCurrencyUseCase.invoke(SaveCurrencyUseCase.Params(currency = currency)).collect {
+                setCurrencyResult.emit(it)
+            }
         }
     }
 }

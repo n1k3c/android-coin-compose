@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 interface SettingsRepository {
     fun getCurrency(): Flow<Currency>
-    suspend fun setCurrency(currency: Currency)
+    suspend fun setCurrency(currency: Currency): String?
 }
 
 class SettingsRepositoryImpl @Inject constructor(
@@ -34,11 +34,11 @@ class SettingsRepositoryImpl @Inject constructor(
             ?: Currency.USD // Default value
     }
 
-    override suspend fun setCurrency(currency: Currency) {
-        settingsDataStore.updateData { currentSettings ->
+    override suspend fun setCurrency(currency: Currency): String? {
+        return settingsDataStore.updateData { currentSettings ->
             currentSettings.toBuilder()
                 .setCurrency(currency.key)
                 .build()
-        }
+        }.currency
     }
 }
