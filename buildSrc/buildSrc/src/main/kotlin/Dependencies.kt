@@ -63,6 +63,7 @@ object Dependencies {
     const val jsoup = "org.jsoup:jsoup:${Versions.jsoup}"
     const val browser = "androidx.browser:browser:${Versions.browser}"
     const val protoDataStore = "androidx.datastore:datastore:${Versions.protoDataStore}"
+    const val protoDataStoreJavaLite = "com.google.protobuf:protobuf-javalite:${Versions.protoDataStoreJavaLite}"
 
     private const val mockk = "io.mockk:mockk:${Versions.mockk}"
     private const val junit = "junit:junit:${Versions.junit}"

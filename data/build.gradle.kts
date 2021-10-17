@@ -61,8 +61,7 @@ dependencies {
     implementation(Dependencies.timberkt)
     implementation(Dependencies.kotlinReflect)
     implementation(Dependencies.protoDataStore)
-
-    implementation("com.google.protobuf:protobuf-javalite:3.10.0")
+    implementation(Dependencies.protoDataStoreJavaLite)
 
     coreLibraryDesugaring(Dependencies.desugarJdkLibs)
     implementation(Dependencies.jsoup)
