@@ -1,4 +1,4 @@
-package com.nikec.coincompose.coins.ui.list
+package com.nikec.coincompose.coins.list
 
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState

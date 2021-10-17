@@ -1,4 +1,4 @@
-package com.nikec.coincompose.news.ui.list
+package com.nikec.coincompose.news.list
 
 import android.content.Context
 import androidx.browser.customtabs.CustomTabsIntent

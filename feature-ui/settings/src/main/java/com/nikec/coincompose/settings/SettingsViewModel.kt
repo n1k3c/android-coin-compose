@@ -1,4 +1,4 @@
-package com.nikec.coincompose.settings.ui
+package com.nikec.coincompose.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

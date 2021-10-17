@@ -1,4 +1,4 @@
-package com.nikec.coincompose.coins.ui.details
+package com.nikec.coincompose.coins.details
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -23,8 +23,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nikec.coincompose.coins.R
-import com.nikec.coincompose.coins.ui.common.PercentageChangeHeader
-import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
+import com.nikec.coincompose.coins.common.PercentageChangeHeader
+import com.nikec.coincompose.coins.common.percentageChangeColorText
 import com.nikec.coincompose.core.ui.extensions.formatLocalized
 import com.nikec.coincompose.core.ui.extensions.formatToStringWithCurrency
 import com.nikec.coincompose.core.ui.extensions.round

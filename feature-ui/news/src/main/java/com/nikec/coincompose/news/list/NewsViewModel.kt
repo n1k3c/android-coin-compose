@@ -1,4 +1,4 @@
-package com.nikec.coincompose.news.ui.list
+package com.nikec.coincompose.news.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

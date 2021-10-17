@@ -1,4 +1,4 @@
-package com.nikec.coincompose.coins.ui.list
+package com.nikec.coincompose.coins.list
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -27,8 +27,8 @@ import coil.compose.rememberImagePainter
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikec.coincompose.coins.R
-import com.nikec.coincompose.coins.ui.common.PercentageChangeHeader
-import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
+import com.nikec.coincompose.coins.common.PercentageChangeHeader
+import com.nikec.coincompose.coins.common.percentageChangeColorText
 import com.nikec.coincompose.core.ui.extensions.formatToStringWithCurrency
 import com.nikec.coincompose.core.ui.extensions.round
 import com.nikec.coincompose.core.ui.atoms.AppendLoadingIndicator

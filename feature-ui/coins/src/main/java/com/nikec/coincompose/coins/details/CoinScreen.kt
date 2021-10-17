@@ -1,4 +1,4 @@
-package com.nikec.coincompose.coins.ui.details
+package com.nikec.coincompose.coins.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row

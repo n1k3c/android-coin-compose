@@ -1,4 +1,4 @@
-package com.nikec.coincompose.coins.ui.common
+package com.nikec.coincompose.coins.common
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color

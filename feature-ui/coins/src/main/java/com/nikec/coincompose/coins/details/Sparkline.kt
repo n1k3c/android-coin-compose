@@ -1,4 +1,4 @@
-package com.nikec.coincompose.coins.ui.details
+package com.nikec.coincompose.coins.details
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas

@@ -1,24 +1,24 @@
-package com.nikec.coincompose.news.navigation
+package com.nikec.coincompose.core.navigation
 
 import androidx.navigation.compose.NamedNavArgument
 import com.nikec.coincompose.core.navigation.NavigationCommand
 
-object NewsDirections {
+object SettingsDirections {
 
     val root = object : NavigationCommand {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destination = "news"
+        override val destination = "settings"
 
         override val route = destination
     }
 
-    val newsList = object : NavigationCommand {
+    val settings = object : NavigationCommand {
 
         override val arguments = emptyList<NamedNavArgument>()
 
-        override val destination = "newsList"
+        override val destination = "settingsView"
 
         override val route = destination
     }

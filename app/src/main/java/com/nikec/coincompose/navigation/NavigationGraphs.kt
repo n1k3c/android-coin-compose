@@ -4,13 +4,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.nikec.coincompose.coins.navigation.CoinsDirections
-import com.nikec.coincompose.coins.ui.details.CoinScreen
-import com.nikec.coincompose.coins.ui.list.CoinsScreen
-import com.nikec.coincompose.news.navigation.NewsDirections
-import com.nikec.coincompose.news.ui.list.NewsScreen
-import com.nikec.coincompose.settings.navigation.SettingsDirections
-import com.nikec.coincompose.settings.ui.SettingsScreen
+import com.nikec.coincompose.coins.details.CoinScreen
+import com.nikec.coincompose.coins.list.CoinsScreen
+import com.nikec.coincompose.core.navigation.CoinsDirections
+import com.nikec.coincompose.core.navigation.NewsDirections
+import com.nikec.coincompose.core.navigation.SettingsDirections
+import com.nikec.coincompose.news.list.NewsScreen
+import com.nikec.coincompose.settings.SettingsScreen
 
 internal fun NavGraphBuilder.coinsGraph() {
     navigation(

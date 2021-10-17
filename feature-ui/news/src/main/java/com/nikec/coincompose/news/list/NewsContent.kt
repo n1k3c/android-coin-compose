@@ -1,4 +1,4 @@
-package com.nikec.coincompose.news.ui.list
+package com.nikec.coincompose.news.list
 
 import android.text.format.DateUtils
 import androidx.compose.foundation.Image

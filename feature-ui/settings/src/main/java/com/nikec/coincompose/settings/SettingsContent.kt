@@ -1,4 +1,4 @@
-package com.nikec.coincompose.settings.ui
+package com.nikec.coincompose.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nikec.coincompose.data.model.Currency
-import com.nikec.coincompose.settings.R
 
 @Composable
 fun SettingsContent(onCurrencyChange: (Currency) -> Unit, currency: Currency?) {
