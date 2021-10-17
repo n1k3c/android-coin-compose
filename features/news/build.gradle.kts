@@ -13,6 +13,7 @@ plugins {
 dependencies {
     implementation(project(":core"))
     implementation(project(":core-ui"))
+    implementation(project(":domain"))
 
     androidxDependencies()
     composeDependencies()
@@ -26,13 +27,9 @@ dependencies {
     coroutinesDependencies()
     retrofitDependencies()
 
-    implementation(Dependencies.roomKtx)
-
     implementation(Dependencies.timberkt)
     implementation(Dependencies.coil)
     implementation(Dependencies.accompanistSwipeToRefresh)
-    coreLibraryDesugaring(Dependencies.desugarJdkLibs)
-    implementation(Dependencies.jsoup)
     implementation(Dependencies.browser)
 
     testImplementationDependencies()

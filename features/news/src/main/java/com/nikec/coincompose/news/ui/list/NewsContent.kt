@@ -28,8 +28,8 @@ import com.nikec.coincompose.core.ui.atoms.ConnectivityStatus
 import com.nikec.coincompose.core.ui.atoms.ErrorStatus
 import com.nikec.coincompose.core.ui.atoms.SwipeToRefreshIndicator
 import com.nikec.coincompose.core.ui.theme.divider
+import com.nikec.coincompose.data.model.News
 import com.nikec.coincompose.news.R
-import com.nikec.coincompose.news.data.model.News
 import java.time.ZoneId
 import java.time.ZonedDateTime
 

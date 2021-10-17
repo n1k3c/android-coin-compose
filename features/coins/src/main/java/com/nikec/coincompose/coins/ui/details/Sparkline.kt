@@ -13,13 +13,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.nikec.coincompose.coins.R
-import com.nikec.coincompose.core.data.model.Currency
-import com.nikec.coincompose.core.data.model.SparklineIn7d
-import com.nikec.coincompose.core.extensions.formatToStringWithCurrency
+import com.nikec.coincompose.core.ui.extensions.formatToStringWithCurrency
 import com.nikec.coincompose.core.ui.theme.axisGridStrokeColor
 import com.nikec.coincompose.core.ui.theme.graphLineColor
 import com.nikec.coincompose.core.ui.theme.priceChangeNegative
 import com.nikec.coincompose.core.ui.theme.priceChangePositive
+import com.nikec.coincompose.data.model.Currency
+import com.nikec.coincompose.data.model.SparklineIn7d
 import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt

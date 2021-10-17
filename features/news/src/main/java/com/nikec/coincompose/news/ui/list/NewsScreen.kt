@@ -8,9 +8,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.nikec.coincompose.core.extensions.rememberFlowWithLifecycle
+import com.nikec.coincompose.core.ui.extensions.rememberFlowWithLifecycle
+import com.nikec.coincompose.data.model.News
 import com.nikec.coincompose.news.BuildConfig
-import com.nikec.coincompose.news.data.model.News
 import kotlinx.coroutines.flow.collect
 
 @Composable

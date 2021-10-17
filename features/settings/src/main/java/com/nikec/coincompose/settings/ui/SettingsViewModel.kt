@@ -2,9 +2,9 @@ package com.nikec.coincompose.settings.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nikec.coincompose.core.data.model.Currency
-import com.nikec.coincompose.core.domain.GetCurrencyUseCase
-import com.nikec.coincompose.core.domain.SaveCurrencyUseCase
+import com.nikec.coincompose.data.model.Currency
+import com.nikec.coincompose.domain.usecases.GetCurrencyUseCase
+import com.nikec.coincompose.domain.usecases.SaveCurrencyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*

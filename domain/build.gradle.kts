@@ -10,11 +10,13 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":data"))
+    implementation(project(":core"))
+    api(project(":data"))
 
     androidxDependencies()
     composeDependencies()
     implementation(Dependencies.composeNavigation)
+    implementation(Dependencies.composePaging)
 
     implementation(Dependencies.hiltCompose)
     implementation(Dependencies.hiltAndroid)

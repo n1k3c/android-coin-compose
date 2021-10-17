@@ -3,7 +3,7 @@ package com.nikec.coincompose.settings.ui
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import com.nikec.coincompose.core.extensions.rememberFlowWithLifecycle
+import com.nikec.coincompose.core.ui.extensions.rememberFlowWithLifecycle
 
 @Composable
 fun SettingsScreen(viewModel: SettingsViewModel) {

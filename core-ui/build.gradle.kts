@@ -7,6 +7,7 @@ plugins {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":data"))
 
     androidxDependencies()
     composeDependencies()

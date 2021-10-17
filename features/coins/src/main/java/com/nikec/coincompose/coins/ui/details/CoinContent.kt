@@ -25,12 +25,12 @@ import androidx.compose.ui.unit.sp
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.coins.ui.common.PercentageChangeHeader
 import com.nikec.coincompose.coins.ui.common.percentageChangeColorText
-import com.nikec.coincompose.core.data.model.Coin
-import com.nikec.coincompose.core.data.model.Currency
-import com.nikec.coincompose.core.extensions.formatLocalized
-import com.nikec.coincompose.core.extensions.formatToStringWithCurrency
-import com.nikec.coincompose.core.extensions.round
+import com.nikec.coincompose.core.ui.extensions.formatLocalized
+import com.nikec.coincompose.core.ui.extensions.formatToStringWithCurrency
+import com.nikec.coincompose.core.ui.extensions.round
 import com.nikec.coincompose.core.ui.theme.*
+import com.nikec.coincompose.data.model.Coin
+import com.nikec.coincompose.data.model.Currency
 
 @Composable
 fun CoinContent(coin: Coin?, currency: Currency) {

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.nikec.coincompose.news.data.model.News
-import com.nikec.coincompose.news.domain.FetchNewsUseCase
+import com.nikec.coincompose.data.model.News
+import com.nikec.coincompose.domain.usecases.FetchNewsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow

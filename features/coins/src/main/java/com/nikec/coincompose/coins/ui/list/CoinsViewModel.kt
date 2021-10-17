@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.nikec.coincompose.coins.domain.FetchCoinsUseCase
 import com.nikec.coincompose.coins.navigation.CoinsDirections
-import com.nikec.coincompose.core.data.model.Coin
-import com.nikec.coincompose.core.data.model.Currency
-import com.nikec.coincompose.core.domain.GetCurrencyUseCase
 import com.nikec.coincompose.core.navigation.NavigationManager
+import com.nikec.coincompose.data.model.Coin
+import com.nikec.coincompose.data.model.Currency
+import com.nikec.coincompose.domain.usecases.FetchCoinsUseCase
+import com.nikec.coincompose.domain.usecases.GetCurrencyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel

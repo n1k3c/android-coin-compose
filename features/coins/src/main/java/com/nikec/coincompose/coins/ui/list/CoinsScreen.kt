@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.nikec.coincompose.core.extensions.rememberFlowWithLifecycle
+import com.nikec.coincompose.core.ui.extensions.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.collect
 
 @Composable

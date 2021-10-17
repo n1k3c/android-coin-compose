@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nikec.coincompose.core.data.model.Currency
+import com.nikec.coincompose.data.model.Currency
 import com.nikec.coincompose.settings.R
 
 @Composable
