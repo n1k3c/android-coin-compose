@@ -29,12 +29,12 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nikec.coincompose.coins.R
 import com.nikec.coincompose.coins.common.PercentageChangeHeader
 import com.nikec.coincompose.coins.common.percentageChangeColorText
-import com.nikec.coincompose.core.ui.extensions.formatToStringWithCurrency
-import com.nikec.coincompose.core.ui.extensions.round
 import com.nikec.coincompose.core.ui.atoms.AppendLoadingIndicator
 import com.nikec.coincompose.core.ui.atoms.ConnectivityStatus
 import com.nikec.coincompose.core.ui.atoms.ErrorStatus
 import com.nikec.coincompose.core.ui.atoms.SwipeToRefreshIndicator
+import com.nikec.coincompose.core.ui.extensions.formatToStringWithCurrency
+import com.nikec.coincompose.core.ui.extensions.round
 import com.nikec.coincompose.core.ui.theme.*
 import com.nikec.coincompose.data.model.Coin
 import com.nikec.coincompose.data.model.Currency

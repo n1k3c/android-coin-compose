@@ -1,7 +1,6 @@
 package com.nikec.coincompose.core.navigation
 
 import androidx.navigation.compose.NamedNavArgument
-import com.nikec.coincompose.core.navigation.NavigationCommand
 
 object NewsDirections {
 
