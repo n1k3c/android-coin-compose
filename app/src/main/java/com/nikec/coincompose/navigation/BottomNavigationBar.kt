@@ -20,9 +20,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.nikec.coincompose.R
-import com.nikec.coincompose.coins.navigation.CoinsDirections
-import com.nikec.coincompose.news.navigation.NewsDirections
-import com.nikec.coincompose.settings.navigation.SettingsDirections
+import com.nikec.coincompose.core.navigation.CoinsDirections
+import com.nikec.coincompose.core.navigation.NewsDirections
+import com.nikec.coincompose.core.navigation.SettingsDirections
 
 private sealed class NavigationBarItem(
     @StringRes val title: Int,

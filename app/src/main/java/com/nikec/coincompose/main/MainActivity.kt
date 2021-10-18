@@ -15,7 +15,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.compose.*
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.nikec.coincompose.coins.navigation.CoinsDirections
+import com.nikec.coincompose.core.navigation.CoinsDirections
 import com.nikec.coincompose.core.navigation.DESTINATION_BACK
 import com.nikec.coincompose.core.navigation.NavigationManager
 import com.nikec.coincompose.core.ui.theme.CoinComposeTheme
