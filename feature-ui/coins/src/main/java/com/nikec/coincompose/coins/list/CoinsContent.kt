@@ -235,7 +235,7 @@ private fun CoinItem(
                 PercentageChangeCell(price = coin.priceChangePercentage30d)
                 PercentageChangeCell(price = coin.priceChangePercentage1y)
                 Text(
-                    text = "$" + coin.marketCap.toDouble().formatToStringWithCurrency(Currency.USD),
+                    text = coin.marketCap.toDouble().formatToStringWithCurrency(currency),
                     modifier = Modifier.width(CellWidthDimensions.MARKET_CAP.dp),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.body2
