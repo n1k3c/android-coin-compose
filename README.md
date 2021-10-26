@@ -1,8 +1,8 @@
 # Coin Compose
 
-Coin Compose is an small Android that shows crypto prices and news. 
+Coin Compose is a small Android that shows crypto prices and news. 
 
-App is an attempt to use the latest cutting edge libraries and tools. Serves as an playground to try new technologies and architecture.  
+App is an attempt to use the latest cutting edge libraries and tools. Serves as a playground to try new technologies and architectures.  
 
 <img src="art/ss1.png" width="30%" /> <img src="art/ss2.png" width="30%" />
 
