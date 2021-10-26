@@ -1,11 +1,38 @@
+/*
+ * Developed by n1k3c (Nikola Curilović)  2021
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import Dependencies.androidTestImplementationDependencies
+import Dependencies.androidxDependencies
+import Dependencies.composeDependencies
+import Dependencies.coroutinesDependencies
+import Dependencies.retrofitDependencies
+import Dependencies.testImplementationDependencies
 import java.io.FileInputStream
 import java.util.*
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     id("dagger.hilt.android.plugin")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
 }
 
 val secretsPropertiesFile = rootProject.file("secrets.properties")
@@ -29,14 +56,14 @@ if (secretsPropertiesFile.exists()) {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = BuildConfig.compileSdk
 
     defaultConfig {
-        applicationId = "com.nikec.coincompose"
-        minSdk = 23
-        targetSdk = 30
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = App.packageName
+        minSdk = BuildConfig.minSdk
+        targetSdk = BuildConfig.targetSdk
+        versionCode = BuildConfig.versionCode
+        versionName = BuildConfig.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -61,48 +88,33 @@ android {
             keyPassword = "${secretProperties["signing_key_password"]}"
         }
     }
-    flavorDimensions("version")
+    flavorDimensions.add("version")
     productFlavors {
         create("development") {
             versionNameSuffix = "-development"
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                "\"https://service.com/api/\""
-            )
             dimension = "version"
         }
         create("staging") {
             versionNameSuffix = "-staging"
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                "\"https://service.com/api/\""
-            )
             dimension = "version"
         }
         create("production") {
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                "\"https://service.com/api/\""
-            )
             dimension = "version"
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = BuildConfig.javaVersion
+        targetCompatibility = BuildConfig.javaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
-        useIR = true
+        jvmTarget = BuildConfig.jvmTarget
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
+        kotlinCompilerExtensionVersion = Versions.compose
     }
     kapt {
         correctErrorTypes = true
@@ -121,39 +133,36 @@ android {
         resources.excludes.add("META-INF/AL2.0")
         resources.excludes.add("META-INF/LGPL2.1")
     }
+    hilt {
+        enableExperimentalClasspathAggregation = true
+    }
 }
 
 dependencies {
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.compose.ui.ui)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.navigation.compose)
+    implementation(project(":core"))
+    implementation(project(":core-ui"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":feature-ui:coins"))
+    implementation(project(":feature-ui:news"))
+    implementation(project(":feature-ui:settings"))
 
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    androidxDependencies()
+    composeDependencies()
+    implementation(Dependencies.composeNavigation)
 
-    implementation(libs.kotlin.coroutines.core)
-    implementation(libs.kotlin.coroutines.android)
-    implementation(libs.kotlin.coroutines.test)
+    implementation(Dependencies.hiltCompose)
+    implementation(Dependencies.hiltAndroid)
+    kapt(Dependencies.hiltCompiler)
 
-    implementation(libs.okhttp.okhttp)
-    implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.retrofit.retrofit)
-    implementation(libs.retrofit.moshi)
+    coroutinesDependencies()
+    retrofitDependencies()
 
+    implementation(Dependencies.timberkt)
+    implementation(Dependencies.splashscreen)
 
-    implementation(libs.timberkt)
+    implementation(Dependencies.accompanistSystemUiController)
 
-    testImplementation(libs.mockk)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.androidx.test.espresso)
-    androidTestImplementation(libs.androidx.compose.ui.test)
+    testImplementationDependencies()
+    androidTestImplementationDependencies()
 }
