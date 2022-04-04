@@ -43,7 +43,7 @@ object BuildConfig {
 
 object Versions {
     const val kotlin = "1.5.21"
-    const val androidBuildTools = "7.1.0-alpha03"
+    const val androidBuildTools = "7.1.2"
     const val compose = "1.0.1"
     const val composeActivity = "1.3.0"
     const val composeViewModel = "1.0.0-alpha07"
@@ -52,10 +52,10 @@ object Versions {
     const val androidxLifecycleRuntime = "2.4.0-alpha01"
     const val androidxTestJUnit = "1.1.2"
     const val material = "1.3.0"
-    const val hilt = "2.37"
-    const val hiltCompose = "1.0.0-alpha02"
+    const val hilt = "2.41"
+    const val hiltCompose = "1.0.0"
     const val coroutines = "1.4.3"
-    const val navigation = "2.4.0-alpha08"
+    const val navigation = "2.4.1"
     const val paging = "1.0.0-alpha12"
     const val room = "2.3.0"
     const val okhttp = "4.9.1"
